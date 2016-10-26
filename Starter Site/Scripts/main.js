@@ -23,8 +23,8 @@ function getMyData() {
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     d3.csv("Content/raw_data.csv", function (error, data) {
-        x.domain(data.map(function (d) { return d.number_of_upvotes_of_request_at_retrieval; }));
-        y.domain([0, d3.max(data, function (d) { return d.requester_number_of_comments_at_retrieval; })]);
+        x.domain(data.map(function (d) { return d.row_id; }));
+        y.domain([0, d3.max(data, function (d) { return d.requester_number_of_comments_at_request; })]);
 
         svg.append("g")
           .attr("class", "x axis")
@@ -35,7 +35,8 @@ function getMyData() {
           .attr("y", 30)
           .attr("dx", ".71em")
           .style("text-anchor", "end")
-          .text("number_of_upvotes_of_request_at_retrieval");
+          //.text("row_id")
+          ;
 
 
         svg.append("g")
@@ -46,17 +47,18 @@ function getMyData() {
           .attr("y", 6)
           .attr("dy", ".71em")
           .style("text-anchor", "end")
-          .text("requester_number_of_comments_at_retrieval");
+          .text("requester_number_of_comments_at_request")
+          ;
 
 
         svg.selectAll(".bar")
           .data(data)
           .enter().append("rect")
           .attr("class", "bar")
-          .attr("x", function (d) { return x(d.number_of_upvotes_of_request_at_retrieval); })
+          .attr("x", function (d) { return x(d.row_id); })
           .attr("width", 50)
-          .attr("y", function (d) { return y(d.requester_number_of_comments_at_retrieval); })
-          .attr("height", function (d) { return height - y(d.requester_number_of_comments_at_retrieval); })
+          .attr("y", function (d) { return y(d.requester_number_of_comments_at_request); })
+          .attr("height", function (d) { return height - y(d.requester_number_of_comments_at_request); })
           .attr("fill", "CadetBlue")
           .attr("opacity", function (d, i) { return (i + 5) * 1.0 / 21.0; })
           .attr("id", function(d, i) {
@@ -73,11 +75,11 @@ function getMyData() {
         .attr("class", "bartext")
         .attr("text-anchor", "middle")
         .attr("fill", "white")
-        .attr("x", function (d, i) {
-            return x(d.number_of_upvotes_of_request_at_retrieval) + xTextPadding;
-        })
+        //.attr("x", function (d, i) {
+        //    return x(d.row_id) + xTextPadding;
+        //})
         .attr("y", function (d, i) {
-            return y(d.requester_number_of_comments_at_retrieval) + yTextPadding;
+            return y(d.requester_number_of_comments_at_request) + yTextPadding;
         });
     });
 }
