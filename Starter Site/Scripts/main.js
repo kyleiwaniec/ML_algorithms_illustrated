@@ -47,7 +47,7 @@ function getMyData() {
           .attr("y", 6)
           .attr("dy", ".71em")
           .style("text-anchor", "end")
-          .text("requester_number_of_comments_at_request")
+          //.text("requester_number_of_comments_at_request")
           ;
 
 
@@ -78,8 +78,9 @@ function getMyData() {
         //.attr("x", function (d, i) {
         //    return x(d.row_id) + xTextPadding;
         //})
-        .attr("y", function (d, i) {
-            return y(d.requester_number_of_comments_at_request) + yTextPadding;
-        });
+        //.attr("y", function (d, i) {
+        //    return y(d.requester_number_of_comments_at_request) + yTextPadding;
+        //})
+        ;
     });
 }
