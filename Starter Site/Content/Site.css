@@ -586,7 +586,6 @@ tr.pager td {
     padding: 0 0.25em 0 0;
 }
 
-
 /********************
 *   Mobile Styles   *
 ********************/
@@ -753,4 +752,14 @@ tr.pager td {
         footer p {
             margin: 0;
         }
+}
+
+/*newly defined
+    */
+p span {
+    font-style: italic;
+}
+
+.images img{
+    max-width: 900px
 }

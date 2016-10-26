@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>ML Algorithms Illustrated</title>
+        <title>Machine Learning Algorithms Illustrated</title>
         <link href="Content/themes/base/jquery.ui.all.css" rel="stylesheet" type="text/css" />
         <link href="Content/Site.css" rel="stylesheet" type="text/css" />
         <link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
@@ -17,23 +17,61 @@
         <header>
             <div class="content-wrapper">
                 <div class="float-left">
-                    <p class="site-title"><a href="~/">ML Algorithms Illustrated</a></p>
+                    <div id="articleHeader" class="site-title">
+                        <h2>Machine Learning Algorithms Illustrated</h2>
+                        <p class="content-wrapper">Neural Networks <span class="float-right">The math, the bad and the ugly</span></p>
+                    </div>
                 </div>
             </div>
         </header>
-        <div id="body">
-            <div class="title">
+        <div id="body" class="content-wrapper">
+            @*<div class="title">
                 <h1>Sample data</h1>
                 <div id="myData">
                 </div>
                 <script>getMyData();</script>
+            </div>*@
+           
+            <h2>Iteration 1</h2>
+            <p>Show math for each step of the algos</p>
+            <div class="images">
+                <img src="Images/Picture1.png" alt="Picture1">
+                <img src="Images/Picture2.png" alt="Picture2">
+                <img src="Images/Picture3.png" alt="Picture3">
+                <p>Gradient descent - this should update together with the algo animation. </p>
+                <img src="Images/Picture4.png" alt="Picture4">
             </div>
             
+            <br>
+             
+            <h2>Iteration 2</h2>
+            <p>Simplify LR to 2 dimensional input. Use the more appropriate Log-loss. Simplify NN to 2 dim input, 2 dim hidden layer, 1 output</p>
+            <div class="images">
+                 <h3>Logistic regression example part A</h3>
+                 <img src="Images/Picture5.png" alt="Picture5">
+                 <h3>Logistic regression example part B</h3>
+                 <p><span>TODO: show gradient descent</span></p>
+                 <h3>Neural Network example</h3>
+                <img src="Images/Picture6.png" alt="Picture6">
+            </div>
+
+            <br>
+
+            <h2>Iteration 3</h2>
+            <p>Start with hand worked examples</p>
+            <p><span> TODO: insert hand worked example</span></p>
+            
+            <br>
+
+            <h2>Iteration 4</h2>
+            <p>Use matrix notation to avoid subscripts. Will make algos look cleaner</p>
+
+            <br>
         </div>
         <footer>
             <div class="content-wrapper">
                 <div class="float-left">
-                    <p>&copy; @DateTime.Now.Year - ML Algorithms Illustrated</p>
+                    <p>&copy; @DateTime.Now.Year - Machine Learning Algorithms Illustrated</p>
                 </div>
             </div>
         </footer>
