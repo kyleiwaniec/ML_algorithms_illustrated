@@ -14,3 +14,7 @@ then navigate to the starter site folder in a command window or terminal window,
 then visit http://localhost:8000/Default.html
 
 To check in code you can use git, or download GitHub Desktop https://desktop.github.com/ and repository is located at https://github.com/kyleiwaniec/ML_algorithms_illustrated/tree/master/Starter%20Site
+
+
+### PROJECT PLAN:   
+https://docs.google.com/document/d/13aV8O-qyLgbKBFjPdP1sSajwFgI4Qe4UtsIFRLZ195k/edit?ts=581cc1da
