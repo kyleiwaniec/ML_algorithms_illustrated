@@ -1,11 +1,5 @@
 var d3 = require('d3');
 
-var Settings = require('./Settings.js');
-var _Axies = require('./d3Axies.js');
-var _CostFunction = require('./d3CostFunction.js');
-var _AnimatedFunction = require('./d3AnimatedFunction.js');
-
-
 var GradientDescent = {
   revXScale: null,
 	revYScale: null,
@@ -16,60 +10,70 @@ var GradientDescent = {
   Axies: null,
   CostFunction: null,
   AnimatedFunction: null,
-  Dataset: [],
-  Points: [],
+  Dataset: null,
+  Points: null,
+  interval: null,
+  appendPointCB: null,
+  CostCalculator: null,
+  width: null,
+  height: null,
+  margin: null,
 
-  init: function(el) {
-    this.Axies = _Axies;
-    this.CostFunction = _CostFunction;
-    this.AnimatedFunction = _AnimatedFunction;
+  init: function(el, Dataset, Points, appendPointCB, CostCalculator, width, height, margin) {
+    this.Axies = require('./d3Axies.js');
+    this.CostFunction = require('./d3CostFunction.js');
+    this.AnimatedFunction = require('./d3AnimatedFunction.js');
+    this.Dataset = Dataset;
+    this.Points = Points;
+    this.appendPointCB = appendPointCB;
+    this.CostCalculator = CostCalculator;
+    this.width = width;
+    this.height = height;
+    this.margin = margin;
 
     this.initScales();
-    this.Axies.init();
+    this.Axies.init(width, height, margin);
     this.initSvg(el);
-    this.AnimatedFunction.init();
-    this.CostFunction.init(el, this.AnimatedFunction);
+    this.AnimatedFunction.init(width, height, margin);
+    this.CostFunction.init(el, this.AnimatedFunction, CostCalculator, width, height, margin);
     this.drawAll();
   },
 
   initScales: function() {
     this.revXScale = d3.scale.linear()
-      .domain([Settings.margin, Settings.width - Settings.margin])
-      .range([0, Settings.width]);
+      .domain([this.margin, this.width - this.margin])
+      .range([0, this.width]);
 
     this.revYScale = d3.scale.linear()
-      .domain([Settings.margin, Settings.height - Settings.margin])
-      .range([Settings.height, 0]);
+      .domain([this.margin, this.height - this.margin])
+      .range([this.height, 0]);
 
     this.normX = d3.scale.linear()
-      .domain([Settings.margin, Settings.width - Settings.margin])
+      .domain([this.margin, this.width - this.margin])
       .range([0, 1]);
 
     this.normY = d3.scale.linear()
-      .domain([Settings.margin, Settings.height - Settings.margin])
+      .domain([this.margin, this.height - this.margin])
       .range([1, 0]);
   },
 
   initSvg: function(el) {
     var self = this;
     this.svg = d3.select(el).append("svg")
-      .attr("width", Settings.width)
-      .attr("height", Settings.height);
+      .attr("width", this.width)
+      .attr("height", this.height);
 
     this.svg.on("click", function(d){
       var coord = d3.mouse(this);
-      self.Points.push({
+      var pointElem = {
         x: self.revXScale(coord[0]),
         y: self.revYScale(coord[1])
-      });
-
-      self.Dataset.push({
+      };
+      var datasetElem = {
         x: self.normX(coord[0]),
         y: self.normY(coord[1])
-      });
-
-      self.draw(self.svg);
-      self.CostFunction.draw(self.svg, self.Dataset);
+      };
+      self.appendPointCB(pointElem, datasetElem);
     });
   },
 
@@ -99,9 +103,9 @@ var GradientDescent = {
     this.draw(this.svg);
 
     this.svg.append("text")
-      .attr("y", Settings.margin - 10)
-      .attr("x", Settings.margin)
-      .text("Hypothesis Function: Ho(x)=theta0 + theta1 * x");
+      .attr("y", this.margin - 10)
+      .attr("x", this.margin)
+      .text(this.CostCalculator.hypothesisFunctionLabel);
 
     this.AnimatedFunction.draw(this.svg);
     this.Axies.draw(this.svg);
@@ -110,7 +114,7 @@ var GradientDescent = {
 
   run: function() {
     var go = true;
-  	setInterval(() => {
+  	this.interval = setInterval(() => {
   		if(go && this.Dataset.length > 1) {
   			for(i = 0 ; i < 100 + (200 * this.animationSpeed) ; i++) {
   				this.AnimatedFunction.iterateTheta(this.Dataset);
@@ -120,6 +124,14 @@ var GradientDescent = {
   			this.CostFunction.animatePointer(this.Dataset, this.AnimatedFunction);
   		}
   	}, 500);
+  },
+
+  destroy() {
+    if (this.interval) {
+      clearInterval(this.interval);
+    }
+    this.CostFunction.destroy();
+    this.svg.remove();
   }
 };
 

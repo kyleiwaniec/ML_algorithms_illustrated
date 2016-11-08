@@ -1,10 +1,10 @@
 var d3 = require('d3');
 
-var Settings = require('./Settings.js');
 
 var CostFunction = {
-  width: 600,
-  height: 600,
+  width: null,
+  height: null,
+  margin: null,
   size: 10,
   xNorm: null,
   yNorm: null,
@@ -18,8 +18,14 @@ var CostFunction = {
   prevPoint: null,
   xAxis: null,
   yAxis: null,
+  CostCalculator: null,
 
-  init: function(el, AnimatedFunction) {
+  init: function(el, AnimatedFunction, CostCalculator, width, height, margin) {
+    this.CostCalculator = CostCalculator;
+    this.width = width;
+    this.height = height;
+    this.margin = margin;
+
     this.initScales();
     this.initAxis();
 
@@ -27,8 +33,8 @@ var CostFunction = {
       .attr("width", this.width)
       .attr("height", this.height);
 
-    this.xi = (this.width-2*Settings.margin) / this.size;
-    this.yi = (this.height-2*Settings.margin) / this.size;
+    this.xi = (this.width-2*this.margin) / this.size;
+    this.yi = (this.height-2*this.margin) / this.size;
 
     this.prevPoint = {
       theta0: AnimatedFunction.theta0,
@@ -36,38 +42,38 @@ var CostFunction = {
     };
 
     this.svg.append("text")
-      .attr("y", Settings.margin - 10)
-      .attr("x", Settings.margin)
+      .attr("y", this.margin - 10)
+      .attr("x", this.margin)
       .text("Cost Function: J(theta0, theta1)");
 
     this.svg.append("g")
       .attr("class", "axis x")
-      .attr("transform", "translate(0," + (this.height - Settings.margin) + ")")
+      .attr("transform", "translate(0," + (this.height - this.margin) + ")")
       .call(this.xAxis);
 
 
     this.svg.append("g")
       .attr("class", "axis y")
-      .attr("transform", "translate(" + Settings.margin + ",0)")
+      .attr("transform", "translate(" + this.margin + ",0)")
       .call(this.yAxis);
   },
 
   initScales: function() {
     this.xNorm = d3.scale.linear()
-    .domain([Settings.margin , this.width - Settings.margin ])
+    .domain([this.margin , this.width - this.margin ])
     .range([-3, 3]);
 
     this.yNorm = d3.scale.linear()
-    .domain([Settings.margin , this.height - Settings.margin ])
+    .domain([this.margin , this.height - this.margin ])
     .range([-3, 3]);
 
     this.xDeNorm = d3.scale.linear()
     .domain([-3, 3])
-    .range([Settings.margin , this.width - Settings.margin ]);
+    .range([this.margin , this.width - this.margin ]);
 
     this.yDeNorm = d3.scale.linear()
     .domain([-3, 3])
-    .range([Settings.margin , this.height - Settings.margin]);
+    .range([this.margin , this.height - this.margin]);
   },
 
   initAxis: function() {
@@ -82,12 +88,7 @@ var CostFunction = {
 
 
   getCost: function(theta0, theta1, Dataset) {
-    var cost = 0;
-    for(var i = 0 ; i < Dataset.length ;i++) {
-      cost += Math.pow((Dataset[i].x * theta1 + theta0 - Dataset[i].y), 2);
-    }
-
-    return cost / 2 / Dataset.length;
+    return this.CostCalculator.getCost(theta0, theta1, Dataset);
   },
 
   getMesh: function(Dataset) {
@@ -95,10 +96,10 @@ var CostFunction = {
     xx = 0;
     this.minCost = 999;
     this.maxCost = -999;
-    for(var x = Settings.margin ; x < this.width - Settings.margin; x += this.size) {
+    for(var x = this.margin ; x < this.width - this.margin; x += this.size) {
       matrix[xx] = new Array(this.yi);
       var yy = 0;
-      for(var y = Settings.margin; y < this.height - Settings.margin ; y += this.size) {
+      for(var y = this.margin; y < this.height - this.margin ; y += this.size) {
         var theta0 = this.xNorm(x),
         theta1 = this.yNorm(y);
 
@@ -197,13 +198,17 @@ var CostFunction = {
         }
 
         costFunc.append("rect")
-        .attr("x", Settings.margin + x * this.size)
-        .attr("y", Settings.margin + y * this.size)
+        .attr("x", this.margin + x * this.size)
+        .attr("y", this.margin + y * this.size)
         .attr("width", this.size)
         .attr("height", this.size)
         .attr("fill", rgb);
       }
     }
+  },
+
+  destroy() {
+    this.svg.remove();
   }
 };
 

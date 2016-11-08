@@ -9,7 +9,12 @@ var App = React.createClass({
   render: function() {
     return (
       <div className="App">
-        <Chart />
+        <Chart
+          costCalculator={require('./SimpleCostCalculator.js')}
+          width={600}
+          height={600}
+          margin={50}
+        />
       </div>
     );
   }

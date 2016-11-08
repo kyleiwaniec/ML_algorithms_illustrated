@@ -1,15 +1,20 @@
 var d3 = require('d3');
 
-var Settings = require('./Settings.js');
-
 var AnimatedFunction = {
   theta0: 0,
   theta1: 0,
   learnRate: 0.07,
   xDenorm: null,
   yDenorm: null,
+  width: null,
+  height: null,
+  margin: null,
 
-  init: function() {
+  init: function(width, height, margin) {
+    this.width = width;
+    this.height = height;
+    this.margin = margin;
+
     this.initScales();
   },
 
@@ -22,11 +27,11 @@ var AnimatedFunction = {
   initScales: function() {
     this.xDenorm = d3.scale.linear()
     .domain([0, 1])
-    .range([Settings.margin, Settings.width - Settings.margin]);
+    .range([this.margin, this.width - this.margin]);
 
     this.yDenorm = d3.scale.linear()
     .domain([0, 1])
-    .range([Settings.height - Settings.margin, Settings.margin]);
+    .range([this.height - this.margin, this.margin]);
   },
 
   getGradDescVector: function(Dataset) {
@@ -75,8 +80,8 @@ var AnimatedFunction = {
     for(i in c) {
       c[i]
         .attr("x", 50)
-        .attr("y", function(d){ return Settings.height - 20 + 16 * d.i})
-        .text(function(d){ return "Theta" + d.i + ": " + Math.round(d.v * 100000) / 100000});
+        .attr("y", d =>{ return this.height - 20 + 16 * d.i})
+        .text(d => { return "Theta" + d.i + ": " + Math.round(d.v * 100000) / 100000});
     }
 
     var learnRate = svg.selectAll("text.learnRate")
