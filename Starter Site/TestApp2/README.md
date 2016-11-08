@@ -1,4 +1,9 @@
+First install node from https://nodejs.org/en/
+
+Then from this folder run:
+
 npm install
+
 npm start
 
-Then http://localhost:8080/
+And finally just open http://localhost:8080/
