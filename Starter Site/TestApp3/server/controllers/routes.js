@@ -1,20 +1,17 @@
 import {SecondsController} from './utils/SecondsController.js';
 
-let _app = null;
+let app = null;
 
-function init(app) {
-  _app = app;
+export function initRoutes(_app) {
+  app = _app;
 }
 
 function get(path, cb) {
-  _app.get(path, (req, res) => {
+  app.get(path, (req, res) => {
     res.send(cb(req, res));
   });
 }
 
-export function registerRoutes(app) {
-  init(app);
-  _app = app;
-
+export function registerRoutes() {
   get('/seconds', (req, res) => new SecondsController().getCurrentSecondsAsString());
 }

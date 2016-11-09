@@ -3,8 +3,8 @@ import express from 'express';
 import webpack from 'webpack';
 import webpackMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
-import config from './webpack.config.js';
-import {registerRoutes} from './server/controllers/routes.js';
+import config from '../webpack.config.js';
+import {registerRoutes, initRoutes} from './controllers/routes.js';
 
 const isDeveloping = process.env.NODE_ENV !== 'production';
 const port = isDeveloping ? 3000 : process.env.PORT;
@@ -39,7 +39,8 @@ if (isDeveloping) {
   });
 }
 
-registerRoutes(app);
+initRoutes(app);
+registerRoutes();
 
 app.listen(port, '0.0.0.0', function onStart(err) {
   if (err) {
