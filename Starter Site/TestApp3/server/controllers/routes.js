@@ -1,3 +1,4 @@
+// @flow 
 import {get} from './lib/routesInternal';
 
 import {SecondsController} from './utils/SecondsController.js';
