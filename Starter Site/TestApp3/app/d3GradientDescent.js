@@ -1,28 +1,34 @@
 var d3 = require('d3');
+import {AnimatedFunction} from './d3AnimatedFunction.js';
+import {Axies} from './d3Axies.js'
+import {CostFunction} from './d3CostFunction';
 
-var GradientDescent = {
-  revXScale: null,
-	revYScale: null,
-	normX: null,
-	normY: null,
-	svg: null,
-  animationSpeed: 1,
-  Axies: null,
-  CostFunction: null,
-  AnimatedFunction: null,
-  Dataset: null,
-  Points: null,
-  interval: null,
-  appendPointCB: null,
-  CostCalculator: null,
-  width: null,
-  height: null,
-  margin: null,
+export class GradientDescent {
+  constructor() {
+    this.revXScale = null;
+  	this.revYScale = null;
+  	this.normX = null;
+  	this.normY = null;
+  	this.svg = null;
+    this.animationSpeed = 1;
+    this.Axies = null;
+    this.CostFunction = null;
+    this.AnimatedFunction = null;
+    this.Dataset = null;
+    this.Points = null;
+    this.interval = null;
+    this.appendPointCB = null;
+    this.CostCalculator = null;
+    this.width = null;
+    this.height = null;
+    this.margin = null;
 
-  init: function(el, Dataset, Points, appendPointCB, CostCalculator, width, height, margin) {
-    this.Axies = require('./d3Axies.js');
-    this.CostFunction = require('./d3CostFunction.js');
-    this.AnimatedFunction = require('./d3AnimatedFunction.js');
+    this.Axies = new Axies();
+    this.CostFunction = new CostFunction();
+    this.AnimatedFunction = new AnimatedFunction();
+  }
+
+  init(el, Dataset, Points, appendPointCB, CostCalculator, width, height, margin) {
     this.Dataset = Dataset;
     this.Points = Points;
     this.appendPointCB = appendPointCB;
@@ -37,9 +43,9 @@ var GradientDescent = {
     this.AnimatedFunction.init(width, height, margin);
     this.CostFunction.init(el, this.AnimatedFunction, CostCalculator, width, height, margin);
     this.drawAll();
-  },
+  }
 
-  initScales: function() {
+  initScales() {
     this.revXScale = d3.scale.linear()
       .domain([this.margin, this.width - this.margin])
       .range([0, this.width]);
@@ -55,9 +61,9 @@ var GradientDescent = {
     this.normY = d3.scale.linear()
       .domain([this.margin, this.height - this.margin])
       .range([1, 0]);
-  },
+  }
 
-  initSvg: function(el) {
+  initSvg(el) {
     var self = this;
     this.svg = d3.select(el).append("svg")
       .attr("width", this.width)
@@ -75,9 +81,9 @@ var GradientDescent = {
       };
       self.appendPointCB(pointElem, datasetElem);
     });
-  },
+  }
 
-  draw: function(svg) {
+  draw(svg) {
     var points = svg.selectAll("g.point")
       .data(this.Points);
 
@@ -97,9 +103,9 @@ var GradientDescent = {
       .attr("r", 1);
 
     points.exit().remove();
-  },
+  }
 
-  drawAll: function() {
+  drawAll() {
     this.draw(this.svg);
 
     this.svg.append("text")
@@ -110,9 +116,9 @@ var GradientDescent = {
     this.AnimatedFunction.draw(this.svg);
     this.Axies.draw(this.svg);
     this.CostFunction.draw(this.svg, this.Dataset);
-	},
+	}
 
-  run: function() {
+  run() {
     var go = true;
   	this.interval = setInterval(() => {
   		if(go && this.Dataset.length > 1) {
@@ -124,7 +130,7 @@ var GradientDescent = {
   			this.CostFunction.animatePointer(this.Dataset, this.AnimatedFunction);
   		}
   	}, 500);
-  },
+  }
 
   destroy() {
     if (this.interval) {
@@ -133,6 +139,4 @@ var GradientDescent = {
     this.CostFunction.destroy();
     this.svg.remove();
   }
-};
-
-module.exports = GradientDescent;
+}

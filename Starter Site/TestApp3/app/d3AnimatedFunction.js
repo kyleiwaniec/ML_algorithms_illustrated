@@ -1,30 +1,32 @@
-var d3 = require('d3');
+import d3 from 'd3';
 
-var AnimatedFunction = {
-  theta0: 0,
-  theta1: 0,
-  learnRate: 0.07,
-  xDenorm: null,
-  yDenorm: null,
-  width: null,
-  height: null,
-  margin: null,
+export class AnimatedFunction {
+  constructor() {
+    this.theta0 = 0;
+    this.theta1 = 0;
+    this.learnRate = 0.07;
+    this.xDenorm = null;
+    this.yDenorm = null;
+    this.width = null;
+    this.height = null;
+    this.margin = null;
+  }
 
-  init: function(width, height, margin) {
+  init(width, height, margin) {
     this.width = width;
     this.height = height;
     this.margin = margin;
 
     this.initScales();
-  },
+  }
 
-  iterateTheta: function(Dataset) {
+  iterateTheta(Dataset) {
     var vt = this.getGradDescVector(Dataset);
     this.theta0 -= vt.v0;
     this.theta1 -= vt.v1;
-  },
+  }
 
-  initScales: function() {
+  initScales() {
     this.xDenorm = d3.scale.linear()
     .domain([0, 1])
     .range([this.margin, this.width - this.margin]);
@@ -32,9 +34,9 @@ var AnimatedFunction = {
     this.yDenorm = d3.scale.linear()
     .domain([0, 1])
     .range([this.height - this.margin, this.margin]);
-  },
+  }
 
-  getGradDescVector: function(Dataset) {
+  getGradDescVector(Dataset) {
     var sum0 = 0, sum1 = 0;
     var m = Dataset.length;
     var a = this.learnRate;
@@ -50,9 +52,9 @@ var AnimatedFunction = {
       v0: a * sum0 / m / 2,
       v1: a * sum1 / m / 2,
     };
-  },
+  }
 
-  draw: function(svg) {
+  draw(svg) {
     var func = svg.selectAll("line.func")
       .data([{theta0: this.theta0, theta1: this.theta1}]);
 
@@ -88,6 +90,4 @@ var AnimatedFunction = {
       .data([this.learnRate]);
 
   }
-};
-
-module.exports = AnimatedFunction;
+}

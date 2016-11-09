@@ -2,35 +2,30 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-var Chart = React.createClass({
-  getInitialState: function() {
-    return {
+export default class Chart extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
       Dataset: [],
       Points: [],
     };
-  },
+  }
 
-  getDefaultProps: function() {
-    return {
-      gradientDescent: require('./d3GradientDescent.js'),
-    };
-  },
-
-  componentDidMount: function() {
+  componentDidMount() {
     this._initGradient();
-  },
+  }
 
-  componentDidUpdate: function() {
+  componentDidUpdate() {
     this.props.gradientDescent.destroy();
     this._initGradient();
-  },
+  }
 
-  componentWillUnmount: function() {
+  componentWillUnmount() {
     this.props.gradientDescent.destroy();
-  },
+  }
 
-  _initGradient: function() {
-    var el = ReactDOM.findDOMNode(this);
+  _initGradient() {
+    const el = ReactDOM.findDOMNode(this);
     this.props.gradientDescent.init(
       el,
       this.state.Dataset,
@@ -42,21 +37,19 @@ var Chart = React.createClass({
       this.props.margin
     );
     this.props.gradientDescent.run();
-  },
+  }
 
-  render: function() {
+  render() {
     return (
       <div className="svg" />
     );
-  },
+  }
 
   appendPoint(pointElem, datasetElem) {
-    var Dataset = this.state.Dataset;
-    var Points = this.state.Points;
+    const Dataset = this.state.Dataset;
+    const Points = this.state.Points;
     Dataset.push(datasetElem);
     Points.push(pointElem);
     this.setState({Dataset: Dataset, Points: Points});
   }
-});
-
-module.exports = Chart;
+}

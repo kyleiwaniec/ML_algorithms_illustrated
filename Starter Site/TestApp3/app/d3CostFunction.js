@@ -1,26 +1,27 @@
-var d3 = require('d3');
+import d3 from 'd3';
 
+export class CostFunction {
+  constructor() {
+    this.width = null;
+    this.height = null;
+    this.margin = null;
+    this.size = 10;
+    this.xNorm = null;
+    this.yNorm = null;
+    this.xDeNorm = null;
+    this.yDeNorm = null;
+    this.xi = 0;
+    this.yi = 0;
+    this.minCost = 0;
+    this.maxCost = 0;
+    this.svg = null;
+    this.prevPoint = null;
+    this.xAxis = null;
+    this.yAxis = null;
+    this.CostCalculator = null;
+  }
 
-var CostFunction = {
-  width: null,
-  height: null,
-  margin: null,
-  size: 10,
-  xNorm: null,
-  yNorm: null,
-  xDeNorm: null,
-  yDeNorm: null,
-  xi: 0,
-  yi: 0,
-  minCost: 0,
-  maxCost: 0,
-  svg: null,
-  prevPoint: null,
-  xAxis: null,
-  yAxis: null,
-  CostCalculator: null,
-
-  init: function(el, AnimatedFunction, CostCalculator, width, height, margin) {
+  init(el, AnimatedFunction, CostCalculator, width, height, margin) {
     this.CostCalculator = CostCalculator;
     this.width = width;
     this.height = height;
@@ -56,9 +57,9 @@ var CostFunction = {
       .attr("class", "axis y")
       .attr("transform", "translate(" + this.margin + ",0)")
       .call(this.yAxis);
-  },
+  }
 
-  initScales: function() {
+  initScales() {
     this.xNorm = d3.scale.linear()
     .domain([this.margin , this.width - this.margin ])
     .range([-3, 3]);
@@ -74,9 +75,9 @@ var CostFunction = {
     this.yDeNorm = d3.scale.linear()
     .domain([-3, 3])
     .range([this.margin , this.height - this.margin]);
-  },
+  }
 
-  initAxis: function() {
+  initAxis() {
     this.xAxis = d3.svg.axis()
     .scale(this.xDeNorm)
     .orient("bottom");
@@ -84,14 +85,13 @@ var CostFunction = {
     this.yAxis = d3.svg.axis()
     .scale(this.yDeNorm)
     .orient("left");
-  },
+  }
 
-
-  getCost: function(theta0, theta1, Dataset) {
+  getCost(theta0, theta1, Dataset) {
     return this.CostCalculator.getCost(theta0, theta1, Dataset);
-  },
+  }
 
-  getMesh: function(Dataset) {
+  getMesh(Dataset) {
     var matrix = new Array(this.xi),
     xx = 0;
     this.minCost = 999;
@@ -112,9 +112,9 @@ var CostFunction = {
     }
 
     return matrix;
-  },
+  }
 
-  animatePointer: function(Dataset, AnimatedFunction) {
+  animatePointer(Dataset, AnimatedFunction) {
     if(Dataset.length == 0) {
       return;
     }
@@ -153,9 +153,9 @@ var CostFunction = {
       theta0: AnimatedFunction.theta0,
       theta1: AnimatedFunction.theta1
     };
-  },
+  }
 
-  draw: function(svg2, Dataset) {
+  draw(svg2, Dataset) {
     if(Dataset.length == 0) {
       return;
     }
@@ -205,11 +205,9 @@ var CostFunction = {
         .attr("fill", rgb);
       }
     }
-  },
+  }
 
   destroy() {
     this.svg.remove();
   }
-};
-
-module.exports = CostFunction;
+}
