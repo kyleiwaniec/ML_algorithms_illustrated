@@ -1,3 +1,5 @@
+/* @flow */
+
 import React from 'react';
 import Chart from './Chart.js';
 import {SimpleCostCalculator} from './SimpleCostCalculator.js';

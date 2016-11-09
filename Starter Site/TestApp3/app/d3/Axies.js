@@ -1,6 +1,16 @@
+/* @flow */
+
 import d3 from 'd3';
 
 export class Axies {
+  xAxis: any;
+  yAxis: any;
+  xScale: any;
+  yScale: any;
+  width: number;
+  height: number;
+  margin: number;
+
   constructor() {
     this.xAxis = null;
     this.yAxis = null;
@@ -8,12 +18,12 @@ export class Axies {
     this.xScale = null;
     this.yScale = null;
 
-    this.width = null;
-    this.height = null;
-    this.margin = null;
+    this.width = 0;
+    this.height = 0;
+    this.margin = 0;
   }
 
-  init(width, height, margin) {
+  init(width: number, height: number, margin: number) {
     this.width = width;
     this.height = height;
     this.margin = margin;
@@ -44,7 +54,7 @@ export class Axies {
     .tickSize(-this.width+this.margin*2);
   }
 
-  draw(svg) {
+  draw(svg: any) {
     svg.append("g")
     .attr("class", "axis x")
     .attr("transform", "translate(0," + (this.height - this.margin) + ")")

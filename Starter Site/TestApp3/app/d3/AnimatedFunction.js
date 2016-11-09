@@ -1,18 +1,30 @@
+/* @flow */
+
 import d3 from 'd3';
 
 export class AnimatedFunction {
+  theta0: number;
+  theta1: number;
+  learnRate: number;
+  xDenorm: any;
+  yDenorm: any;
+  width: number;
+  height: number;
+  margin: number;
+
   constructor() {
     this.theta0 = 0;
     this.theta1 = 0;
     this.learnRate = 0.07;
     this.xDenorm = null;
     this.yDenorm = null;
-    this.width = null;
-    this.height = null;
-    this.margin = null;
+
+    this.width = 0;
+    this.height = 0;
+    this.margin = 0;
   }
 
-  init(width, height, margin) {
+  init(width: number, height: number, margin: number) {
     this.width = width;
     this.height = height;
     this.margin = margin;
@@ -20,7 +32,7 @@ export class AnimatedFunction {
     this.initScales();
   }
 
-  iterateTheta(Dataset) {
+  iterateTheta(Dataset: Array<any>) {
     const vt = this.getGradDescVector(Dataset);
     this.theta0 -= vt.v0;
     this.theta1 -= vt.v1;
@@ -36,7 +48,7 @@ export class AnimatedFunction {
     .range([this.height - this.margin, this.margin]);
   }
 
-  getGradDescVector(Dataset) {
+  getGradDescVector(Dataset: Array<any>) {
     let sum0 = 0, sum1 = 0;
     const m = Dataset.length;
     const a = this.learnRate;
@@ -54,7 +66,7 @@ export class AnimatedFunction {
     };
   }
 
-  draw(svg) {
+  draw(svg: any) {
     const func = svg.selectAll("line.func")
       .data([{theta0: this.theta0, theta1: this.theta1}]);
 
@@ -62,15 +74,13 @@ export class AnimatedFunction {
     const xLeft = -1;
     const xRight = 2;
 
-    const f = [func.transition(), func.enter().append("line")];
-
-    for(const i in f) {
-      f[i].attr("class", "func")
+    [func.transition(), func.enter().append("line")].forEach(fi => {
+      fi.attr("class", "func")
         .attr("x1", function(d) { return self.xDenorm(xLeft); } )
         .attr("y1", function(d) { return self.yDenorm(d.theta1 * xLeft + d.theta0); } )
         .attr("x2", function(d) { return self.xDenorm(xRight); } )
         .attr("y2", function(d) { return self.yDenorm(d.theta0+ d.theta1 * xRight); } );
-    }
+    });
 
     const caption = svg.selectAll("text.theta")
       .data([
@@ -78,13 +88,13 @@ export class AnimatedFunction {
         {v: this.theta1, i:1}
       ]);
 
-    const c = [caption, caption.enter().append("text").attr("class","theta")];
-    for(const i in c) {
-      c[i]
+    [caption, caption.enter().append("text").attr("class","theta")].forEach(ci => {
+      ci
         .attr("x", 50)
         .attr("y", d =>{ return this.height - 20 + 16 * d.i})
         .text(d => { return "Theta" + d.i + ": " + Math.round(d.v * 100000) / 100000});
-    }
+
+    });
 
     const learnRate = svg.selectAll("text.learnRate")
       .data([this.learnRate]);

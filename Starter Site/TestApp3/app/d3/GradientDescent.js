@@ -1,9 +1,29 @@
+/* @flow */
+
 import d3 from 'd3';
 import {AnimatedFunction} from './AnimatedFunction.js';
 import {Axies} from './Axies.js'
 import {CostFunction} from './CostFunction';
 
 export class GradientDescent {
+    revXScale: any;
+  	revYScale: any;
+  	normX: any;
+  	normY: any;
+  	svg: any;
+    animationSpeed: number;
+    Axies: Axies;
+    CostFunction: CostFunction;
+    AnimatedFunction: AnimatedFunction;
+    Dataset: Array<any>;
+    Points: Array<any>;
+    interval: any;
+    appendPointCB: any;
+    CostCalculator: any;
+    width: number;
+    height: number;
+    margin: number;
+
   constructor() {
     this.revXScale = null;
   	this.revYScale = null;
@@ -11,24 +31,29 @@ export class GradientDescent {
   	this.normY = null;
   	this.svg = null;
     this.animationSpeed = 1;
-    this.Axies = null;
-    this.CostFunction = null;
-    this.AnimatedFunction = null;
-    this.Dataset = null;
-    this.Points = null;
+    this.Dataset = [];
+    this.Points = [];
     this.interval = null;
     this.appendPointCB = null;
     this.CostCalculator = null;
-    this.width = null;
-    this.height = null;
-    this.margin = null;
+    this.width = 0;
+    this.height = 0;
+    this.margin = 0;
 
     this.Axies = new Axies();
     this.CostFunction = new CostFunction();
     this.AnimatedFunction = new AnimatedFunction();
   }
 
-  init(el, Dataset, Points, appendPointCB, CostCalculator, width, height, margin) {
+  init(
+    el: any,
+    Dataset: Array<any>,
+    Points: Array<any>,
+    appendPointCB: any,
+    CostCalculator: any,
+    width: number,
+    height: number,
+    margin: number) {
     this.Dataset = Dataset;
     this.Points = Points;
     this.appendPointCB = appendPointCB;
@@ -63,7 +88,7 @@ export class GradientDescent {
       .range([1, 0]);
   }
 
-  initSvg(el) {
+  initSvg(el: any) {
     const self = this;
     this.svg = d3.select(el).append("svg")
       .attr("width", this.width)
@@ -83,7 +108,7 @@ export class GradientDescent {
     });
   }
 
-  draw(svg) {
+  draw(svg: any) {
     const points = svg.selectAll("g.point")
       .data(this.Points);
 

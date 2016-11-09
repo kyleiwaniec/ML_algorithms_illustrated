@@ -1,11 +1,19 @@
+/* @flow */
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {GradientDescent} from './d3/GradientDescent.js';
 
-export default class Chart extends React.Component {
+type State = {
+  Dataset: Array<any>,
+  Points: Array<any>,
+  gradientDescent: GradientDescent,
+};
 
-  constructor(props) {
+export default class Chart extends React.Component {
+  state: State;
+
+  constructor(props: mixed) {
     super(props);
 
     this.state = {
@@ -49,7 +57,7 @@ export default class Chart extends React.Component {
     );
   }
 
-  appendPoint(pointElem, datasetElem) {
+  appendPoint(pointElem: any, datasetElem: any) {
     const Dataset = this.state.Dataset;
     const Points = this.state.Points;
     Dataset.push(datasetElem);

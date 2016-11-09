@@ -1,10 +1,27 @@
+/* @flow */
+
 import d3 from 'd3';
 
 export class CostFunction {
+  width: number;
+  height: number;
+  margin: number;
+  size: number;
+  xNorm: any;
+  yNorm: any;
+  xDeNorm: any;
+  yDeNorm: any;
+  xi: number;
+  yi: number;
+  minCost: number;
+  maxCost: number;
+  svg: any;
+  prevPoint: any;
+  xAxis: any;
+  yAxis: any;
+  CostCalculator: any;
+
   constructor() {
-    this.width = null;
-    this.height = null;
-    this.margin = null;
     this.size = 10;
     this.xNorm = null;
     this.yNorm = null;
@@ -18,10 +35,19 @@ export class CostFunction {
     this.prevPoint = null;
     this.xAxis = null;
     this.yAxis = null;
-    this.CostCalculator = null;
+
+    this.width = 0;
+    this.height = 0;
+    this.margin = 0;
   }
 
-  init(el, AnimatedFunction, CostCalculator, width, height, margin) {
+  init(
+    el: any,
+    AnimatedFunction: any,
+    CostCalculator: any,
+    width: number,
+    height: number,
+    margin: number) {
     this.CostCalculator = CostCalculator;
     this.width = width;
     this.height = height;
@@ -87,11 +113,11 @@ export class CostFunction {
     .orient("left");
   }
 
-  getCost(theta0, theta1, Dataset) {
+  getCost(theta0: number, theta1: number, Dataset: Array<any>) {
     return this.CostCalculator.getCost(theta0, theta1, Dataset);
   }
 
-  getMesh(Dataset) {
+  getMesh(Dataset: Array<any>) {
     const matrix = new Array(this.xi);
     let xx = 0;
 
@@ -115,7 +141,7 @@ export class CostFunction {
     return matrix;
   }
 
-  animatePointer(Dataset, AnimatedFunction) {
+  animatePointer(Dataset: Array<any>, AnimatedFunction: any) {
     if(Dataset.length == 0) {
       return;
     }
@@ -156,7 +182,7 @@ export class CostFunction {
     };
   }
 
-  draw(svg2, Dataset) {
+  draw(svg2: any, Dataset: Array<any>) {
     if(Dataset.length == 0) {
       return;
     }
