@@ -1,6 +1,8 @@
+/* @flow */
+
 let app = null;
 
-export function initRoutes(_app) {
+export function initRoutes(_app): void {
   app = _app;
 }
 
