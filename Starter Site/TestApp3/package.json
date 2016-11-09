@@ -1,23 +1,15 @@
 {
-  "name": "webpack-express-boilerplate",
-  "version": "0.1.0",
-  "description": "A boilerplate for running a Webpack workflow in Node express",
+  "name": "test-app-3",
+  "version": "0.0.0",
+  "description": "don't",
   "main": "server.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/christianalfoni/webpack-express-boilerplate.git"
-  },
   "keywords": [
     "express",
     "webpack",
     "node"
   ],
-  "author": "Christian Alfoni",
+  "author": "someone",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/christianalfoni/webpack-express-boilerplate/issues"
-  },
-  "homepage": "https://github.com/christianalfoni/webpack-express-boilerplate",
   "scripts": {
     "test": "",
     "start": "node server",
