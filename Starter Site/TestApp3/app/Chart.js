@@ -1,13 +1,17 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {GradientDescent} from './d3GradientDescent.js';
 
 export default class Chart extends React.Component {
+
   constructor(props) {
     super(props);
+
     this.state = {
       Dataset: [],
       Points: [],
+      gradientDescent: new GradientDescent(),
     };
   }
 
@@ -16,17 +20,17 @@ export default class Chart extends React.Component {
   }
 
   componentDidUpdate() {
-    this.props.gradientDescent.destroy();
+    this.state.gradientDescent.destroy();
     this._initGradient();
   }
 
   componentWillUnmount() {
-    this.props.gradientDescent.destroy();
+    this.state.gradientDescent.destroy();
   }
 
   _initGradient() {
     const el = ReactDOM.findDOMNode(this);
-    this.props.gradientDescent.init(
+    this.state.gradientDescent.init(
       el,
       this.state.Dataset,
       this.state.Points,
@@ -36,7 +40,7 @@ export default class Chart extends React.Component {
       this.props.height,
       this.props.margin
     );
-    this.props.gradientDescent.run();
+    this.state.gradientDescent.run();
   }
 
   render() {

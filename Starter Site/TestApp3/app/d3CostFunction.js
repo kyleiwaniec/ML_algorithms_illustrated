@@ -92,15 +92,16 @@ export class CostFunction {
   }
 
   getMesh(Dataset) {
-    var matrix = new Array(this.xi),
-    xx = 0;
+    const matrix = new Array(this.xi);
+    let xx = 0;
+
     this.minCost = 999;
     this.maxCost = -999;
-    for(var x = this.margin ; x < this.width - this.margin; x += this.size) {
+    for(let x = this.margin ; x < this.width - this.margin; x += this.size) {
       matrix[xx] = new Array(this.yi);
-      var yy = 0;
-      for(var y = this.margin; y < this.height - this.margin ; y += this.size) {
-        var theta0 = this.xNorm(x),
+      let yy = 0;
+      for(let y = this.margin; y < this.height - this.margin ; y += this.size) {
+        const theta0 = this.xNorm(x),
         theta1 = this.yNorm(y);
 
         matrix[xx][yy] = this.getCost(theta0, theta1, Dataset);
@@ -119,23 +120,23 @@ export class CostFunction {
       return;
     }
 
-    var x1 = (this.xDeNorm(this.prevPoint.theta0)),
+    const x1 = (this.xDeNorm(this.prevPoint.theta0)),
     y1 = (this.yDeNorm(this.prevPoint.theta1)),
     x2 = (this.xDeNorm(AnimatedFunction.theta0)),
     y2 = (this.yDeNorm(AnimatedFunction.theta1));
 
-    var dist = Math.pow(x1-x2,2) + Math.pow(y1-y2,2);
+    const dist = Math.pow(x1-x2,2) + Math.pow(y1-y2,2);
 
     if(dist < 1) {
       return;
     }
 
-    var point = this.svg.selectAll("point").data([{
+    const point = this.svg.selectAll("point").data([{
       theta0: AnimatedFunction.theta0,
       theta1: AnimatedFunction.theta1
     }]);
 
-    var g = point.enter().append("g");
+    const g = point.enter().append("g");
     g.append("circle")
       .attr("cx", Math.round(x2))
       .attr("cy", Math.round(y2))
@@ -160,41 +161,42 @@ export class CostFunction {
       return;
     }
 
-    var svg = this.svg;
+    const svg = this.svg;
 
-    var costFunc = this.svg.selectAll("g.costfunction");
+    let costFunc = this.svg.selectAll("g.costfunction");
     if(costFunc.size() == 0) {
       costFunc = svg.append("g").attr("class","costfunction");
     }
 
     costFunc.selectAll("rect").remove();
 
-    var colScale = d3.scale.linear()
+    const colScale = d3.scale.linear()
     .domain([this.minCost, this.maxCost])
     .range([255, 0]);
 
-    var mesh = this.getMesh(Dataset);
-    for(var x = 0  ; x < mesh.length ; x++) {
-      for(var y = 0 ; y < mesh[x].length ; y++) {
-        var val = Math.round(colScale(mesh[x][y]));
-        var col = val % 60;
+    const mesh = this.getMesh(Dataset);
+    for(let x = 0  ; x < mesh.length ; x++) {
+      for(let y = 0 ; y < mesh[x].length ; y++) {
+        let val = Math.round(colScale(mesh[x][y]));
+        const col = val % 60;
+        let rgb = null;
         if(val == 255) {
-          var rgb = "rgb(255,255,255)";
+          rgb = "rgb(255,255,255)";
         }
         else if(col < 20 ) {
           val -= 20;
 
-          var rgb = "rgb("+val+","+val+","+val+")";
+          rgb = "rgb("+val+","+val+","+val+")";
         }
         else if(col < 40) {
           val -= 50;
 
-          var rgb = "rgb("+val+","+val+","+val+")";
+          rgb = "rgb("+val+","+val+","+val+")";
         }
         else {
           val -= 100;
 
-          var rgb = "rgb("+val+","+val+","+val+")";
+          rgb = "rgb("+val+","+val+","+val+")";
         }
 
         costFunc.append("rect")

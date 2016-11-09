@@ -1,4 +1,4 @@
-var d3 = require('d3');
+import d3 from 'd3';
 import {AnimatedFunction} from './d3AnimatedFunction.js';
 import {Axies} from './d3Axies.js'
 import {CostFunction} from './d3CostFunction';
@@ -64,18 +64,18 @@ export class GradientDescent {
   }
 
   initSvg(el) {
-    var self = this;
+    const self = this;
     this.svg = d3.select(el).append("svg")
       .attr("width", this.width)
       .attr("height", this.height);
 
     this.svg.on("click", function(d){
-      var coord = d3.mouse(this);
-      var pointElem = {
+      const coord = d3.mouse(this);
+      const pointElem = {
         x: self.revXScale(coord[0]),
         y: self.revYScale(coord[1])
       };
-      var datasetElem = {
+      const datasetElem = {
         x: self.normX(coord[0]),
         y: self.normY(coord[1])
       };
@@ -84,10 +84,10 @@ export class GradientDescent {
   }
 
   draw(svg) {
-    var points = svg.selectAll("g.point")
+    const points = svg.selectAll("g.point")
       .data(this.Points);
 
-    var g = points.enter()
+    const g = points.enter()
       .append("g")
       .attr("class", "point");
 
@@ -119,10 +119,10 @@ export class GradientDescent {
 	}
 
   run() {
-    var go = true;
+    let go = true;
   	this.interval = setInterval(() => {
   		if(go && this.Dataset.length > 1) {
-  			for(var i = 0 ; i < 100 + (200 * this.animationSpeed) ; i++) {
+  			for(let i = 0 ; i < 100 + (200 * this.animationSpeed) ; i++) {
   				this.AnimatedFunction.iterateTheta(this.Dataset);
   			}
 

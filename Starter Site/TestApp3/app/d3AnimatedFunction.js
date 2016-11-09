@@ -21,7 +21,7 @@ export class AnimatedFunction {
   }
 
   iterateTheta(Dataset) {
-    var vt = this.getGradDescVector(Dataset);
+    const vt = this.getGradDescVector(Dataset);
     this.theta0 -= vt.v0;
     this.theta1 -= vt.v1;
   }
@@ -37,12 +37,12 @@ export class AnimatedFunction {
   }
 
   getGradDescVector(Dataset) {
-    var sum0 = 0, sum1 = 0;
-    var m = Dataset.length;
-    var a = this.learnRate;
+    let sum0 = 0, sum1 = 0;
+    const m = Dataset.length;
+    const a = this.learnRate;
 
-    for(var i = 0 ; i < m ;i++) {
-      var diff = Dataset[i].x * this.theta1 + this.theta0 - Dataset[i].y;
+    for(let i = 0 ; i < m ;i++) {
+      const diff = Dataset[i].x * this.theta1 + this.theta0 - Dataset[i].y;
 
       sum0 += diff;
       sum1 += diff * Dataset[i].x;
@@ -55,14 +55,14 @@ export class AnimatedFunction {
   }
 
   draw(svg) {
-    var func = svg.selectAll("line.func")
+    const func = svg.selectAll("line.func")
       .data([{theta0: this.theta0, theta1: this.theta1}]);
 
-    var self = this;
-    var xLeft = -1;
-    var xRight = 2;
+    const self = this;
+    const xLeft = -1;
+    const xRight = 2;
 
-    var f = [func.transition(), func.enter().append("line")];
+    const f = [func.transition(), func.enter().append("line")];
 
     for(const i in f) {
       f[i].attr("class", "func")
@@ -72,13 +72,13 @@ export class AnimatedFunction {
         .attr("y2", function(d) { return self.yDenorm(d.theta0+ d.theta1 * xRight); } );
     }
 
-    var caption = svg.selectAll("text.theta")
+    const caption = svg.selectAll("text.theta")
       .data([
         {v: this.theta0, i:0},
         {v: this.theta1, i:1}
       ]);
 
-    var c = [caption, caption.enter().append("text").attr("class","theta")];
+    const c = [caption, caption.enter().append("text").attr("class","theta")];
     for(const i in c) {
       c[i]
         .attr("x", 50)
@@ -86,7 +86,7 @@ export class AnimatedFunction {
         .text(d => { return "Theta" + d.i + ": " + Math.round(d.v * 100000) / 100000});
     }
 
-    var learnRate = svg.selectAll("text.learnRate")
+    const learnRate = svg.selectAll("text.learnRate")
       .data([this.learnRate]);
 
   }
