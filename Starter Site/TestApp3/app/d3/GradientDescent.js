@@ -1,7 +1,7 @@
 import d3 from 'd3';
-import {AnimatedFunction} from './d3AnimatedFunction.js';
-import {Axies} from './d3Axies.js'
-import {CostFunction} from './d3CostFunction';
+import {AnimatedFunction} from './AnimatedFunction.js';
+import {Axies} from './Axies.js'
+import {CostFunction} from './CostFunction';
 
 export class GradientDescent {
   constructor() {

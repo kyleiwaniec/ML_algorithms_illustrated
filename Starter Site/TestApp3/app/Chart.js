@@ -1,7 +1,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {GradientDescent} from './d3GradientDescent.js';
+import {GradientDescent} from './d3/GradientDescent.js';
 
 export default class Chart extends React.Component {
 
