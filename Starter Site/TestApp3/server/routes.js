@@ -1,6 +1,6 @@
-module.exports = function(app) {
-  app.get('/ab', function response(req, res) {
-    const hours = (new Date()).getSeconds()
-    res.send(hours.toString());
+export function registerRoutes(app) {
+  app.get('/seconds', function response(req, res) {
+    const seconds = (new Date()).getSeconds()
+    res.send(seconds.toString());
   });
 }
