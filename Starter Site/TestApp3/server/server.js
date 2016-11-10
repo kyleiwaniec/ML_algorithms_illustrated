@@ -8,6 +8,7 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 import config from '../webpack.config.js';
 import {registerRoutes} from './controllers/routes.js';
 import {initRoutes} from './controllers/lib/routesInternal.js';
+import bodyParser from 'body-parser';
 
 const isDeveloping = process.env.NODE_ENV !== 'production';
 const port = isDeveloping ? 3000 : process.env.PORT;
@@ -41,6 +42,9 @@ if (isDeveloping) {
     res.sendFile(path.join(__dirname, 'dist/index.html'));
   });
 }
+
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 initRoutes(app);
 registerRoutes();

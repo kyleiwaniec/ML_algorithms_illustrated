@@ -133,7 +133,7 @@ export class GradientDescent {
     points.exit().remove();
   }
 
-  drawAll(): void {
+  async drawAll(): Promise<void> {
     this.draw(this.svg);
 
     this.svg.append("text")
@@ -143,7 +143,7 @@ export class GradientDescent {
 
     this.AnimatedFunction.draw(this.svg);
     this.Axies.draw(this.svg);
-    this.CostFunction.draw(this.svg, this.Dataset);
+    await this.CostFunction.draw(this.svg, this.Dataset);
 	}
 
   run(): void {

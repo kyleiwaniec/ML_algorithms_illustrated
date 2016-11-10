@@ -1,14 +1,9 @@
 /* @flow */
 
-import type {Point} from '../../shared/types';
+import type {Point, LinRegPoint} from '../../shared/types';
 
 import d3 from 'd3';
 import {AnimatedFunction} from './AnimatedFunction';
-
-type LinRegPoint = {
-    theta0: number,
-    theta1: number,
-};
 
 export class CostFunction {
   width: number;
@@ -124,24 +119,33 @@ export class CostFunction {
     .orient("left");
   }
 
-  getCost(theta0: number, theta1: number, Dataset: Array<Point>) {
-    return this.CostCalculator.getCost(theta0, theta1, Dataset);
-  }
-
-  getMesh(Dataset: Array<Point>) {
-    const matrix: Array<Array<number>> = [];
+  async getMesh(Dataset: Array<Point>): Promise<Array<Array<number>>> {
+    const requestPoints = [];
     let xx = 0;
+    for(let x = this.margin ; x < this.width - this.margin; x += this.size) {
+      let yy = 0;
+      for(let y = this.margin; y < this.height - this.margin ; y += this.size) {
+        const theta0 = this.xNorm(x);
+        const theta1 = this.yNorm(y);
+        requestPoints.push({theta0, theta1});
+      }
+    }
+    const costs = await this.CostCalculator.getBatchCostFromRemote(
+      requestPoints,
+      Dataset,
+    );
 
+    const matrix: Array<Array<number>> = [];
+    xx = 0;
+    let it = 0;
     this.minCost = 999;
     this.maxCost = -999;
     for(let x = this.margin ; x < this.width - this.margin; x += this.size) {
       matrix[xx] = [];
       let yy = 0;
       for(let y = this.margin; y < this.height - this.margin ; y += this.size) {
-        const theta0 = this.xNorm(x),
-        theta1 = this.yNorm(y);
-
-        matrix[xx][yy] = this.getCost(theta0, theta1, Dataset);
+        matrix[xx][yy] = costs[it];
+        it++;
         this.minCost = Math.min(this.minCost, matrix[xx][yy]);
         this.maxCost = Math.max(this.maxCost, matrix[xx][yy]);
         yy++;
@@ -193,7 +197,7 @@ export class CostFunction {
     };
   }
 
-  draw(svg2: any, Dataset: Array<Point>) {
+  async draw(svg2: any, Dataset: Array<Point>): Promise<void> {
     if(Dataset.length == 0) {
       return;
     }
@@ -211,7 +215,7 @@ export class CostFunction {
     .domain([this.minCost, this.maxCost])
     .range([255, 0]);
 
-    const mesh = this.getMesh(Dataset);
+    const mesh = await this.getMesh(Dataset);
     for(let x = 0  ; x < mesh.length ; x++) {
       for(let y = 0 ; y < mesh[x].length ; y++) {
         let val = Math.round(colScale(mesh[x][y]));

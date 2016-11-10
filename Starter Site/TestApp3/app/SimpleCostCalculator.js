@@ -1,6 +1,7 @@
 /* @flow */
 
-import type {Point} from '../shared/types';
+import type {Point, LinRegPoint} from '../shared/types';
+
 import axios from 'axios';
 
 export class SimpleCostCalculator {
@@ -18,13 +19,29 @@ export class SimpleCostCalculator {
     return cost / 2 / Dataset.length;
   }
 
-  getCostFromRemote(theta0: number, theta1: number, Dataset: Array<Point>): void {
-    axios.get('/linreg/cost', {
-      params: {params: JSON.stringify({theta0, theta1, Dataset})},
-    }).then(response => {
-      console.log(response);
-    }).catch(error => {
-      console.log(error);
+  getCostFromRemote(theta0: number, theta1: number, Dataset: Array<Point>): Promise<number> {
+    return new Promise((resolve, reject) => {
+      axios.get('/linreg/cost', {
+        params: {params: JSON.stringify({theta0, theta1, Dataset})},
+      }).then(response => {
+        resolve(response.data);
+      }).catch(error => {
+        reject(error);
+      });
     });
   }
-};
+
+  getBatchCostFromRemote(
+    points: Array<LinRegPoint>,
+    Dataset: Array<Point>): Promise<Array<number>> {
+    return new Promise((resolve, reject) => {
+      axios.post('/linreg/batchcost', {
+        params: JSON.stringify({points, Dataset}),
+      }).then(response => {
+        resolve(response.data);
+      }).catch(error => {
+        reject(error);
+      });
+    });
+  }
+}
