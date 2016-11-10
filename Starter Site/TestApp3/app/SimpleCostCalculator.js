@@ -1,6 +1,7 @@
 /* @flow */
 
 import type {Point} from '../shared/types';
+import axios from 'axios';
 
 export class SimpleCostCalculator {
   hypothesisFunctionLabel: string = 'Hypothesis Function: Ho(x)=theta0 + theta1 * x';
@@ -12,10 +13,18 @@ export class SimpleCostCalculator {
     for(let i = 0 ; i < Dataset.length ;i++) {
       cost += Math.pow((Dataset[i].x * theta1 + theta0 - Dataset[i].y), 2);
     }
+    this.getCostFromRemote(theta0, theta1, Dataset);
 
     return cost / 2 / Dataset.length;
   }
 
   getCostFromRemote(theta0: number, theta1: number, Dataset: Array<Point>): void {
+    axios.get('/linreg/cost', {
+      params: {params: JSON.stringify({theta0, theta1, Dataset})},
+    }).then(response => {
+      console.log(response);
+    }).catch(error => {
+      console.log(error);
+    });
   }
 };

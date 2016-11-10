@@ -6,6 +6,7 @@ import {Controller} from '../lib/Controller';
 
 export class LinRegController extends Controller {
   getCost(): string {
+    console.log(this.params);
     return this._getCost(
       this.params.theta0,
       this.params.theta1,

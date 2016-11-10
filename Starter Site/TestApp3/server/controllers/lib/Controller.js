@@ -8,6 +8,6 @@ export class Controller {
 
   constructor(req: Request) {
     this.req = req;
-    this.params = req.params;
+    this.params = JSON.parse(req.query.params || '{}');
   }
 }
