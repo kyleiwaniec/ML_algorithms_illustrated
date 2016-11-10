@@ -3,7 +3,7 @@
 import {Controller} from '../lib/Controller.js'
 
 export class SecondsController extends Controller {
-  getCurrentSecondsAsString() {
+  getCurrentSecondsAsString(): string {
     return (new Date()).getSeconds().toString();
   }
 }
