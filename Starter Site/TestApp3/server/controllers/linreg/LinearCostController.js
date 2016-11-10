@@ -1,6 +1,6 @@
 /* @flow */
 
-export class SimpleCostCalculator {
+export class LinearCostController {
   getCost(theta0: number, theta1: number, Dataset: Array<any>) {
     let cost = 0;
     for(let i = 0 ; i < Dataset.length ;i++) {

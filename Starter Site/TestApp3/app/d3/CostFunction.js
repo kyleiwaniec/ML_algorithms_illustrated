@@ -1,6 +1,14 @@
 /* @flow */
 
+import type {Point} from '../../shared/types';
+
 import d3 from 'd3';
+import {AnimatedFunction} from './AnimatedFunction';
+
+type LinRegPoint = {
+    theta0: number,
+    theta1: number,
+};
 
 export class CostFunction {
   width: number;
@@ -16,7 +24,7 @@ export class CostFunction {
   minCost: number;
   maxCost: number;
   svg: any;
-  prevPoint: any;
+  prevPoint: LinRegPoint;
   xAxis: any;
   yAxis: any;
   CostCalculator: any;
@@ -32,7 +40,10 @@ export class CostFunction {
     this.minCost = 0;
     this.maxCost = 0;
     this.svg = null;
-    this.prevPoint = null;
+    this.prevPoint = {
+      theta0: 0,
+      theta1: 0,
+    };
     this.xAxis = null;
     this.yAxis = null;
 
@@ -43,7 +54,7 @@ export class CostFunction {
 
   init(
     el: any,
-    AnimatedFunction: any,
+    AnimatedFunction: AnimatedFunction,
     CostCalculator: any,
     width: number,
     height: number,
@@ -113,18 +124,18 @@ export class CostFunction {
     .orient("left");
   }
 
-  getCost(theta0: number, theta1: number, Dataset: Array<any>) {
+  getCost(theta0: number, theta1: number, Dataset: Array<Point>) {
     return this.CostCalculator.getCost(theta0, theta1, Dataset);
   }
 
-  getMesh(Dataset: Array<any>) {
-    const matrix = new Array(this.xi);
+  getMesh(Dataset: Array<Point>) {
+    const matrix: Array<Array<number>> = [];
     let xx = 0;
 
     this.minCost = 999;
     this.maxCost = -999;
     for(let x = this.margin ; x < this.width - this.margin; x += this.size) {
-      matrix[xx] = new Array(this.yi);
+      matrix[xx] = [];
       let yy = 0;
       for(let y = this.margin; y < this.height - this.margin ; y += this.size) {
         const theta0 = this.xNorm(x),
@@ -141,7 +152,7 @@ export class CostFunction {
     return matrix;
   }
 
-  animatePointer(Dataset: Array<any>, AnimatedFunction: any) {
+  animatePointer(Dataset: Array<Point>, AnimatedFunction: AnimatedFunction) {
     if(Dataset.length == 0) {
       return;
     }
@@ -182,7 +193,7 @@ export class CostFunction {
     };
   }
 
-  draw(svg2: any, Dataset: Array<any>) {
+  draw(svg2: any, Dataset: Array<Point>) {
     if(Dataset.length == 0) {
       return;
     }

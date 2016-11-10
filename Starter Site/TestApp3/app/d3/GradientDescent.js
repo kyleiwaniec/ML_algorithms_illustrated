@@ -1,30 +1,35 @@
 /* @flow */
 
+import type {AppendPointCB} from '../Chart';
+import type {Point} from '../../shared/types';
+
 import d3 from 'd3';
-import {AnimatedFunction} from './AnimatedFunction.js';
-import {Axies} from './Axies.js'
+import {AnimatedFunction} from './AnimatedFunction';
+import {Axies} from './Axies'
 import {CostFunction} from './CostFunction';
 
 export class GradientDescent {
-    revXScale: any;
-  	revYScale: any;
-  	normX: any;
-  	normY: any;
-  	svg: any;
-    animationSpeed: number;
-    Axies: Axies;
-    CostFunction: CostFunction;
-    AnimatedFunction: AnimatedFunction;
-    Dataset: Array<any>;
-    Points: Array<any>;
-    interval: any;
-    appendPointCB: any;
-    CostCalculator: any;
-    width: number;
-    height: number;
-    margin: number;
+  revXScale: any;
+	revYScale: any;
+	normX: any;
+	normY: any;
+	svg: any;
+  animationSpeed: number;
+  Axies: Axies;
+  CostFunction: CostFunction;
+  AnimatedFunction: AnimatedFunction;
+  Dataset: Array<Point>;
+  Points: Array<Point>;
+  interval: any;
+  appendPointCB: AppendPointCB;
+  CostCalculator: any;
+  width: number;
+  height: number;
+  margin: number;
 
-  constructor() {
+  constructor(
+    appendPointCB: AppendPointCB,
+  ) {
     this.revXScale = null;
   	this.revYScale = null;
   	this.normX = null;
@@ -34,7 +39,7 @@ export class GradientDescent {
     this.Dataset = [];
     this.Points = [];
     this.interval = null;
-    this.appendPointCB = null;
+    this.appendPointCB = appendPointCB;
     this.CostCalculator = null;
     this.width = 0;
     this.height = 0;
@@ -47,16 +52,14 @@ export class GradientDescent {
 
   init(
     el: any,
-    Dataset: Array<any>,
-    Points: Array<any>,
-    appendPointCB: any,
+    Dataset: Array<Point>,
+    Points: Array<Point>,
     CostCalculator: any,
     width: number,
     height: number,
     margin: number) {
     this.Dataset = Dataset;
     this.Points = Points;
-    this.appendPointCB = appendPointCB;
     this.CostCalculator = CostCalculator;
     this.width = width;
     this.height = height;
@@ -70,7 +73,7 @@ export class GradientDescent {
     this.drawAll();
   }
 
-  initScales() {
+  initScales(): void {
     this.revXScale = d3.scale.linear()
       .domain([this.margin, this.width - this.margin])
       .range([0, this.width]);
@@ -88,7 +91,7 @@ export class GradientDescent {
       .range([1, 0]);
   }
 
-  initSvg(el: any) {
+  initSvg(el: any): void {
     const self = this;
     this.svg = d3.select(el).append("svg")
       .attr("width", this.width)
@@ -108,7 +111,7 @@ export class GradientDescent {
     });
   }
 
-  draw(svg: any) {
+  draw(svg: any): void {
     const points = svg.selectAll("g.point")
       .data(this.Points);
 
@@ -130,7 +133,7 @@ export class GradientDescent {
     points.exit().remove();
   }
 
-  drawAll() {
+  drawAll(): void {
     this.draw(this.svg);
 
     this.svg.append("text")
@@ -143,7 +146,7 @@ export class GradientDescent {
     this.CostFunction.draw(this.svg, this.Dataset);
 	}
 
-  run() {
+  run(): void {
     let go = true;
   	this.interval = setInterval(() => {
   		if(go && this.Dataset.length > 1) {
@@ -157,7 +160,7 @@ export class GradientDescent {
   	}, 500);
   }
 
-  destroy() {
+  destroy(): void {
     if (this.interval) {
       clearInterval(this.interval);
     }

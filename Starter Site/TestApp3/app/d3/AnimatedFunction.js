@@ -1,5 +1,7 @@
 /* @flow */
 
+import type {Point} from '../../shared/types';
+
 import d3 from 'd3';
 
 export class AnimatedFunction {
@@ -32,13 +34,13 @@ export class AnimatedFunction {
     this.initScales();
   }
 
-  iterateTheta(Dataset: Array<any>) {
+  iterateTheta(Dataset: Array<Point>) {
     const vt = this.getGradDescVector(Dataset);
     this.theta0 -= vt.v0;
     this.theta1 -= vt.v1;
   }
 
-  initScales() {
+  initScales(): void {
     this.xDenorm = d3.scale.linear()
     .domain([0, 1])
     .range([this.margin, this.width - this.margin]);
@@ -48,7 +50,10 @@ export class AnimatedFunction {
     .range([this.height - this.margin, this.margin]);
   }
 
-  getGradDescVector(Dataset: Array<any>) {
+  getGradDescVector(Dataset: Array<Point>): {
+    v0: number,
+    v1: number,
+  } {
     let sum0 = 0, sum1 = 0;
     const m = Dataset.length;
     const a = this.learnRate;
@@ -66,7 +71,7 @@ export class AnimatedFunction {
     };
   }
 
-  draw(svg: any) {
+  draw(svg: any): void {
     const func = svg.selectAll("line.func")
       .data([{theta0: this.theta0, theta1: this.theta1}]);
 

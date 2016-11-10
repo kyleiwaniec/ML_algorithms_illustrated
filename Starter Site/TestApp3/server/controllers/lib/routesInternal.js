@@ -1,15 +1,18 @@
 /* @flow */
 
-let app = null;
+import type {Request} from './Controller.js';
+
+let app: ?Request = null;
 import invariant from 'invariant';
 
-export function initRoutes(_app: any): void {
+export function initRoutes(_app: Request): void {
   app = _app;
 }
 
-export function get(path: string, cb: any): void {
+export function get(path: string, cb: (req: Request) => mixed): void {
   invariant(app != null, "app can't be null");
-  app.get(path, (req, res) => {
-    res.send(cb(req, res));
-  });
+  const processor = (req: Request, res: any) => {
+    res.send(cb(req));
+  };
+  app.get(path, processor);
 }

@@ -20,10 +20,11 @@
 [options]
 module.system=haste
 
-esproposal.class_static_fields=enable
-esproposal.class_instance_fields=enable
-
-munge_underscores=true
+esproposal.decorators=ignore
+experimental.const_params=true
+experimental.strict_type_args=true
+module.use_strict=true
+unsafe.enable_getters_and_setters=true
 
 suppress_type=$FlowIssue
 suppress_type=$FlowFixMe
@@ -32,3 +33,6 @@ suppress_type=$FixMe
 suppress_comment=\\(.\\|\n\\)*\\$FlowFixMe\\($\\|[^(]\\|(\\(>=0\\.\\(3[0-2]\\|[1-2][0-9]\\|[0-9]\\).[0-9]\\)? *\\(site=[a-z,_]*relay[a-z,_]*\\)?)\\)
 suppress_comment=\\(.\\|\n\\)*\\$FlowIssue\\((\\(>=0\\.\\(3[0-2]\\|[1-2][0-9]\\|[0-9]\\).[0-9]\\)? *\\(site=[a-z,_]*relay[a-z,_]*\\)?)\\)? #[0-9]+
 suppress_comment=\\(.\\|\n\\)*\\$FlowFixedInNextDeploy
+
+[version]
+0.34.0

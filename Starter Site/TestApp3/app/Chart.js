@@ -1,12 +1,15 @@
 /* @flow */
 
+import type {Point} from '../shared/types.js';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {GradientDescent} from './d3/GradientDescent.js';
 
+
 type State = {
-  Dataset: Array<any>,
-  Points: Array<any>,
+  Dataset: Array<Point>,
+  Points: Array<Point>,
   gradientDescent: GradientDescent,
 };
 
@@ -16,10 +19,12 @@ export default class Chart extends React.Component {
   constructor(props: mixed) {
     super(props);
 
+    (this: any).appendPoint = this.appendPoint.bind(this);
+
     this.state = {
       Dataset: [],
       Points: [],
-      gradientDescent: new GradientDescent(),
+      gradientDescent: new GradientDescent(this.appendPoint),
     };
   }
 
@@ -42,7 +47,6 @@ export default class Chart extends React.Component {
       el,
       this.state.Dataset,
       this.state.Points,
-      (a, b) => this.appendPoint(a, b),
       this.props.costCalculator,
       this.props.width,
       this.props.height,
@@ -57,7 +61,7 @@ export default class Chart extends React.Component {
     );
   }
 
-  appendPoint(pointElem: any, datasetElem: any) {
+  appendPoint(pointElem: Point, datasetElem: Point): void {
     const Dataset = this.state.Dataset;
     const Points = this.state.Points;
     Dataset.push(datasetElem);
@@ -65,3 +69,5 @@ export default class Chart extends React.Component {
     this.setState({Dataset: Dataset, Points: Points});
   }
 }
+
+export type AppendPointCB = (pointElem: Point, datasetElem: Point) => void;
