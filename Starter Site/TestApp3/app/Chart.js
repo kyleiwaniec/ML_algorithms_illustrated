@@ -32,7 +32,13 @@ export default class Chart extends React.Component {
     this.state = {
       dataset: [],
       points: [],
-      gradientDescent: new GradientDescent(this.appendPoint, this.props.costClient),
+      gradientDescent: new GradientDescent(
+        this.props.width,
+        this.props.height,
+        this.props.margin,
+        this.appendPoint,
+        this.props.costClient,
+      ),
     };
   }
 
@@ -55,9 +61,6 @@ export default class Chart extends React.Component {
       el,
       this.state.dataset,
       this.state.points,
-      this.props.width,
-      this.props.height,
-      this.props.margin
     );
     this.state.gradientDescent.run();
   }

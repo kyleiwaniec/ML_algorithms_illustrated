@@ -11,23 +11,14 @@ export class Axies {
   height: number;
   margin: number;
 
-  constructor() {
-    this.xAxis = null;
-    this.yAxis = null;
-
-    this.xScale = null;
-    this.yScale = null;
-
-    this.width = 0;
-    this.height = 0;
-    this.margin = 0;
-  }
-
-  init(width: number, height: number, margin: number): void {
+  constructor(
+    width: number,
+    height: number,
+    margin: number,
+  ) {
     this.width = width;
     this.height = height;
     this.margin = margin;
-
     this.initScales();
     this.initAxis();
   }

@@ -29,6 +29,9 @@ export class GradientDescent {
   margin: number;
 
   constructor(
+    width: number,
+    height: number,
+    margin: number,
     appendPointCB: AppendPointCB,
     costClient: LinRegClient,
   ) {
@@ -43,34 +46,26 @@ export class GradientDescent {
     this.interval = null;
     this.appendPointCB = appendPointCB;
     this.costClient = costClient;
-    this.width = 0;
-    this.height = 0;
-    this.margin = 0;
+    this.width = width;
+    this.height = height;
+    this.margin = margin;
 
-    this.axies = new Axies();
-    this.costFunction = new CostFunction(costClient);
-    this.animatedFunction = new AnimatedFunction(costClient);
+    this.axies = new Axies(width, height, margin);
+    this.costFunction = new CostFunction(costClient, width, height, margin);
+    this.animatedFunction = new AnimatedFunction(costClient, width, height, margin);
   }
 
   init(
     el: HTMLElement,
     dataset: Array<Point>,
     points: Array<Point>,
-    width: number,
-    height: number,
-    margin: number,
   ): void {
     this.dataset = dataset;
     this.points = points;
-    this.width = width;
-    this.height = height;
-    this.margin = margin;
 
     this.initScales();
-    this.axies.init(width, height, margin);
     this.initSvg(el);
-    this.animatedFunction.init(width, height, margin);
-    this.costFunction.init(el, this.animatedFunction, width, height, margin);
+    this.costFunction.init(el, this.animatedFunction);
     this.drawAll();
   }
 
@@ -148,9 +143,8 @@ export class GradientDescent {
 	}
 
   run(): void {
-    let go = true;
   	this.interval = setInterval(() => {
-  		if(go && this.dataset.length > 1) {
+  		if(this.dataset.length > 1) {
   			this.animatedFunction.iterateTheta(this.dataset, this.animationSpeed).then(() => {
     			this.animatedFunction.draw(this.svg);
     			this.costFunction.animatePointer(this.dataset, this.animatedFunction);

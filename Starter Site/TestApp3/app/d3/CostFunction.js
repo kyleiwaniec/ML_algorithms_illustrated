@@ -25,44 +25,36 @@ export class CostFunction {
   yAxis: any;
   costClient: LinRegClient;
 
-  constructor(costClient: LinRegClient) {
+  constructor(
+    costClient: LinRegClient,
+    width: number,
+    height: number,
+    margin: number,
+  ) {
     this.size = 10;
-    this.xNorm = null;
-    this.yNorm = null;
-    this.xDeNorm = null;
-    this.yDeNorm = null;
     this.xi = 0;
     this.yi = 0;
     this.minCost = 0;
     this.maxCost = 0;
-    this.svg = null;
     this.prevPoint = {
       theta0: 0,
       theta1: 0,
     };
-    this.xAxis = null;
-    this.yAxis = null;
 
-    this.width = 0;
-    this.height = 0;
-    this.margin = 0;
+    this.width = width;
+    this.height = height;
+    this.margin = margin;
+
     this.costClient = costClient;
+    this.initScales();
+    this.initAxis();
+
   }
 
   init(
     el: HTMLElement,
     animatedFunction: AnimatedFunction,
-    width: number,
-    height: number,
-    margin: number,
   ): void {
-    this.width = width;
-    this.height = height;
-    this.margin = margin;
-
-    this.initScales();
-    this.initAxis();
-
     this.svg = d3.select(el).append("svg")
       .attr("width", this.width)
       .attr("height", this.height);

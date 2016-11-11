@@ -16,24 +16,20 @@ export class AnimatedFunction {
   margin: number;
   costClient: LinRegClient;
 
-  constructor(costClient: LinRegClient) {
+  constructor(
+    costClient: LinRegClient,
+    width: number,
+    height: number,
+    margin: number,
+  ) {
     this.theta0 = 0;
     this.theta1 = 0;
     this.learnRate = 0.07;
-    this.xDenorm = null;
-    this.yDenorm = null;
     this.costClient = costClient;
 
-    this.width = 0;
-    this.height = 0;
-    this.margin = 0;
-  }
-
-  init(width: number, height: number, margin: number): void {
     this.width = width;
     this.height = height;
     this.margin = margin;
-
     this.initScales();
   }
 
