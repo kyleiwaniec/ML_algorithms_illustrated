@@ -49,7 +49,7 @@ export class GradientDescent {
 
     this.axies = new Axies();
     this.costFunction = new CostFunction(costClient);
-    this.animatedFunction = new AnimatedFunction();
+    this.animatedFunction = new AnimatedFunction(costClient);
   }
 
   init(
@@ -151,12 +151,10 @@ export class GradientDescent {
     let go = true;
   	this.interval = setInterval(() => {
   		if(go && this.dataset.length > 1) {
-  			for(let i = 0 ; i < 100 + (200 * this.animationSpeed) ; i++) {
-  				this.animatedFunction.iterateTheta(this.dataset);
-  			}
-
-  			this.animatedFunction.draw(this.svg);
-  			this.costFunction.animatePointer(this.dataset, this.animatedFunction);
+  			this.animatedFunction.iterateTheta(this.dataset, this.animationSpeed).then(() => {
+    			this.animatedFunction.draw(this.svg);
+    			this.costFunction.animatePointer(this.dataset, this.animatedFunction);
+        });
   		}
   	}, 500);
   }

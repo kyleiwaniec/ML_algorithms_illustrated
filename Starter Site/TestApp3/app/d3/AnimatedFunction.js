@@ -3,6 +3,7 @@
 import type {Point} from '../../shared/types';
 
 import d3 from 'd3';
+import {LinRegClient} from '../LinRegClient';
 
 export class AnimatedFunction {
   theta0: number;
@@ -13,13 +14,15 @@ export class AnimatedFunction {
   width: number;
   height: number;
   margin: number;
+  costClient: LinRegClient;
 
-  constructor() {
+  constructor(costClient: LinRegClient) {
     this.theta0 = 0;
     this.theta1 = 0;
     this.learnRate = 0.07;
     this.xDenorm = null;
     this.yDenorm = null;
+    this.costClient = costClient;
 
     this.width = 0;
     this.height = 0;
@@ -34,10 +37,16 @@ export class AnimatedFunction {
     this.initScales();
   }
 
-  iterateTheta(Dataset: Array<Point>): void {
-    const vt = this.getGradDescVector(Dataset);
-    this.theta0 -= vt.v0;
-    this.theta1 -= vt.v1;
+  async iterateTheta(dataset: Array<Point>, animationSpeed: number): Promise<void> {
+    const vt = await this.costClient.getGradDescVector(
+      this.theta0,
+      this.theta1,
+      this.learnRate,
+      animationSpeed,
+      dataset,
+    );
+    this.theta0 = vt.theta0;
+    this.theta1 = vt.theta1;
   }
 
   initScales(): void {
@@ -48,27 +57,6 @@ export class AnimatedFunction {
     this.yDenorm = d3.scale.linear()
     .domain([0, 1])
     .range([this.height - this.margin, this.margin]);
-  }
-
-  getGradDescVector(Dataset: Array<Point>): {
-    v0: number,
-    v1: number,
-  } {
-    let sum0 = 0, sum1 = 0;
-    const m = Dataset.length;
-    const a = this.learnRate;
-
-    for(let i = 0 ; i < m ;i++) {
-      const diff = Dataset[i].x * this.theta1 + this.theta0 - Dataset[i].y;
-
-      sum0 += diff;
-      sum1 += diff * Dataset[i].x;
-    }
-
-    return {
-      v0: a * sum0 / m / 2,
-      v1: a * sum1 / m / 2,
-    };
   }
 
   draw(svg: any): void {

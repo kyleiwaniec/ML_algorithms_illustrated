@@ -17,6 +17,11 @@ export function registerRoutes(): void {
     (req: Request) => new LinRegController(req).getCost(),
   );
 
+  get(
+    '/linreg/graddescentvector',
+    (req: Request) => new LinRegController(req).getGradDescVector(),
+  );
+
   post(
     '/linreg/batchcost',
     (req: Request) => new LinRegController(req).getBatchCost(),

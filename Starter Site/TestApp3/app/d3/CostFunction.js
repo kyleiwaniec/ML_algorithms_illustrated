@@ -131,7 +131,7 @@ export class CostFunction {
         requestpoints.push({theta0, theta1});
       }
     }
-    const costs = await this.costClient.getBatchCostFromRemote(
+    const costs = await this.costClient.getBatchCost(
       requestpoints,
       dataset,
     );

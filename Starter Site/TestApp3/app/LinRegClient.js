@@ -9,20 +9,60 @@ export class LinRegClient {
 
   costFunctionLabel: string = 'Cost Function: J(theta0, theta1)';
 
-  getCost(theta0: number, theta1: number, Dataset: Array<Point>): number {
-    let cost = 0;
-    for(let i = 0 ; i < Dataset.length ;i++) {
-      cost += Math.pow((Dataset[i].x * theta1 + theta0 - Dataset[i].y), 2);
-    }
-    this.getCostFromRemote(theta0, theta1, Dataset);
+  getGradDescVector(
+    theta0: number,
+    theta1: number,
+    learnRate: number,
+    animationSpeed: number,
+    dataset: Array<Point>,
+  ): Promise<{
+    theta0: number,
+    theta1: number,
+  }> {
+    return new Promise((resolve, reject) => {
+      axios.get('/linreg/graddescentvector', {
+        params: {params: JSON.stringify({
+          theta0,
+          theta1,
+          learnRate,
+          animationSpeed,
+          dataset,
+        })},
+      }).then(response => {
+        resolve(response.data);
+      }).catch(error => {
+        reject(error);
+      });
+    });
+    /*
+    let theta0 = _theta0;
+    let theta1 = _theta1;
 
-    return cost / 2 / Dataset.length;
+		for(let i = 0 ; i < 100 + (200 * animationSpeed) ; i++) {
+      let sum0 = 0, sum1 = 0;
+      const m = dataset.length;
+      const a = learnRate;
+
+      for(let i = 0 ; i < m ;i++) {
+        const diff = dataset[i].x * theta1 + theta0 - dataset[i].y;
+
+        sum0 += diff;
+        sum1 += diff * dataset[i].x;
+      }
+
+      const v0 = a * sum0 / m / 2;
+      const v1 = a * sum1 / m / 2;
+      theta0 -= v0;
+      theta1 -= v1;
+    }
+
+    return {theta0, theta1};*/
   }
 
-  getCostFromRemote(theta0: number, theta1: number, Dataset: Array<Point>): Promise<number> {
+  getCost(theta0: number, theta1: number, dataset: Array<Point>): Promise<number> {
     return new Promise((resolve, reject) => {
       axios.get('/linreg/cost', {
-        params: {params: JSON.stringify({theta0, theta1, Dataset})},
+        params: {params: JSON.stringify({theta0, theta1, dataset})},
       }).then(response => {
         resolve(response.data);
       }).catch(error => {
@@ -31,12 +71,13 @@ export class LinRegClient {
     });
   }
 
-  getBatchCostFromRemote(
+  getBatchCost(
     points: Array<LinRegPoint>,
-    Dataset: Array<Point>): Promise<Array<number>> {
+    dataset: Array<Point>,
+  ): Promise<Array<number>> {
     return new Promise((resolve, reject) => {
       axios.post('/linreg/batchcost', {
-        params: JSON.stringify({points, Dataset}),
+        params: JSON.stringify({points, dataset}),
       }).then(response => {
         resolve(response.data);
       }).catch(error => {
