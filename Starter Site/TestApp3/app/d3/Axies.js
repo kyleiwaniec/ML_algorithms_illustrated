@@ -23,7 +23,7 @@ export class Axies {
     this.margin = 0;
   }
 
-  init(width: number, height: number, margin: number) {
+  init(width: number, height: number, margin: number): void {
     this.width = width;
     this.height = height;
     this.margin = margin;
@@ -32,7 +32,7 @@ export class Axies {
     this.initAxis();
   }
 
-  initScales() {
+  initScales(): void {
     this.xScale = d3.scale.linear()
     .domain([0, this.width])
     .range([this.margin, this.width - this.margin]);
@@ -42,7 +42,7 @@ export class Axies {
     .range([this.margin, this.height - this.margin]);
   }
 
-  initAxis() {
+  initAxis(): void {
     this.xAxis = d3.svg.axis()
     .scale(this.xScale)
     .orient("bottom")
@@ -54,7 +54,7 @@ export class Axies {
     .tickSize(-this.width+this.margin*2);
   }
 
-  draw(svg: any) {
+  draw(svg: any): void {
     svg.append("g")
     .attr("class", "axis x")
     .attr("transform", "translate(0," + (this.height - this.margin) + ")")

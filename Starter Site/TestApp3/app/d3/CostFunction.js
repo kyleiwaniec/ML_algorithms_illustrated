@@ -4,6 +4,7 @@ import type {Point, LinRegPoint} from '../../shared/types';
 
 import d3 from 'd3';
 import {AnimatedFunction} from './AnimatedFunction';
+import {LinRegClient} from '../LinRegClient';
 
 export class CostFunction {
   width: number;
@@ -22,9 +23,9 @@ export class CostFunction {
   prevPoint: LinRegPoint;
   xAxis: any;
   yAxis: any;
-  CostCalculator: any;
+  costClient: LinRegClient;
 
-  constructor() {
+  constructor(costClient: LinRegClient) {
     this.size = 10;
     this.xNorm = null;
     this.yNorm = null;
@@ -45,16 +46,16 @@ export class CostFunction {
     this.width = 0;
     this.height = 0;
     this.margin = 0;
+    this.costClient = costClient;
   }
 
   init(
-    el: any,
-    AnimatedFunction: AnimatedFunction,
-    CostCalculator: any,
+    el: HTMLElement,
+    animatedFunction: AnimatedFunction,
     width: number,
     height: number,
-    margin: number) {
-    this.CostCalculator = CostCalculator;
+    margin: number,
+  ): void {
     this.width = width;
     this.height = height;
     this.margin = margin;
@@ -70,8 +71,8 @@ export class CostFunction {
     this.yi = (this.height-2*this.margin) / this.size;
 
     this.prevPoint = {
-      theta0: AnimatedFunction.theta0,
-      theta1: AnimatedFunction.theta1
+      theta0: animatedFunction.theta0,
+      theta1: animatedFunction.theta1
     };
 
     this.svg.append("text")
@@ -119,20 +120,20 @@ export class CostFunction {
     .orient("left");
   }
 
-  async getMesh(Dataset: Array<Point>): Promise<Array<Array<number>>> {
-    const requestPoints = [];
+  async getMesh(dataset: Array<Point>): Promise<Array<Array<number>>> {
+    const requestpoints = [];
     let xx = 0;
     for(let x = this.margin ; x < this.width - this.margin; x += this.size) {
       let yy = 0;
       for(let y = this.margin; y < this.height - this.margin ; y += this.size) {
-        const theta0 = this.xNorm(x);
-        const theta1 = this.yNorm(y);
-        requestPoints.push({theta0, theta1});
+        const theta0: number = this.xNorm(x);
+        const theta1: number = this.yNorm(y);
+        requestpoints.push({theta0, theta1});
       }
     }
-    const costs = await this.CostCalculator.getBatchCostFromRemote(
-      requestPoints,
-      Dataset,
+    const costs = await this.costClient.getBatchCostFromRemote(
+      requestpoints,
+      dataset,
     );
 
     const matrix: Array<Array<number>> = [];
@@ -156,15 +157,15 @@ export class CostFunction {
     return matrix;
   }
 
-  animatePointer(Dataset: Array<Point>, AnimatedFunction: AnimatedFunction) {
-    if(Dataset.length == 0) {
+  animatePointer(dataset: Array<Point>, animatedFunction: AnimatedFunction) {
+    if(dataset.length == 0) {
       return;
     }
 
-    const x1 = (this.xDeNorm(this.prevPoint.theta0)),
-    y1 = (this.yDeNorm(this.prevPoint.theta1)),
-    x2 = (this.xDeNorm(AnimatedFunction.theta0)),
-    y2 = (this.yDeNorm(AnimatedFunction.theta1));
+    const x1: number = (this.xDeNorm(this.prevPoint.theta0));
+    const y1: number = (this.yDeNorm(this.prevPoint.theta1));
+    const x2: number = (this.xDeNorm(animatedFunction.theta0));
+    const y2: number = (this.yDeNorm(animatedFunction.theta1));
 
     const dist = Math.pow(x1-x2,2) + Math.pow(y1-y2,2);
 
@@ -173,8 +174,8 @@ export class CostFunction {
     }
 
     const point = this.svg.selectAll("point").data([{
-      theta0: AnimatedFunction.theta0,
-      theta1: AnimatedFunction.theta1
+      theta0: animatedFunction.theta0,
+      theta1: animatedFunction.theta1
     }]);
 
     const g = point.enter().append("g");
@@ -192,13 +193,13 @@ export class CostFunction {
       .attr("y2", function(d){return Math.round(y2);});
 
     this.prevPoint = {
-      theta0: AnimatedFunction.theta0,
-      theta1: AnimatedFunction.theta1
+      theta0: animatedFunction.theta0,
+      theta1: animatedFunction.theta1
     };
   }
 
-  async draw(svg2: any, Dataset: Array<Point>): Promise<void> {
-    if(Dataset.length == 0) {
+  async draw(svg2: any, dataset: Array<Point>): Promise<void> {
+    if(dataset.length == 0) {
       return;
     }
 
@@ -215,7 +216,7 @@ export class CostFunction {
     .domain([this.minCost, this.maxCost])
     .range([255, 0]);
 
-    const mesh = await this.getMesh(Dataset);
+    const mesh = await this.getMesh(dataset);
     for(let x = 0  ; x < mesh.length ; x++) {
       for(let y = 0 ; y < mesh[x].length ; y++) {
         let val = Math.round(colScale(mesh[x][y]));
@@ -250,7 +251,7 @@ export class CostFunction {
     }
   }
 
-  destroy() {
+  destroy(): void {
     this.svg.remove();
   }
 }

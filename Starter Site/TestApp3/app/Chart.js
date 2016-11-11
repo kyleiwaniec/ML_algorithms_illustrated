@@ -4,50 +4,57 @@ import type {Point} from '../shared/types.js';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {GradientDescent} from './d3/GradientDescent.js';
+import {GradientDescent} from './d3/GradientDescent';
+import {LinRegClient} from './LinRegClient';
 
+type Props = {
+  costClient: LinRegClient,
+  width: number,
+  height: number,
+  margin: number,
+};
 
 type State = {
-  Dataset: Array<Point>,
-  Points: Array<Point>,
+  dataset: Array<Point>,
+  points: Array<Point>,
   gradientDescent: GradientDescent,
 };
 
 export default class Chart extends React.Component {
   state: State;
+  props: Props;
 
-  constructor(props: mixed) {
+  constructor(props: Props) {
     super(props);
 
     (this: any).appendPoint = this.appendPoint.bind(this);
 
     this.state = {
-      Dataset: [],
-      Points: [],
-      gradientDescent: new GradientDescent(this.appendPoint),
+      dataset: [],
+      points: [],
+      gradientDescent: new GradientDescent(this.appendPoint, this.props.costClient),
     };
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     this._initGradient();
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(): void {
     this.state.gradientDescent.destroy();
     this._initGradient();
   }
 
-  componentWillUnmount() {
+  componentWillUnmount(): void {
     this.state.gradientDescent.destroy();
   }
 
-  _initGradient() {
-    const el = ReactDOM.findDOMNode(this);
+  _initGradient(): void {
+    const el: HTMLElement = ReactDOM.findDOMNode(this);
     this.state.gradientDescent.init(
       el,
-      this.state.Dataset,
-      this.state.Points,
-      this.props.costCalculator,
+      this.state.dataset,
+      this.state.points,
       this.props.width,
       this.props.height,
       this.props.margin
@@ -55,18 +62,18 @@ export default class Chart extends React.Component {
     this.state.gradientDescent.run();
   }
 
-  render() {
+  render(): React.Element<any> {
     return (
       <div className="svg" />
     );
   }
 
   appendPoint(pointElem: Point, datasetElem: Point): void {
-    const Dataset = this.state.Dataset;
-    const Points = this.state.Points;
-    Dataset.push(datasetElem);
-    Points.push(pointElem);
-    this.setState({Dataset: Dataset, Points: Points});
+    const dataset = this.state.dataset;
+    const points = this.state.points;
+    dataset.push(datasetElem);
+    points.push(pointElem);
+    this.setState({dataset, points});
   }
 }
 

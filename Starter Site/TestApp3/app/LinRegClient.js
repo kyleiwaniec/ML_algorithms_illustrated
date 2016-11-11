@@ -4,7 +4,7 @@ import type {Point, LinRegPoint} from '../shared/types';
 
 import axios from 'axios';
 
-export class SimpleCostCalculator {
+export class LinRegClient {
   hypothesisFunctionLabel: string = 'Hypothesis Function: Ho(x)=theta0 + theta1 * x';
 
   costFunctionLabel: string = 'Cost Function: J(theta0, theta1)';

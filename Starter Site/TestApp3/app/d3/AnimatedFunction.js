@@ -26,7 +26,7 @@ export class AnimatedFunction {
     this.margin = 0;
   }
 
-  init(width: number, height: number, margin: number) {
+  init(width: number, height: number, margin: number): void {
     this.width = width;
     this.height = height;
     this.margin = margin;
@@ -34,7 +34,7 @@ export class AnimatedFunction {
     this.initScales();
   }
 
-  iterateTheta(Dataset: Array<Point>) {
+  iterateTheta(Dataset: Array<Point>): void {
     const vt = this.getGradDescVector(Dataset);
     this.theta0 -= vt.v0;
     this.theta1 -= vt.v1;
@@ -103,6 +103,5 @@ export class AnimatedFunction {
 
     const learnRate = svg.selectAll("text.learnRate")
       .data([this.learnRate]);
-
   }
 }
