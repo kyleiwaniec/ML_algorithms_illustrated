@@ -6,6 +6,8 @@ import d3 from 'd3';
 import {AnimatedFunction} from './AnimatedFunction';
 import {LinRegClient} from '../LinRegClient';
 
+/* right chart */
+
 export class CostFunction {
   width: number;
   height: number;
@@ -48,10 +50,9 @@ export class CostFunction {
     this.costClient = costClient;
     this.initScales();
     this.initAxis();
-
   }
 
-  init(
+  render(
     el: HTMLElement,
     animatedFunction: AnimatedFunction,
   ): void {
@@ -149,7 +150,7 @@ export class CostFunction {
     return matrix;
   }
 
-  animatePointer(dataset: Array<Point>, animatedFunction: AnimatedFunction) {
+  animatePointer(dataset: Array<Point>, animatedFunction: AnimatedFunction): void {
     if(dataset.length == 0) {
       return;
     }

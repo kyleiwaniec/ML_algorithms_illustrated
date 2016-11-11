@@ -2,6 +2,8 @@
 
 import d3 from 'd3';
 
+/* axies for the left chart */
+
 export class Axies {
   xAxis: any;
   yAxis: any;

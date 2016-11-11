@@ -19,8 +19,6 @@ export class GradientDescent {
   axies: Axies;
   costFunction: CostFunction;
   animatedFunction: AnimatedFunction;
-  dataset: Array<Point>;
-  points: Array<Point>;
   interval: any;
   appendPointCB: AppendPointCB;
   costClient: LinRegClient;
@@ -41,8 +39,6 @@ export class GradientDescent {
   	this.normY = null;
   	this.svg = null;
     this.animationSpeed = 1;
-    this.dataset = [];
-    this.points = [];
     this.interval = null;
     this.appendPointCB = appendPointCB;
     this.costClient = costClient;
@@ -53,20 +49,18 @@ export class GradientDescent {
     this.axies = new Axies(width, height, margin);
     this.costFunction = new CostFunction(costClient, width, height, margin);
     this.animatedFunction = new AnimatedFunction(costClient, width, height, margin);
+    this.initScales();
   }
 
-  init(
+  render(
     el: HTMLElement,
     dataset: Array<Point>,
     points: Array<Point>,
   ): void {
-    this.dataset = dataset;
-    this.points = points;
-
-    this.initScales();
     this.initSvg(el);
-    this.costFunction.init(el, this.animatedFunction);
-    this.drawAll();
+    this.costFunction.render(el, this.animatedFunction);
+    this.drawAll(points, dataset);
+    this.run(dataset)
   }
 
   initScales(): void {
@@ -107,9 +101,9 @@ export class GradientDescent {
     });
   }
 
-  draw(svg: any): void {
+  draw(svg: any, _points: Array<Point>): void {
     const points = svg.selectAll("g.point")
-      .data(this.points);
+      .data(_points);
 
     const g = points.enter()
       .append("g")
@@ -129,8 +123,8 @@ export class GradientDescent {
     points.exit().remove();
   }
 
-  async drawAll(): Promise<void> {
-    this.draw(this.svg);
+  drawAll(points: Array<Point>, dataset: Array<Point>): void {
+    this.draw(this.svg, points);
 
     this.svg.append("text")
       .attr("y", this.margin - 10)
@@ -139,15 +133,15 @@ export class GradientDescent {
 
     this.animatedFunction.draw(this.svg);
     this.axies.draw(this.svg);
-    await this.costFunction.draw(this.svg, this.dataset);
+    this.costFunction.draw(this.svg, dataset);
 	}
 
-  run(): void {
+  run(dataset: Array<Point>): void {
   	this.interval = setInterval(() => {
-  		if(this.dataset.length > 1) {
-  			this.animatedFunction.iterateTheta(this.dataset, this.animationSpeed).then(() => {
+  		if(dataset.length > 1) {
+  			this.animatedFunction.iterateTheta(dataset, this.animationSpeed).then(() => {
     			this.animatedFunction.draw(this.svg);
-    			this.costFunction.animatePointer(this.dataset, this.animatedFunction);
+    			this.costFunction.animatePointer(dataset, this.animatedFunction);
         });
   		}
   	}, 500);

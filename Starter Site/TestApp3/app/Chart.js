@@ -17,12 +17,12 @@ type Props = {
 type State = {
   dataset: Array<Point>,
   points: Array<Point>,
-  gradientDescent: GradientDescent,
 };
 
 export default class Chart extends React.Component {
   state: State;
   props: Props;
+  gradientDescent: GradientDescent;
 
   constructor(props: Props) {
     super(props);
@@ -32,14 +32,14 @@ export default class Chart extends React.Component {
     this.state = {
       dataset: [],
       points: [],
-      gradientDescent: new GradientDescent(
-        this.props.width,
-        this.props.height,
-        this.props.margin,
-        this.appendPoint,
-        this.props.costClient,
-      ),
     };
+    this.gradientDescent = new GradientDescent(
+      this.props.width,
+      this.props.height,
+      this.props.margin,
+      this.appendPoint,
+      this.props.costClient,
+    );
   }
 
   componentDidMount(): void {
@@ -47,22 +47,20 @@ export default class Chart extends React.Component {
   }
 
   componentDidUpdate(): void {
-    this.state.gradientDescent.destroy();
+    this.gradientDescent.destroy();
     this._initGradient();
   }
 
   componentWillUnmount(): void {
-    this.state.gradientDescent.destroy();
+    this.gradientDescent.destroy();
   }
 
   _initGradient(): void {
-    const el: HTMLElement = ReactDOM.findDOMNode(this);
-    this.state.gradientDescent.init(
-      el,
+    this.gradientDescent.render(
+      ReactDOM.findDOMNode(this),
       this.state.dataset,
       this.state.points,
     );
-    this.state.gradientDescent.run();
   }
 
   render(): React.Element<any> {

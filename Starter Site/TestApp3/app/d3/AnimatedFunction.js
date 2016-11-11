@@ -5,6 +5,8 @@ import type {Point} from '../../shared/types';
 import d3 from 'd3';
 import {LinRegClient} from '../LinRegClient';
 
+/* animated vector for the right chart */
+
 export class AnimatedFunction {
   theta0: number;
   theta1: number;
