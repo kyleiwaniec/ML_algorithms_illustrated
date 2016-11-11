@@ -35,10 +35,10 @@ FLAGS = None
 
 def train():
   # Import data
-  if FLAGS.data_loaded == 0:
-    mnist = input_data.read_data_sets(FLAGS.data_dir,
-                                      one_hot=True,
-                                      fake_data=FLAGS.fake_data)
+#   if FLAGS.data_loaded == 0:
+  mnist = input_data.read_data_sets(FLAGS.data_dir,
+                                    one_hot=True,
+                                    fake_data=FLAGS.fake_data)
 
   sess = tf.InteractiveSession()
 
