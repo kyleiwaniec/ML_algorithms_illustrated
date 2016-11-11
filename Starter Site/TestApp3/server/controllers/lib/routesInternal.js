@@ -16,3 +16,11 @@ export function get(path: string, cb: (req: Request) => mixed): void {
   };
   app.get(path, processor);
 }
+
+export function post(path: string, cb: (req: Request) => mixed): void {
+  invariant(app != null, "app can't be null");
+  const processor = (req: Request, res: any) => {
+    res.send(cb(req));
+  };
+  app.post(path, processor);
+}

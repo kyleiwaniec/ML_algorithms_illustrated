@@ -8,6 +8,10 @@ export class Controller {
 
   constructor(req: Request) {
     this.req = req;
-    this.params = JSON.parse(req.query.params || '{}');
+    if (this.req.method == 'POST') {
+      this.params = JSON.parse(req.body.params || '{}');
+    } else {
+      this.params = JSON.parse(req.query.params || '{}');
+    }
   }
 }
