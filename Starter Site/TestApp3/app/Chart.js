@@ -4,69 +4,77 @@ import type {Point} from '../shared/types.js';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {GradientDescent} from './d3/GradientDescent.js';
+import {GradientDescent} from './d3/GradientDescent';
+import {LinRegClient} from './LinRegClient';
 
+type Props = {
+  costClient: LinRegClient,
+  width: number,
+  height: number,
+  margin: number,
+};
 
 type State = {
-  Dataset: Array<Point>,
-  Points: Array<Point>,
-  gradientDescent: GradientDescent,
+  dataset: Array<Point>,
+  points: Array<Point>,
 };
 
 export default class Chart extends React.Component {
   state: State;
+  props: Props;
+  gradientDescent: GradientDescent;
 
-  constructor(props: mixed) {
+  constructor(props: Props) {
     super(props);
 
     (this: any).appendPoint = this.appendPoint.bind(this);
 
     this.state = {
-      Dataset: [],
-      Points: [],
-      gradientDescent: new GradientDescent(this.appendPoint),
+      dataset: [],
+      points: [],
     };
-  }
-
-  componentDidMount() {
-    this._initGradient();
-  }
-
-  componentDidUpdate() {
-    this.state.gradientDescent.destroy();
-    this._initGradient();
-  }
-
-  componentWillUnmount() {
-    this.state.gradientDescent.destroy();
-  }
-
-  _initGradient() {
-    const el = ReactDOM.findDOMNode(this);
-    this.state.gradientDescent.init(
-      el,
-      this.state.Dataset,
-      this.state.Points,
-      this.props.costCalculator,
+    this.gradientDescent = new GradientDescent(
       this.props.width,
       this.props.height,
-      this.props.margin
+      this.props.margin,
+      this.appendPoint,
+      this.props.costClient,
     );
-    this.state.gradientDescent.run();
   }
 
-  render() {
+  componentDidMount(): void {
+    this._initGradient();
+  }
+
+  componentDidUpdate(): void {
+    this.gradientDescent.destroy();
+    this._initGradient();
+  }
+
+  componentWillUnmount(): void {
+    this.gradientDescent.destroy();
+  }
+
+  _initGradient(): void {
+    this.gradientDescent.render(
+      ReactDOM.findDOMNode(this),
+      this.state.dataset,
+      this.state.points,
+    );
+  }
+
+  render(): React.Element<any> {
     return (
       <div className="svg" />
     );
   }
 
   appendPoint(pointElem: Point, datasetElem: Point): void {
-    const Dataset = this.state.Dataset;
-    const Points = this.state.Points;
-    Dataset.push(datasetElem);
-    Points.push(pointElem);
-    this.setState({Dataset: Dataset, Points: Points});
+    const dataset = this.state.dataset;
+    const points = this.state.points;
+    dataset.push(datasetElem);
+    points.push(pointElem);
+    this.setState({dataset, points});
   }
 }
 

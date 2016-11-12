@@ -7,6 +7,7 @@ import d3 from 'd3';
 import {AnimatedFunction} from './AnimatedFunction';
 import {Axies} from './Axies'
 import {CostFunction} from './CostFunction';
+import {LinRegClient} from '../LinRegClient';
 
 export class GradientDescent {
   revXScale: any;
@@ -15,20 +16,22 @@ export class GradientDescent {
 	normY: any;
 	svg: any;
   animationSpeed: number;
-  Axies: Axies;
-  CostFunction: CostFunction;
-  AnimatedFunction: AnimatedFunction;
-  Dataset: Array<Point>;
-  Points: Array<Point>;
+  axies: Axies;
+  costFunction: CostFunction;
+  animatedFunction: AnimatedFunction;
   interval: any;
   appendPointCB: AppendPointCB;
-  CostCalculator: any;
+  costClient: LinRegClient;
   width: number;
   height: number;
   margin: number;
 
   constructor(
+    width: number,
+    height: number,
+    margin: number,
     appendPointCB: AppendPointCB,
+    costClient: LinRegClient,
   ) {
     this.revXScale = null;
   	this.revYScale = null;
@@ -36,41 +39,28 @@ export class GradientDescent {
   	this.normY = null;
   	this.svg = null;
     this.animationSpeed = 1;
-    this.Dataset = [];
-    this.Points = [];
     this.interval = null;
     this.appendPointCB = appendPointCB;
-    this.CostCalculator = null;
-    this.width = 0;
-    this.height = 0;
-    this.margin = 0;
-
-    this.Axies = new Axies();
-    this.CostFunction = new CostFunction();
-    this.AnimatedFunction = new AnimatedFunction();
-  }
-
-  init(
-    el: any,
-    Dataset: Array<Point>,
-    Points: Array<Point>,
-    CostCalculator: any,
-    width: number,
-    height: number,
-    margin: number) {
-    this.Dataset = Dataset;
-    this.Points = Points;
-    this.CostCalculator = CostCalculator;
+    this.costClient = costClient;
     this.width = width;
     this.height = height;
     this.margin = margin;
 
+    this.axies = new Axies(width, height, margin);
+    this.costFunction = new CostFunction(costClient, width, height, margin);
+    this.animatedFunction = new AnimatedFunction(costClient, width, height, margin);
     this.initScales();
-    this.Axies.init(width, height, margin);
+  }
+
+  render(
+    el: HTMLElement,
+    dataset: Array<Point>,
+    points: Array<Point>,
+  ): void {
     this.initSvg(el);
-    this.AnimatedFunction.init(width, height, margin);
-    this.CostFunction.init(el, this.AnimatedFunction, CostCalculator, width, height, margin);
-    this.drawAll();
+    this.costFunction.render(el, this.animatedFunction);
+    this.drawAll(points, dataset);
+    this.run(dataset)
   }
 
   initScales(): void {
@@ -91,7 +81,7 @@ export class GradientDescent {
       .range([1, 0]);
   }
 
-  initSvg(el: any): void {
+  initSvg(el: HTMLElement): void {
     const self = this;
     this.svg = d3.select(el).append("svg")
       .attr("width", this.width)
@@ -111,51 +101,48 @@ export class GradientDescent {
     });
   }
 
-  draw(svg: any): void {
+  draw(svg: any, _points: Array<Point>): void {
     const points = svg.selectAll("g.point")
-      .data(this.Points);
+      .data(_points);
 
     const g = points.enter()
       .append("g")
       .attr("class", "point");
 
     g.append("circle")
-      .attr("cx", (d) => { return this.Axies.xScale(d.x); })
-      .attr("cy", (d) => { return this.Axies.yScale(d.y); })
+      .attr("cx", (d) => { return this.axies.xScale(d.x); })
+      .attr("cy", (d) => { return this.axies.yScale(d.y); })
       .attr("r", 6);
 
     g.append("circle")
       .attr("class", "c")
-      .attr("cx", (d) => { return this.Axies.xScale(d.x); })
-      .attr("cy", (d) => { return this.Axies.yScale(d.y); })
+      .attr("cx", (d) => { return this.axies.xScale(d.x); })
+      .attr("cy", (d) => { return this.axies.yScale(d.y); })
       .attr("r", 1);
 
     points.exit().remove();
   }
 
-  async drawAll(): Promise<void> {
-    this.draw(this.svg);
+  drawAll(points: Array<Point>, dataset: Array<Point>): void {
+    this.draw(this.svg, points);
 
     this.svg.append("text")
       .attr("y", this.margin - 10)
       .attr("x", this.margin)
-      .text(this.CostCalculator.hypothesisFunctionLabel);
+      .text(this.costClient.hypothesisFunctionLabel);
 
-    this.AnimatedFunction.draw(this.svg);
-    this.Axies.draw(this.svg);
-    await this.CostFunction.draw(this.svg, this.Dataset);
+    this.animatedFunction.draw(this.svg);
+    this.axies.draw(this.svg);
+    this.costFunction.draw(this.svg, dataset);
 	}
 
-  run(): void {
-    let go = true;
+  run(dataset: Array<Point>): void {
   	this.interval = setInterval(() => {
-  		if(go && this.Dataset.length > 1) {
-  			for(let i = 0 ; i < 100 + (200 * this.animationSpeed) ; i++) {
-  				this.AnimatedFunction.iterateTheta(this.Dataset);
-  			}
-
-  			this.AnimatedFunction.draw(this.svg);
-  			this.CostFunction.animatePointer(this.Dataset, this.AnimatedFunction);
+  		if(dataset.length > 1) {
+  			this.animatedFunction.iterateTheta(dataset, this.animationSpeed).then(() => {
+    			this.animatedFunction.draw(this.svg);
+    			this.costFunction.animatePointer(dataset, this.animatedFunction);
+        });
   		}
   	}, 500);
   }
@@ -164,7 +151,7 @@ export class GradientDescent {
     if (this.interval) {
       clearInterval(this.interval);
     }
-    this.CostFunction.destroy();
+    this.costFunction.destroy();
     this.svg.remove();
   }
 }

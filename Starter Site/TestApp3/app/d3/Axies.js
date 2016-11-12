@@ -2,6 +2,8 @@
 
 import d3 from 'd3';
 
+/* axies for the left chart */
+
 export class Axies {
   xAxis: any;
   yAxis: any;
@@ -11,28 +13,19 @@ export class Axies {
   height: number;
   margin: number;
 
-  constructor() {
-    this.xAxis = null;
-    this.yAxis = null;
-
-    this.xScale = null;
-    this.yScale = null;
-
-    this.width = 0;
-    this.height = 0;
-    this.margin = 0;
-  }
-
-  init(width: number, height: number, margin: number) {
+  constructor(
+    width: number,
+    height: number,
+    margin: number,
+  ) {
     this.width = width;
     this.height = height;
     this.margin = margin;
-
     this.initScales();
     this.initAxis();
   }
 
-  initScales() {
+  initScales(): void {
     this.xScale = d3.scale.linear()
     .domain([0, this.width])
     .range([this.margin, this.width - this.margin]);
@@ -42,7 +35,7 @@ export class Axies {
     .range([this.margin, this.height - this.margin]);
   }
 
-  initAxis() {
+  initAxis(): void {
     this.xAxis = d3.svg.axis()
     .scale(this.xScale)
     .orient("bottom")
@@ -54,7 +47,7 @@ export class Axies {
     .tickSize(-this.width+this.margin*2);
   }
 
-  draw(svg: any) {
+  draw(svg: any): void {
     svg.append("g")
     .attr("class", "axis x")
     .attr("transform", "translate(0," + (this.height - this.margin) + ")")
