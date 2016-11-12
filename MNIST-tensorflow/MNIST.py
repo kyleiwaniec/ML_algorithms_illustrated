@@ -25,7 +25,7 @@ from __future__ import division
 from __future__ import print_function
 
 import argparse
-
+import numpy as np
 import tensorflow as tf
 
 from tensorflow.examples.tutorials.mnist import input_data
@@ -67,6 +67,8 @@ def train():
   def variable_summaries(var, name):
     """Attach a lot of summaries to a Tensor."""
     with tf.name_scope('summaries'):
+      tf.histogram_summary('raw'+name, var)
+      
       mean = tf.reduce_mean(var)
       tf.scalar_summary('mean/' + name, mean)
       with tf.name_scope('stddev'):
@@ -97,9 +99,9 @@ def train():
         tf.histogram_summary(layer_name + '/pre_activations', preactivate)
       activations = act(preactivate, name='activation')
       tf.histogram_summary(layer_name + '/activations', activations)
-      return activations
+      return (activations, weights)
 
-  hidden1 = nn_layer(x, 784, 500, 'layer1')
+  hidden1, weights = nn_layer(x, 784, 500, 'layer1')
 
   with tf.name_scope('dropout'):
     keep_prob = tf.placeholder(tf.float32)
@@ -107,7 +109,7 @@ def train():
     dropped = tf.nn.dropout(hidden1, keep_prob)
 
   # Do not apply softmax activation yet, see below.
-  y = nn_layer(dropped, 500, 10, 'layer2', act=tf.identity)
+  y, weights = nn_layer(dropped, 500, 10, 'layer2', act=tf.identity)
 
   with tf.name_scope('cross_entropy'):
     # The raw formulation of cross-entropy,
@@ -157,7 +159,10 @@ def train():
       k = 1.0
     return {x: xs, y_: ys, keep_prob: k}
 
+  _weights_ = []
   for i in range(FLAGS.max_steps):
+    _w_ = sess.run(weights,feed_dict=feed_dict(True))
+    _weights_.append(_w_)
     if i % 10 == 0:  # Record summaries and test-set accuracy
       summary, acc = sess.run([merged, accuracy], feed_dict=feed_dict(False))
       test_writer.add_summary(summary, i)
@@ -178,7 +183,7 @@ def train():
         train_writer.add_summary(summary, i)
   train_writer.close()
   test_writer.close()
-
+  print("weights", len(_weights_),len(_weights_[0][0]))
 
 def main(_):
   if tf.gfile.Exists(FLAGS.summaries_dir):
