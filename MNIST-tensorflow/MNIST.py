@@ -23,7 +23,7 @@ It demonstrates the functionality of every TensorBoard dashboard.
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
-
+import json
 import argparse
 import numpy as np
 import tensorflow as tf
@@ -149,6 +149,10 @@ def train():
   # Every 10th step, measure test-set accuracy, and write test summaries
   # All other steps, run train_step on training data, & add training summaries
 
+  _weights_ = []
+  _biases_ = []
+  _cross_entropy_ = []
+
   def feed_dict(train):
     """Make a TensorFlow feed_dict: maps data onto Tensor placeholders."""
     if train or FLAGS.fake_data:
@@ -159,9 +163,7 @@ def train():
       k = 1.0
     return {x: xs, y_: ys, keep_prob: k}
 
-  _weights_ = []
-  _biases_ = []
-  _cross_entropy_ = []
+
 
   for i in range(FLAGS.max_steps):
     _w_,_b_,_ce_ = sess.run([weights,biases,cross_entropy], feed_dict=feed_dict(True))
@@ -191,9 +193,28 @@ def train():
   train_writer.close()
   test_writer.close()
 
-  print("_weights_", len(_weights_),len(_weights_[0][0]))
-  print("_biases_", len(_biases_),len(_biases_[0][0]))
-  print("_cross_entropy_", len(_cross_entropy_),len(_cross_entropy_[0][0]))
+  # print(np.array(_weights_).shape)
+
+  with open('_weights_.txt', 'w') as file_:
+    for weight in _weights_:
+      for w in weight:
+        for i in w:
+          file_.write(str(i)+",")
+      file_.write("\n")  
+  
+  with open('_biases_.txt', 'w') as file_:
+    for bias in _biases_:
+      for b in bias:
+        file_.write(str(b)+",")
+      file_.write("\n") 
+
+  with open('_cross_entropy_.txt', 'w') as file_:
+    for c in _cross_entropy_:
+      file_.write(str(c)+"\n")    
+
+  # print("_weights_", len(_weights_),_weights_[0][0])
+  # print("_biases_", len(_biases_),_biases_[0])
+  # print("_cross_entropy_", len(_cross_entropy_),_cross_entropy_)
 
 def main(_):
   if tf.gfile.Exists(FLAGS.summaries_dir):
