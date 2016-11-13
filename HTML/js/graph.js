@@ -7,7 +7,7 @@ var width  = 425,
 if(window.location.host.indexOf('127.0.0.1') != -1){
             url = 'http://127.0.0.1:8887/';
         }else{
-            url = 'http://people.ischool.berkeley.edu/~kylehamilton/209/hw4/'
+            url = 'http://www.candpgeneration.com/209HTML/'
         }
 
 function draw(elem){
