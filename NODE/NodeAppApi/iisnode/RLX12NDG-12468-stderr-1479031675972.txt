@@ -1,0 +1,9 @@
+Application has thrown an uncaught exception and is terminated:
+Error: listen EADDRINUSE
+    at errnoException (net.js:770:11)
+    at Server._listen2 (net.js:910:14)
+    at listen (net.js:937:10)
+    at Server.listen (net.js:986:5)
+    at C:\Users\linya\Documents\GitHub\ML_algorithms_illustrated\HTML\routes\index.js:15:12
+    at fs.readFile (fs.js:176:14)
+    at Object.oncomplete (fs.js:297:15)

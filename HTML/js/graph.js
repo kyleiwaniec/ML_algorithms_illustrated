@@ -4,13 +4,16 @@ var width  = 425,
     height = 300,
     colors = d3.scale.category10();
 
-if(window.location.host.indexOf('127.0.0.1') != -1 
-   || window.location.host.indexOf('localhost') != -1
-   || window.location.host.indexOf('.net') != -1){
-            url = window.location.href.toString().split('/',3).join('/');
-        }else{
-            url = 'http://www.candpgeneration.com/209HTML'
-        }
+if (window.location.host.indexOf('127.0.0.1') != -1
+   || window.location.host.indexOf('localhost') != -1) {
+    url = window.location.href.toString().split('/', 3).join('/');
+}
+else if (window.location.host.indexOf('.net') != -1) {
+    url = 'http://machinelearningalgorithmsillustratedapi.azurewebsites.net';
+}
+else {
+    url = 'http://www.candpgeneration.com/209HTML'
+}
 
 function draw(elem){
 
