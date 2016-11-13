@@ -39,8 +39,5 @@ $(function(){
   }
 
 
-  function renderPage(data){
-
-  }
 
 });

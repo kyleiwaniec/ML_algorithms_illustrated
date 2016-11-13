@@ -1,6 +1,7 @@
 [{
 	"layer":0,
 	"node":1,
+	"values":"x_i",
 	"edges":[
 			{
 			"layer":1,
@@ -12,6 +13,7 @@
 	{
 	"layer":0,
 	"node":2,
+	"values":"x",
 	"edges":[
 			{
 			"layer":1,
@@ -23,6 +25,7 @@
 	{
 	"layer":1,
 	"node":1,
+	"values":"n",
 	"edges":[]
 	}
 ]

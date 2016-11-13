@@ -99,9 +99,9 @@ def train():
         tf.histogram_summary(layer_name + '/pre_activations', preactivate)
       activations = act(preactivate, name='activation')
       tf.histogram_summary(layer_name + '/activations', activations)
-      return (activations, weights)
+      return (activations, weights, biases)
 
-  hidden1, weights = nn_layer(x, 784, 500, 'layer1')
+  hidden1, weights, biases = nn_layer(x, 784, 500, 'layer1')
 
   with tf.name_scope('dropout'):
     keep_prob = tf.placeholder(tf.float32)
@@ -109,7 +109,7 @@ def train():
     dropped = tf.nn.dropout(hidden1, keep_prob)
 
   # Do not apply softmax activation yet, see below.
-  y, weights = nn_layer(dropped, 500, 10, 'layer2', act=tf.identity)
+  y, weights, biases = nn_layer(dropped, 500, 10, 'layer2', act=tf.identity)
 
   with tf.name_scope('cross_entropy'):
     # The raw formulation of cross-entropy,
@@ -160,9 +160,16 @@ def train():
     return {x: xs, y_: ys, keep_prob: k}
 
   _weights_ = []
+  _biases_ = []
+  _cross_entropy_ = []
+
   for i in range(FLAGS.max_steps):
-    _w_ = sess.run(weights,feed_dict=feed_dict(True))
+    _w_,_b_,_ce_ = sess.run([weights,biases,cross_entropy], feed_dict=feed_dict(True))
     _weights_.append(_w_)
+    _biases_.append(_b_)
+    _cross_entropy_.append(_ce_)
+
+
     if i % 10 == 0:  # Record summaries and test-set accuracy
       summary, acc = sess.run([merged, accuracy], feed_dict=feed_dict(False))
       test_writer.add_summary(summary, i)
@@ -183,7 +190,10 @@ def train():
         train_writer.add_summary(summary, i)
   train_writer.close()
   test_writer.close()
-  print("weights", len(_weights_),len(_weights_[0][0]))
+
+  print("_weights_", len(_weights_),len(_weights_[0][0]))
+  print("_biases_", len(_biases_),len(_biases_[0][0]))
+  print("_cross_entropy_", len(_cross_entropy_),len(_cross_entropy_[0][0]))
 
 def main(_):
   if tf.gfile.Exists(FLAGS.summaries_dir):
