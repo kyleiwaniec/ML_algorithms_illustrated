@@ -6,11 +6,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {GradientDescent} from './d3/GradientDescent';
 import {LinRegClient} from '../linreg/LinRegClient';
+import {LinRegStore} from '../linreg/LinRegStore';
+
 
 type Props = {
   costClient: LinRegClient,
   width: number,
   height: number,
+  store: LinRegStore,
 };
 
 type State = {
@@ -31,14 +34,10 @@ export default class Chart extends React.Component {
     (this: any).handleRemove = this.handleRemove.bind(this);
     (this: any).handleNewPoint = this.handleNewPoint.bind(this);
 
-    const dataset = [
-      {x: 0.5, y: 0.5},
-      {x: 0.4, y: 0.2},
-      {x: 0.6, y: 0.9},
-    ];
     this.state = {
-      dataset,
-    };
+      dataset: this.props.store.getDataset(),
+    }
+
     this.gradientDescent = new GradientDescent(
       this.props.width,
       this.props.height,
@@ -54,10 +53,18 @@ export default class Chart extends React.Component {
     this.gradientDescent.destroy();
   }
 
+  getDataset(): Array<Point> {
+    return this.state.dataset;
+  }
+
+  setDataset(dataset: Array<Point>): void {
+    this.props.store.setDataset(dataset);
+  }
+
   _initGradient(): void {
     this.gradientDescent.render(
       ReactDOM.findDOMNode(this),
-      this.state.dataset,
+      this.getDataset(),
     );
   }
 
@@ -65,7 +72,7 @@ export default class Chart extends React.Component {
     this.gradientDescent.destroy();
     this.gradientDescent.render(
       ReactDOM.findDOMNode(this),
-      this.state.dataset,
+      this.getDataset(),
     );
   }
 
@@ -123,30 +130,34 @@ export default class Chart extends React.Component {
   }
 
   renderPoints(): Array<React.Element<any>> {
-    return this.state.dataset.map((pt, idx) => this.renderPointForIndex(pt, idx));
+    return this.getDataset().map((pt, idx) => this.renderPointForIndex(pt, idx));
   }
 
   handleChangeX(x: number, idx: number): void {
-    const dataset = this.state.dataset;
+    const dataset = this.getDataset();
     dataset[idx].x = x;
+    this.setDataset(dataset);
     this.setState({dataset});
   }
 
   handleChangeY(y: number, idx: number): void {
-    const dataset = this.state.dataset;
+    const dataset = this.getDataset();
     dataset[idx].y = y;
+    this.setDataset(dataset);
     this.setState({dataset});
   }
 
   handleRemove(idx: number): void {
-    const dataset = this.state.dataset;
+    const dataset = this.getDataset();
     dataset.splice(idx, 1);
+    this.setDataset(dataset);
     this.setState({dataset}, () => this._rerenderGradient());
   }
 
   handleNewPoint(): void {
-    const dataset = this.state.dataset;
+    const dataset = this.getDataset();
     dataset.push({x: 0, y: 0});
+    this.setDataset(dataset);
     this.setState({dataset}, () => this._rerenderGradient());
   }
 }

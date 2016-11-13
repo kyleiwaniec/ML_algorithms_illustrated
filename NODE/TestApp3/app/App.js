@@ -5,6 +5,9 @@ import Chart from './linreg/Chart';
 import Chart2 from './linreg2/Chart';
 import {LinRegClient} from './linreg/LinRegClient';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import {LinRegStore} from './linreg/LinRegStore';
+
+const linregStore = new LinRegStore();
 
 export default class App extends React.Component {
   render() {
@@ -31,6 +34,7 @@ export default class App extends React.Component {
         <TabPanel>
           <div>
             <Chart2
+              store={linregStore}
               costClient={new LinRegClient()}
               width={600}
               height={600}
