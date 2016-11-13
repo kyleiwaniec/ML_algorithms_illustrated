@@ -1,0 +1,4 @@
+Express server listening on port \\.\pipe\e120cc2d-9915-4771-84e2-2700f779f1b0
+[90mGET / [33m404 [90m0ms[0m
+[90mGET /data/lr-data.json [32m200 [90m0ms[0m
+[90mGET / [33m404 [90m0ms[0m

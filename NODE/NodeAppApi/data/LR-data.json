@@ -1,0 +1,28 @@
+[{
+	"layer":0,
+	"node":1,
+	"edges":[
+			{
+			"layer":1,
+			"dest":1,
+			"source":1
+			}
+		]
+	},
+	{
+	"layer":0,
+	"node":2,
+	"edges":[
+			{
+			"layer":1,
+			"dest":1,
+			"source":2
+			}
+		]
+	},
+	{
+	"layer":1,
+	"node":1,
+	"edges":[]
+	}
+]
