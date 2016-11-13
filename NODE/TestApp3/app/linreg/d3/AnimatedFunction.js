@@ -1,6 +1,6 @@
 /* @flow */
 
-import type {Point} from '../../shared/types';
+import type {Point} from '../../../shared/types';
 
 import d3 from 'd3';
 import {LinRegClient} from '../LinRegClient';

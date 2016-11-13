@@ -1,6 +1,6 @@
 /* @flow */
 
-import type {Point} from '../shared/types.js';
+import type {Point} from '../../shared/types.js';
 
 import React from 'react';
 import ReactDOM from 'react-dom';

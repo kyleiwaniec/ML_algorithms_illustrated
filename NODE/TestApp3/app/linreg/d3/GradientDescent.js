@@ -1,7 +1,7 @@
 /* @flow */
 
 import type {AppendPointCB} from '../Chart';
-import type {Point} from '../../shared/types';
+import type {Point} from '../../../shared/types';
 
 import d3 from 'd3';
 import {AnimatedFunction} from './AnimatedFunction';

@@ -1,8 +1,8 @@
 /* @flow */
 
-import type {Point, LinRegPoint} from '../shared/types';
+import type {Point, LinRegPoint} from '../../shared/types';
 
-import {Client} from './remote/Client';
+import {Client} from '../remote/Client';
 
 export class LinRegClient extends Client {
   hypothesisFunctionLabel: string = 'Hypothesis Function: Ho(x)=theta0 + theta1 * x';

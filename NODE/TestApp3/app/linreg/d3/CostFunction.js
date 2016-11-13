@@ -1,6 +1,6 @@
 /* @flow */
 
-import type {Point, LinRegPoint} from '../../shared/types';
+import type {Point, LinRegPoint} from '../../../shared/types';
 
 import d3 from 'd3';
 import {AnimatedFunction} from './AnimatedFunction';
