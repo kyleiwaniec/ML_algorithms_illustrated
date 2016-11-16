@@ -31,7 +31,7 @@ export function registerRoutes(): void {
   );
 
   stream(
-    '/mnist/run',
+    '/mnist/stream',
     (req: Request, see: SEE) => new MnistController(req, see).run(),
   );
 

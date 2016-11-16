@@ -7,6 +7,7 @@ import {LinRegClient} from './linreg/LinRegClient';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import {LinRegStore} from './linreg/LinRegStore';
 import {TestStream} from './stream/TestStream';
+import {Mnist} from './stream/Mnist';
 
 const linregStore = new LinRegStore();
 
@@ -23,6 +24,9 @@ export default class App extends React.Component {
           </Tab>
           <Tab>
             Stream test
+          </Tab>
+          <Tab>
+            Mnist stream
           </Tab>
         </TabList>
         <TabPanel>
@@ -48,6 +52,11 @@ export default class App extends React.Component {
         <TabPanel>
           <div>
             <TestStream />
+          </div>
+        </TabPanel>
+        <TabPanel>
+          <div>
+            <Mnist />
           </div>
         </TabPanel>
       </Tabs>
