@@ -2,9 +2,12 @@
 
 import type {Request} from './lib/Controller.js'
 
-import {get, post} from './lib/routesInternal.js';
+import {get, post, stream} from './lib/routesInternal.js';
 import {SecondsController} from './utils/SecondsController';
+import {SecondsStreamController} from './utils/SecondsStreamController';
 import {LinRegController} from './linreg/LinRegController';
+import {MnistController} from './mnist/MnistController';
+import SEE from 'express-sse';
 
 export function registerRoutes(): void {
   get(
@@ -25,5 +28,15 @@ export function registerRoutes(): void {
   post(
     '/linreg/batchcost',
     (req: Request) => new LinRegController(req).getBatchCost(),
+  );
+
+  stream(
+    '/mnist/run',
+    (req: Request, see: SEE) => new MnistController(req, see).run(),
+  );
+
+  stream(
+    '/seconds/stream',
+    (req: Request, see: SEE) => new SecondsStreamController(req, see).run(),
   );
 }

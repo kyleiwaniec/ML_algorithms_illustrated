@@ -1,0 +1,32 @@
+/* @flow */
+
+import {StreamController} from '../lib/StreamController';
+import brain from 'brain';
+import fs from 'fs';
+import mnist from 'mnist';
+
+export class MnistController extends StreamController {
+  run() {
+    const net = new brain.NeuralNetwork({
+      hiddenLayers: [10],
+    });
+    const set = mnist.set(2000, 0);
+    const trainingSet = set.training;
+    //const testSet = set.test;
+
+    net.train(trainingSet,
+      {
+        errorThresh: 0.05,  // error threshold to reach
+        iterations: 200,   // maximum training iterations
+        log: true,           // console.log() progress periodically
+        logPeriod: 1,       // number of iterations between logging
+        learningRate: 0.3    // learning rate
+      }
+    );
+    this._see.send('this is something');
+//    const wstream = fs.createWriteStream('./data/mnistTrain.json');
+//    wstream.write(JSON.stringify(net.toJSON(),null,2));
+//    wstream.end();
+    console.log('MNIST dataset with Brain.js train done.')
+  }
+}

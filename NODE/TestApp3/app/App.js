@@ -6,19 +6,23 @@ import Chart2 from './linreg2/Chart';
 import {LinRegClient} from './linreg/LinRegClient';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import {LinRegStore} from './linreg/LinRegStore';
+import {TestStream} from './stream/TestStream';
 
 const linregStore = new LinRegStore();
 
 export default class App extends React.Component {
   render() {
     return (
-      <Tabs selectedIndex={1}>
+      <Tabs selectedIndex={0}>
         <TabList>
           <Tab>
             Linear regression
           </Tab>
           <Tab>
             Simple linear regression
+          </Tab>
+          <Tab>
+            Stream test
           </Tab>
         </TabList>
         <TabPanel>
@@ -39,6 +43,11 @@ export default class App extends React.Component {
               width={600}
               height={600}
             />
+          </div>
+        </TabPanel>
+        <TabPanel>
+          <div>
+            <TestStream />
           </div>
         </TabPanel>
       </Tabs>

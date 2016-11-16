@@ -29,7 +29,9 @@
     "babel-polyfill": "^6.0.16",
     "babel-core": "^6.0.20",
     "body-parser": "^1.15.2",
-    "brain": "^0.7.0"
+    "brain": "^0.7.0",
+    "mnist": "git+https://github.com/ApelSYN/mnist.git",
+    "express-sse": "^0.4.1"
   },
   "devDependencies": {
     "autoprefixer": "^6.0.3",
