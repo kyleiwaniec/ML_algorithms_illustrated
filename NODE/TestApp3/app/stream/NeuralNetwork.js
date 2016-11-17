@@ -4,7 +4,7 @@ export class NeuralNetwork {
   weights: Array<Array<Array<number>>>;
 
   constructor(nn: Object) {
-    this.weights = nn.layers.map(layer => {
+    this.weights = nn.layers.filter((x, i) => i > 0).map(layer => {
       const nodes = Object.keys(layer).length;
       const weightMatrix = [];
       for (let i = 0; i < nodes; i++) {
@@ -20,6 +20,7 @@ export class NeuralNetwork {
       }
       return weightMatrix;
     });
+
   }
 
   getWeigthsForLayer(idx: number): Array<Array<number>> {
