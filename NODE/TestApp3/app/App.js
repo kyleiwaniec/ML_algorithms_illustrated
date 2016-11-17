@@ -14,7 +14,7 @@ const linregStore = new LinRegStore();
 export default class App extends React.Component {
   render() {
     return (
-      <Tabs selectedIndex={0}>
+      <Tabs selectedIndex={3}>
         <TabList>
           <Tab>
             Linear regression

@@ -31,7 +31,8 @@
     "body-parser": "^1.15.2",
     "brain": "^0.7.0",
     "mnist": "git+https://github.com/ApelSYN/mnist.git",
-    "express-sse": "^0.4.1"
+    "express-sse": "^0.4.1",
+    "react-tooltip": "^3.2.1"
   },
   "devDependencies": {
     "autoprefixer": "^6.0.3",
