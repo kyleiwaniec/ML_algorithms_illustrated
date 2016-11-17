@@ -1,7 +1,7 @@
 /* @flow */
 
 import {StreamController} from '../lib/StreamController';
-import brain from 'brain';
+import brain from '../../brain/lib/neuralnetwork';
 import fs from 'fs';
 import mnist from 'mnist';
 
@@ -30,9 +30,5 @@ export class MnistController extends StreamController {
       }
     );
     this._see.send('done');
-//    const wstream = fs.createWriteStream('./data/mnistTrain.json');
-//    wstream.write(JSON.stringify(net.toJSON(),null,2));
-//    wstream.end();
-//    console.log('MNIST dataset with Brain.js train done.')
   }
 }
