@@ -25,15 +25,24 @@
 <script src="https://code.jquery.com/jquery-2.1.1.js"></script>
 <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="bower_components/bootstrap/js/tab.js"></script>
-<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+
 <script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    tex2jax: {inlineMath: [["$", "$"], ["\\(", "\\)"]]}
-  });
+MathJax.Hub.Config({
+ "HTML-CSS": {availableFonts: ["TeX"]},
+ tex2jax: {inlineMath: [["$", "$"], ["\\(", "\\)"]]}
+});
 </script>
-<script src="//d3js.org/d3.v3.min.js"></script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+
+
+
+
+<script src="https://d3js.org/d3.v4.0.0-alpha.44.min.js"></script>
 <script src="js/utils.js"></script>
 <script src="js/graph.js"></script>
+<script src="js/simple-scatter.js"></script>
 <script src="js/script.js"></script>
 
 

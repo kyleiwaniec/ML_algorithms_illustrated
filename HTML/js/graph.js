@@ -1,8 +1,7 @@
 
 
 var width  = 425,
-    height = 300,
-    colors = d3.scale.category10();
+    height = 300
 
 if (window.location.host.indexOf('127.0.0.1') != -1
    || window.location.host.indexOf('localhost') != -1) {
@@ -104,19 +103,19 @@ function draw(elem){
 	        	return d.values ? "$"+d.values+"$" : "$x$"
 	        })
 			.attr("x", function(d) {
-			   return (d.layer * (node_W + padding_H)) - node_W/2;
+			   return (d.layer * (node_W + padding_H)) - node_W/2 + 55;
 			})
 			.attr("y", function(d) { 
-				return (d.node * (node_H + padding_V) + offset(layer_dims[d.layer]))  - node_H/2; 
+				return (d.node * (node_H + padding_V) + offset(layer_dims[d.layer]))  - node_H/2 +10; 
 			})
 
 			
-			// HIDEOUS DOM RENDER HACK TO MAKE THE MATHJAX RENDER
-			$('body').css("border", "solid 1px transparent");
-			    setTimeout(function(){
-			        $('body').css("border", "solid 0px transparent");
-			        $('.d3_graph .mjx-chtml.MathJax_CHTML').css({'left':'55px','top':'10px'})
-			    }, 1000);
+			// // HIDEOUS DOM RENDER HACK TO MAKE THE MATHJAX RENDER
+			// $('body').css("border", "solid 1px transparent");
+			//     setTimeout(function(){
+			//         $('body').css("border", "solid 0px transparent");
+			//         // $('.d3_graph .mjx-chtml.MathJax_CHTML').css({'left':'55px','top':'10px'})
+			//     }, 1000);
 
 	}
 

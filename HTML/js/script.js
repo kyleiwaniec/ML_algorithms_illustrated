@@ -26,6 +26,7 @@ $(function(){
         dataType : 'text',
         success: function( response ) {
           $('#content').html(response);
+          scatter('Scatter');
           draw('LR');
           draw('NN');
         },

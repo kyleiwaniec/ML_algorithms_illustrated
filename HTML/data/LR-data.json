@@ -1,7 +1,7 @@
 [{
 	"layer":0,
 	"node":1,
-	"values":"x_i",
+	"values":"x_{i1}^{n}",
 	"edges":[
 			{
 			"layer":1,
@@ -13,7 +13,7 @@
 	{
 	"layer":0,
 	"node":2,
-	"values":"x",
+	"values":"x_{i2}^{n}",
 	"edges":[
 			{
 			"layer":1,
@@ -25,7 +25,17 @@
 	{
 	"layer":1,
 	"node":1,
-	"values":"n",
+	"values":"x_{j1}^{n}",
+	"edges":[{
+			"layer":2,
+			"dest":1,
+			"source":1
+			}]
+	},
+	{
+	"layer":2,
+	"node":1,
+	"values":"\\hat{y}^{n}",
 	"edges":[]
 	}
 ]

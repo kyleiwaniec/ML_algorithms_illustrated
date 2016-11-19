@@ -1,8 +1,28 @@
+@font-face {
+  font-family: 'MJX_Math';
+  src: url('http://cdn.mathjax.org/mathjax/latest/fonts/HTML-CSS/TeX/eot/MathJax_Math-Italic.eot'); /* IE9 Compat Modes */
+  src: url('http://cdn.mathjax.org/mathjax/latest/fonts/HTML-CSS/TeX/eot/MathJax_Math-Italic.eot?iefix') format('eot'),
+       url('http://cdn.mathjax.org/mathjax/latest/fonts/HTML-CSS/TeX/woff/MathJax_Math-Italic.woff')  format('woff'),
+       url('http://cdn.mathjax.org/mathjax/latest/fonts/HTML-CSS/TeX/otf/MathJax_Math-Italic.otf')  format('opentype'),
+       url('http://cdn.mathjax.org/mathjax/latest/fonts/HTML-CSS/TeX/svg/MathJax_Math-Italic.svg#MathJax_Math-Italic') format('svg');
+}
+@font-face {
+  font-family: 'MJX_Main';
+  src: url('http://cdn.mathjax.org/mathjax/latest/fonts/HTML-CSS/TeX/eot/MathJax_Main-Regular.eot'); /* IE9 Compat Modes */
+  src: url('http://cdn.mathjax.org/mathjax/latest/fonts/HTML-CSS/TeX/eot/MathJax_Main-Regular.eot?iefix') format('eot'),
+       url('http://cdn.mathjax.org/mathjax/latest/fonts/HTML-CSS/TeX/woff/MathJax_Main-Regular.woff')  format('woff'),
+       url('http://cdn.mathjax.org/mathjax/latest/fonts/HTML-CSS/TeX/otf/MathJax_Main-Regular.otf')  format('opentype'),
+       url('http://cdn.mathjax.org/mathjax/latest/fonts/HTML-CSS/TeX/svg/MathJax_Main-Regular.svg#MathJax_Main-Regular') format('svg');
+}
+
+
 body,html{
 	margin:10px;
 	height:100%;
 }
-
+h4{
+	margin-top: 30px;
+}
 main{
 	max-width: 1280px;
 	margin:0 auto;
@@ -19,6 +39,42 @@ main{
 .home{
 	width: 70%;
 	margin:50px auto;
+}
+#tooltip{
+	position:absolute;
+	text-align: center;
+	width: 75px;
+    height: 75px;
+    padding: 4px;
+	border-radius: 3px;
+	background: #fff;
+	border:1px solid #e0e0e0;
+	box-shadow: 0 0 3px 0px rgba(0,0,0,.1);
+}
+#tooltip.hidden {
+    display: none;
+}
+#tooltip:after{
+	content:"";
+	position: absolute;
+	width: 0; 
+	height: 0; 
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
+	border-top: 10px solid #fff;
+	bottom:-10px;
+	left:25px;
+}
+#tooltip:before{
+	content:"";
+	position: absolute;
+	width: 0; 
+	height: 0; 
+	border-left: 11px solid transparent;
+	border-right: 11px solid transparent;
+	border-top: 11px solid #ccc;
+	bottom:-11px;
+	left:24px;
 }
 footer{
 	margin-top: 50px;
@@ -38,3 +94,36 @@ hr{border-top: 1px solid #ddd;}
 	border-radius: 100%;
 	background-color: #eee;
 }
+.subhead{
+	font-size: 80%;
+    font-style: oblique;
+
+}
+.section-label{
+	font-family: MJX_Math;
+	font-size: 110%;
+	margin-top: 20px;
+	border-bottom: 1px solid #ccc;
+}
+.sections-summary{
+	font-family: MJX_Math;
+	font-size: 100%;
+	margin-top: 20px;
+}
+
+
+.tick line, .tick path, .domain{
+	stroke:#ccc;
+}
+.tick text{
+	fill:#ccc;
+}
+.data-point-0{
+	fill: #fff;
+    stroke: #666;
+} 
+.data-point-1{
+	fill: #666;
+    stroke: #666;
+} 
+

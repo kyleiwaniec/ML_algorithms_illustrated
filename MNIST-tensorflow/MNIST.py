@@ -193,13 +193,25 @@ def train():
   train_writer.close()
   test_writer.close()
 
-  # print(np.array(_weights_).shape)
+  print(np.array(_weights_).shape)
+  # import pickle
+  # import json
+  # import StringIO
+  # a = _weights_
+  # memfile = StringIO.StringIO()
+  # np.save(memfile, a)
+  # memfile.seek(0)
+  # serialized = json.dumps(a)
+  # serialized = pickle.dumps(a, protocol=0) # protocol 0 is printable ASCII
+  # deserialized_a = pickle.loads(serialized)
+
+
 
   with open('_weights_.txt', 'w') as file_:
     for weight in _weights_:
       for w in weight:
         for i in w:
-          file_.write(str(i)+",")
+          file_.write(str(i*10000000)+",")
       file_.write("\n")  
   
   with open('_biases_.txt', 'w') as file_:

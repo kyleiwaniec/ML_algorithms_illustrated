@@ -16,15 +16,54 @@
 
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-sm-12"><h3>A Single Layer Neural Network is just Logistic Regression.</h3></div>
-			<div class="col-sm-4 d3_graph" id="LR">[LR graphic]</div>
-			<div class="col-sm-4">[functions]</div>
-			<div class="col-sm-4">[math]</div>
+			<div class="col-sm-12"><h3>A Neural Network without any hidden layers is just Logistic Regression.</h3></div>
+			<div class="col-sm-3" id="Scatter">
+				<div id="tooltip" class="hidden">
+			        <span id="x1"></span><br>
+			        <span id="x2"></span><br>
+			        <span id="y"></span>
+				</div>
+				<div class="section-label">Data</div>
+				<!-- <img src="img/data-LR-chart.png"\> -->
+			</div>
+			<div class="col-sm-3 d3_graph" id="LR">
+				<div class="section-label">Model</div>
+				<div class="sections-summary">
+					Input  layer  :  i<br>
+					Output  layer  :  j
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="section-label">Functions</div>
+				<h3>Forward Pass</h3>
+				<h4>Sum of Affine Transformations</h4>
+				<p>
+					\(x_{j1}^{n} = \sum_{k=1}^{k}(w_{ik}^{n}x_{ik}^{n}+b_{i}^{n})\) <br>
+					<em>where \(k\) is the number of nodes in layer \(i\)<br>
+						and \(n\) is the number of data points
+					</em>
+				</p>
+				<h4>Activation Function<br>
+					<span class="subhead">Also known as "non-linearity", or "transformation function"</span>
+				</h4>
+				<p>
+					\(\hat{y}^{n}  = \sigma(x_{j1}^{n})\) where \(\sigma(z) = \frac{1}{1+e^{-z}}\)
+				</p>
+			</div>
+			<div class="col-sm-3">
+				<div class="section-label">Math</div>
+			</div>
 		</div>
 		<div class="row">
 			<div class="col-sm-12"><h3>A Simple Feedforward Neural Network with 1 hidden layer</h3></div>
 			<div class="col-sm-4 d3_graph" id="NN">[network graphic]</div>
-			<div class="col-sm-4">[functions]</div>
+			<div class="col-sm-4">
+				<h3>Forward Pass</h3>
+				<p>
+					\(x_2 + x_1 + c = 0\)
+				</p>
+
+			</div>
 			<div class="col-sm-4">[math]</div>
 		</div>
 	</div>
