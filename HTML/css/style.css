@@ -43,7 +43,7 @@ main{
 #tooltip{
 	position:absolute;
 	text-align: center;
-	width: 75px;
+	width: 125px;
     height: 75px;
     padding: 4px;
 	border-radius: 3px;
@@ -63,7 +63,7 @@ main{
 	border-right: 10px solid transparent;
 	border-top: 10px solid #fff;
 	bottom:-10px;
-	left:25px;
+	left:55px;
 }
 #tooltip:before{
 	content:"";
@@ -74,7 +74,7 @@ main{
 	border-right: 11px solid transparent;
 	border-top: 11px solid #ccc;
 	bottom:-11px;
-	left:24px;
+	left:54px;
 }
 footer{
 	margin-top: 50px;
@@ -110,13 +110,18 @@ hr{border-top: 1px solid #ddd;}
 	font-size: 100%;
 	margin-top: 20px;
 }
-
+.math-font{
+	font-family: MJX_Math;
+}
 
 .tick line, .tick path, .domain{
 	stroke:#ccc;
 }
+.domain{
+	stroke:#fff;
+}
 .tick text{
-	fill:#ccc;
+	fill:#666;
 }
 .data-point-0{
 	fill: #fff;
