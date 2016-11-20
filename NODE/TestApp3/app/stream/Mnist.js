@@ -83,7 +83,7 @@ export class Mnist extends React.Component {
                 type="button"
                 className="btn btn-secondary"
                 onClick={() => this.closeStream()}>
-                Stop
+                Close stream
               </button>
             </div>
           </div>

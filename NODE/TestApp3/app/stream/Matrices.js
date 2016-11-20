@@ -16,6 +16,7 @@ type State = {
   finished: boolean,
   stream: ?MnistStream,
   currentIteration: number,
+  paused: boolean,
 };
 
 export class Matrices extends React.Component {
@@ -31,6 +32,7 @@ export class Matrices extends React.Component {
       finished: false,
       stream: this.props.stream,
       currentIteration: -1,
+      paused: false,
     };
     this.setUpStream(this.state.stream);
     this.isRendering = false;
@@ -38,7 +40,7 @@ export class Matrices extends React.Component {
 
   componentDidMount(): void {
     setInterval(() => {
-      if (!this.isRendering) {
+      if (!this.isRendering && !this.state.paused) {
         const nextIteration = this.state.currentIteration + 1;
         if (nextIteration < this.state.iterations.length) {
           this.setState({currentIteration: nextIteration});
@@ -54,8 +56,8 @@ export class Matrices extends React.Component {
     }
   }
 
-  shouldComponentUpdate(): boolean {
-    if (this.isRendering) {
+  shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
+    if (this.isRendering && nextState.paused == this.state.paused) {
       return false;
     }
     this.isRendering = true;
@@ -74,6 +76,7 @@ export class Matrices extends React.Component {
         iterations: [],
         finished: false,
         currentIteration: -1,
+        paused: false,
       });
     }
   }
@@ -116,21 +119,27 @@ export class Matrices extends React.Component {
       <div className="row">
         <div className="col-lg-4">
           <div className="btn-group btn-group-sm">
+            <span type="text" className="btn btn-secondary">
+              Iteration {this.state.currentIteration + 1}
+            </span>
             <button
               className="btn btn-secondary" type="button"
               onClick={() => this.onChangeIteration(-1)}
               >
-              ◀
+              ⏪
             </button>
-            <span type="text" className="btn btn-secondary">
-              Iteration {this.state.currentIteration + 1}
-            </span>
+            <button
+              className="btn btn-secondary" type="button"
+              onClick={() => this.setState({paused: !this.state.paused})}
+              >
+              {!this.state.paused? '⏸' : '▶️'}
+            </button>
             <button
               className="btn btn-secondary"
               type="button"
               onClick={() => this.onChangeIteration(1)}
               >
-              ▶
+              ⏩
               </button>
           </div>
         </div>
