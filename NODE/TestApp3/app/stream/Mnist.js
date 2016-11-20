@@ -30,7 +30,7 @@ export class Mnist extends React.Component {
   constructor(props: any) {
     super(props);
     this.state = {
-      nodes: '5',
+      nodes: '',
       iterations: [],
       status: STATUS.none,
       stream: null,
@@ -67,6 +67,7 @@ export class Mnist extends React.Component {
                 type="text"
                 className="form-control"
                 value={this.state.nodes}
+                placeholder={'Nodes per layer, e.g. 5 2'}
                 onChange={event => this.setState({nodes: event.target.value})}
               />
             </div>
@@ -77,7 +78,7 @@ export class Mnist extends React.Component {
                 type="button"
                 className="btn btn-secondary"
                 onClick={this.handleRun}>
-                Run
+                Start stream
               </button>
               <button
                 type="button"
