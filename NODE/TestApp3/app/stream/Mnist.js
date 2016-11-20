@@ -49,8 +49,12 @@ export class Mnist extends React.Component {
   }
 
   handleRun(): void {
+    if (this.state.nodes.length === 0) {
+      return;
+    }
     this.closeStream();
     const stream = new MnistStream(this.state.nodes);
+    stream.onFinished(() => this.closeStream());
     this.setState(
       {iterations: [], status: STATUS.running, stream},
       () => stream.run(),

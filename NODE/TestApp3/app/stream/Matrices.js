@@ -104,7 +104,7 @@ export class Matrices extends React.Component {
             {
               this.state.iterations[this.state.currentIteration].nn.weights.map((weightMatrix, i) => (
                 <div style={{marginRight: '20px'}} key={i}>
-                  <Matrix weightMatrix={weightMatrix} />
+                  <Matrix weightMatrix={weightMatrix} layerIndex={i} />
                 </div>
               ))
             }

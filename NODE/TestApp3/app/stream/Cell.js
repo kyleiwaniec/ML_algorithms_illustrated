@@ -4,6 +4,8 @@ import ReactDOM from 'react-dom';
 type Props = {
   color: string,
   value: number,
+  fromNode: number,
+  toNode: number,
 };
 
 type State = {
@@ -49,6 +51,10 @@ export class Cell extends React.Component {
             zIndex: '1',
           }}
         >
+          From node {this.props.fromNode}
+          <br />
+          To node {this.props.toNode}
+          <br />
           {this.props.value}
         </span>
       </div>
