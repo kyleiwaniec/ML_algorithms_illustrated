@@ -126,23 +126,43 @@
 				<div class="section-label">Math</div>
 			</div>
 		</div>
-		<hr>
-		<div class="row">	
-			
 
-			
-		</div>
+		<div class="row">
+			<div class="col-sm-12 play-bar">
+				<span class="back"><i class="material-icons">fast_rewind</i></span>
+				<span class="back"><i class="material-icons">skip_previous</i></span>
+				<span class="play"><i class="material-icons">play_arrow</i></span>
+				<span class="back"><i class="material-icons">skip_next</i></span>
+				<span class="forward"><i class="material-icons">fast_forward</i></span>
+			</div>
+		</div>	
+
 		<div class="row">
 			<div class="col-sm-12"><h3>A Simple Feedforward Neural Network with 1 hidden layer</h3></div>
-			<div class="col-sm-4 d3_graph" id="NN">[network graphic]</div>
-			<div class="col-sm-4">
-				<h3>Forward Pass</h3>
-				<p>
-					\(x_2 + x_1 + c = 0\)
-				</p>
-
+			<div class="col-sm-3" id="Scatter">
+				<div id="tooltip" class="hidden">
+			        <span id="x1"></span><br>
+			        <span id="x2"></span><br>
+			        <span id="y"></span>
+				</div>
+				<div class="section-label">Data</div>
+				<!-- <img src="img/data-LR-chart.png"\> -->
 			</div>
-			<div class="col-sm-4">[math]</div>
+			<div class="col-sm-3 d3_graph" id="NN">
+				<div class="section-label">Model</div>
+				<div class="sections-summary">
+					Input  layer  :  i<br>
+					Hidden layer : j<br>
+					Output  layer  :  k
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="section-label">Loss</div>
+				<div class="section-label">Gradient descent</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="section-label">Math</div>
+			</div>
 		</div>
 	</div>
 
