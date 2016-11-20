@@ -47,8 +47,11 @@ $(function(){
           $('#content').html(response);
           scatter('ScatterLR',scatterLR);
           scatter('ScatterNN',scatterNN);
-          draw('LR');
-          draw('NN');
+          draw('LR',[2,1]);
+          draw('NN',[2,3,1]);
+          setTimeout(function(){
+              MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+            }, 1);
         },
         error: function( error ) {
           console.log('Error loading page', error);

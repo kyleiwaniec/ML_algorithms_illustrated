@@ -23,6 +23,18 @@
 		]
 	},
 	{
+	"layer":0,
+	"node":3,
+	"values":"b",
+	"edges":[
+			{
+			"layer":1,
+			"dest":1,
+			"source":3
+			}
+		]
+	},
+	{
 	"layer":1,
 	"node":1,
 	"values":"x_{j1}^{n}",

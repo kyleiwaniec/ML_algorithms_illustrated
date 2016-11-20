@@ -19,6 +19,7 @@
 body,html{
 	margin:10px;
 	height:100%;
+	color: #010b35;
 }
 a{color:#f05;}
 a:hover, a:focus {
@@ -33,6 +34,10 @@ h4{
 }
 .mtop15{margin-top:17px;}
 .mbot20{margin-bottom: 20px;}
+.larger{    
+	font-size: 160%;
+    font-weight: 500;
+}
 main{
 	max-width: 1280px;
 	margin:0 auto;
@@ -50,44 +55,61 @@ main{
 	width: 70%;
 	margin:50px auto;
 }
-.tooltip{
-	position:absolute;
-	text-align: center;
-	width: 125px;
-    height: 75px;
-    padding: 4px;
-	border-radius: 3px;
-	background: #fff;
-	border:1px solid #e0e0e0;
-	box-shadow: 0 0 3px 0px rgba(0,0,0,.1);
-	opacity:1;
-	font-size: inherit;
+.graph-container{
+	position: relative;
 }
-.tooltip.hidden {
-    display: none;
-}
-.tooltip:after{
-	content:"";
-	position: absolute;
-	width: 0; 
-	height: 0; 
-	border-left: 10px solid transparent;
-	border-right: 10px solid transparent;
-	border-top: 10px solid #fff;
-	bottom:-10px;
-	left:55px;
-}
-.tooltip:before{
-	content:"";
-	position: absolute;
-	width: 0; 
-	height: 0; 
-	border-left: 11px solid transparent;
-	border-right: 11px solid transparent;
-	border-top: 11px solid #ccc;
-	bottom:-11px;
-	left:54px;
-}
+/* Scatterplots tooltips */
+	.tooltip{
+		position:absolute;
+		text-align: center;
+		width: 125px;
+	    height: 75px;
+	    padding: 4px;
+		border-radius: 3px;
+		background: #fff;
+		border:1px solid #e0e0e0;
+		box-shadow: 0 0 3px 0px rgba(0,0,0,.1);
+		opacity:1;
+		font-size: inherit;
+	}
+	.tooltip.hidden {
+	    display: none;
+	}
+	.tooltip:after{
+		content:"";
+		position: absolute;
+		width: 0; 
+		height: 0; 
+		border-left: 10px solid transparent;
+		border-right: 10px solid transparent;
+		border-top: 10px solid #fff;
+		bottom:-10px;
+		left:55px;
+	}
+	.tooltip:before{
+		content:"";
+		position: absolute;
+		width: 0; 
+		height: 0; 
+		border-left: 11px solid transparent;
+		border-right: 11px solid transparent;
+		border-top: 11px solid #ccc;
+		bottom:-11px;
+		left:54px;
+	}
+
+/* Nodes tooltips */
+	.tooltip.node_tip{
+		width: 80px;
+	    height: 50px;
+	}
+	.tooltip.node_tip:after{
+		left:30px;
+	}
+	.tooltip.node_tip:before{
+		left:29px;
+	}
+
 footer{
 	margin-top: 50px;
 	border-top: 1px solid #ddd;
@@ -126,7 +148,7 @@ hr{border-top: 1px solid #ddd;}
 	font-family: MJX_Math;
 }
 
-.tick line, .tick path, .domain{
+.tick line, .tick path{
 	stroke:#ccc;
 }
 .domain{
@@ -143,10 +165,7 @@ hr{border-top: 1px solid #ddd;}
 	fill: red;
     stroke: red;
 } 
-.larger{    
-	font-size: 160%;
-    font-weight: 500;
-}
+
 .play-bar{
 	background: #f05;
 	min-height: 40px;
@@ -167,8 +186,11 @@ hr{border-top: 1px solid #ddd;}
 
 section.tab {
   display: none;
-  padding: 20px 0 0;
-  border-top: 1px solid #ddd;
+  padding: 0 0 0 15px;
+  border: 1px solid #ddd;
+  height: 400px;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 input.tab-state {

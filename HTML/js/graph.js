@@ -14,15 +14,18 @@ else {
     url = 'http://www.candpgeneration.com/209HTML'
 }
 
-function draw(elem){
+function draw(elem,layers){
 
 
-	d3.json(url+"/data/"+elem+"-data.json", function(error, res) {
-	        if (error){return console.warn(error);}
-	        else{
-	        	drawGraph(res);
-	        }
-	});
+	// d3.json(url+"/data/"+elem+"-data.json", function(error, res) {
+	//         if (error){return console.warn(error);}
+	//         else{
+	//         	drawGraph(res);
+	//         }
+	// });
+
+	var data = new Graph(layers)
+	drawGraph(data);
 
 	function drawGraph(data){
 
@@ -52,7 +55,8 @@ function draw(elem){
 
 		var svg = d3.select('body').select("#"+elem).append("svg")
 	                    .attr("width", width)
-	                    .attr("height", height);
+	                    .attr("height", height)
+	                    .attr("class","graph");
 
 
 
@@ -62,7 +66,7 @@ function draw(elem){
 					    .enter()
 					    .append('g')
 					    .attr('class','node')
-					    .attr("transform", "translate("+node_W+", 0)")
+					    .attr("transform", "translate("+node_W*.75+", "+node_H+")")
 
 		node.append('g')
 					.selectAll('line')
@@ -82,25 +86,56 @@ function draw(elem){
 					.attr("cy", function (d,i) { return d.node * (node_H + padding_V) + offset(layer_dims[d.layer]) ; })
 					.attr("r", node_W/2)
 					.style("fill", "#eeeeee")
-					.on('mouseenter',function(){
+					.on('mouseenter',function (d){
 						d3.select(this)
 						.transition()
 						.attr("r",node_W/2+5)
 						.style("fill", "#ff0055")
+
+
+				      	var xPosition = parseFloat(d3.select(this).attr("cx"))-10;
+			            var yPosition = parseFloat(d3.select(this).attr("cy"))-40;
+
+			            //Update the tooltip position and value
+			            var tooltip = d3.select('#'+elem).selectAll(".tooltip")
+			              .style("left", xPosition + "px")
+			              .style("top", yPosition + "px")
+			              
+			              tooltip.selectAll(".layer")
+				            .text("$layer \\ "+d.values['layer']+"$")
+				              
+				          tooltip.selectAll(".nodeVal")
+				            .text("$"+d.values['node']+"$")
+
+			              
+			              
+
+						setTimeout(function(){
+							MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+						}, 1);
+				    	//Show the tooltip
+				    	d3.select('#'+elem).selectAll(".tooltip").classed("hidden", false);
+
+
+
 					})
 					.on('mouseleave',function(){
 						d3.select(this)
 						.transition()
 						.attr("r",node_W/2)
 						.style("fill", "#eeeeee")
+
+						d3.select('#'+elem).selectAll(".tooltip").classed("hidden",true);
 					})
 
+		
+		/* (not using - have tooltip instead)
 		node.append("foreignObject").attr("width",node_W).attr("height",node_H)	
 	        .html(function(d){
 	        	setTimeout(function(){
 	        		MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 	        	}, 10);
-	        	return d.values ? "$"+d.values+"$" : "$x$"
+	        	return d.values ? d.values : "x"
 	        })
 			.attr("x", function(d) {
 			   return (d.layer * (node_W + padding_H)) - node_W/2 + 55;
@@ -116,6 +151,7 @@ function draw(elem){
 			//         $('body').css("border", "solid 0px transparent");
 			//         // $('.d3_graph .mjx-chtml.MathJax_CHTML').css({'left':'55px','top':'10px'})
 			//     }, 1000);
+		//*/
 
 	}
 
