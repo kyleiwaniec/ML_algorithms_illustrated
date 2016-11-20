@@ -49,11 +49,12 @@ export class Mnist extends React.Component {
   }
 
   handleRun(): void {
-    if (this.state.nodes.length === 0) {
+    const nodes = this.state.nodes.split(/\s+/).join(' ');
+    if (nodes.length === 0) {
       return;
     }
     this.closeStream();
-    const stream = new MnistStream(this.state.nodes);
+    const stream = new MnistStream(nodes);
     stream.onFinished(() => this.closeStream());
     this.setState(
       {iterations: [], status: STATUS.running, stream},
@@ -71,7 +72,7 @@ export class Mnist extends React.Component {
                 type="text"
                 className="form-control"
                 value={this.state.nodes}
-                placeholder={'Nodes per layer, e.g. 5 2'}
+                placeholder={'Nodes per hidden layer, e.g. 5 2'}
                 onChange={event => this.setState({nodes: event.target.value})}
               />
             </div>
