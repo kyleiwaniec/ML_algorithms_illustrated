@@ -21,20 +21,31 @@ export class Matrix extends React.Component {
   render(): React.Element<any> {
     const cells = this.generateCells();
     return (
-      <div style={{
-        display: 'flex',
-        borderColor: '#207ce5',
-        borderWidth: '1px',
-        borderStyle: 'solid',
-      }}>
-        {cells.map((col, i) => this.renderColumn(col, i))}
+      <div>
+        <div>Layer {this.props.layerIndex}</div>
+        <div style={{display: 'flex'}}>
+          {cells.map((col, i) => this.renderColumn(col, i))}
+        </div>
       </div>
     );
   }
 
   renderColumn(cells: Array<React.Element<any>>, i: number): React.Element<any> {
+    const borders = ['1'];
+    borders.push(i + 1 == this.props.weightMatrix.length ? '1' : '0');
+    borders.push('1');
+    borders.push(i == 0 ? '1' : '0');
+
     return (
-      <div key={`col${i}`} style={{display: 'flex', flexDirection: 'column'}}>
+      <div
+        key={`col${i}`}
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          borderColor: '#207ce5',
+          borderWidth: borders.map(s => s + 'px').join(' '),
+          borderStyle: 'solid',
+        }}>
         {cells}
       </div>
     )

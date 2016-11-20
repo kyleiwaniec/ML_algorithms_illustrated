@@ -11,12 +11,14 @@ type Props = {
   stream: ?MnistStream,
 };
 
+type PlayStatus = 'completed' | 'running' | 'paused' | 'none';
+
 type State = {
   iterations: Array<Iteration>,
   finished: boolean,
   stream: ?MnistStream,
   currentIteration: number,
-  paused: boolean,
+  playStatus: PlayStatus,
 };
 
 export class Matrices extends React.Component {
@@ -32,7 +34,7 @@ export class Matrices extends React.Component {
       finished: false,
       stream: this.props.stream,
       currentIteration: -1,
-      paused: false,
+      playStatus: 'none',
     };
     this.setUpStream(this.state.stream);
     this.isRendering = false;
@@ -40,7 +42,7 @@ export class Matrices extends React.Component {
 
   componentDidMount(): void {
     setInterval(() => {
-      if (!this.isRendering && !this.state.paused) {
+      if (!this.isRendering && this.state.playStatus === 'running') {
         const nextIteration = this.state.currentIteration + 1;
         if (nextIteration < this.state.iterations.length) {
           this.setState({currentIteration: nextIteration});
@@ -53,14 +55,18 @@ export class Matrices extends React.Component {
     if (stream) {
       stream.onFinished(() => this.setState({finished: true}));
       stream.onIteration(iteration => this.addIteration(iteration));
+      this.setState({playStatus: 'running'})
     }
   }
 
   shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
-    if (this.isRendering && nextState.paused == this.state.paused) {
+    if (this.isRendering && nextState.playStatus !== 'running') {
       return false;
     }
     this.isRendering = true;
+    if (this.didComplete(nextState)) {
+      nextState.playStatus = 'completed';
+    }
     return true;
   }
 
@@ -76,7 +82,6 @@ export class Matrices extends React.Component {
         iterations: [],
         finished: false,
         currentIteration: -1,
-        paused: false,
       });
     }
   }
@@ -114,6 +119,13 @@ export class Matrices extends React.Component {
     }
   }
 
+  didComplete(state: State): boolean {
+    if (state.finished && state.currentIteration + 1 == state.iterations.length) {
+      return true;
+    }
+    return false;
+  }
+
   renderIterationSelector(): React.Element<any> {
     return (
       <div className="row">
@@ -129,22 +141,51 @@ export class Matrices extends React.Component {
               ⏪
             </button>
             <button
-              className="btn btn-secondary" type="button"
-              onClick={() => this.setState({paused: !this.state.paused})}
-              >
-              {!this.state.paused? '⏸' : '▶️'}
-            </button>
-            <button
               className="btn btn-secondary"
               type="button"
               onClick={() => this.onChangeIteration(1)}
               >
               ⏩
               </button>
+            {this.renderPlayStatusButton()}
           </div>
         </div>
       </div>
     );
+  }
+
+  renderPlayStatusButton(): React.Element<any> {
+    if (this.state.playStatus === 'completed') {
+      return (
+        <button className="btn btn-secondary" type="button">
+          Finished
+        </button>
+      );
+    } else if (this.state.playStatus === 'none') {
+      return (
+        <button className="btn btn-secondary" type="button">
+          Not running
+        </button>
+      );
+    } else if (this.state.playStatus === 'paused') {
+      return (
+        <button
+          className="btn btn-secondary"
+          type="button"
+          onClick={() => this.setState({playStatus: 'running'})}>
+          ▶️
+        </button>
+      );
+    } else {
+      return (
+        <button
+          className="btn btn-secondary"
+          type="button"
+          onClick={() => this.setState({playStatus: 'paused'})}>
+          ⏸
+        </button>
+      );
+    }
   }
 
   onChangeIteration(delta: number): void {
@@ -155,6 +196,15 @@ export class Matrices extends React.Component {
     if (newIteration >= this.state.iterations.length) {
       newIteration = this.state.iterations.length - 1;
     }
-    this.setState({currentIteration: newIteration});
+    let playStatus = this.state.playStatus;
+    if (playStatus === 'running' && newIteration + 1 < this.state.iterations.length) {
+      playStatus = 'paused';
+    } else if (playStatus === 'paused' && newIteration + 1 === this.state.iterations.length) {
+      playStatus = 'running';
+    }
+    this.setState({
+      currentIteration: newIteration,
+      playStatus,
+    });
   }
 }
