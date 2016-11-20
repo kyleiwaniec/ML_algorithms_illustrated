@@ -10,6 +10,13 @@ type Props = {
   layerIndex: number,
 };
 
+type Stats = {
+  max: number,
+  min: number,
+  maxAbs: number,
+  minAbs: number,
+};
+
 export class Matrix extends React.Component {
   props: Props;
 
@@ -19,12 +26,54 @@ export class Matrix extends React.Component {
   }
 
   render(): React.Element<any> {
-    const cells = this.generateCells();
+    const stats = this.calculateStats();
     return (
       <div>
-        <div>Layer {this.props.layerIndex}</div>
+        {this.renderStats(stats)}
         <div style={{display: 'flex'}}>
-          {cells.map((col, i) => this.renderColumn(col, i))}
+          {this.generateCells(stats).map((col, i) => this.renderColumn(col, i))}
+        </div>
+      </div>
+    );
+  }
+
+  calculateStats(): Stats {
+    let maxAbs = -Infinity;
+    let max = -Infinity;
+    let minAbs = Infinity;
+    let min = Infinity;
+
+    const mat = this.props.weightMatrix;
+    for (let i = 0; i < mat.length; i++) {
+      for (let j = 0; j < mat[i].length; j++) {
+        const x = mat[i][j];
+        const ax = Math.abs(x);
+
+        maxAbs = Math.max(maxAbs, ax);
+        minAbs = Math.min(minAbs, ax);
+
+        max = Math.max(max, x);
+        min = Math.min(min, x);
+      }
+    }
+    return {min, max, maxAbs, minAbs};
+  }
+
+  renderStats(stats: Stats): React.Element<any> {
+    return (
+      <div>
+        <div>
+          <small><b>Layer {this.props.layerIndex}</b></small>
+        </div>
+        <div>
+          <ul className="list-unstyled">
+            <li>
+              <small>Min: {stats.min.toFixed(4)}</small>
+            </li>
+            <li>
+          <small>Max: {stats.max.toFixed(4)}</small>
+            </li>
+          </ul>
         </div>
       </div>
     );
@@ -51,15 +100,12 @@ export class Matrix extends React.Component {
     )
   }
 
-  generateCells(): Array<Array<React.Element<any>>> {
-    const weightMatrix = this.props.weightMatrix;
-    const maxVal =  Math.max(...weightMatrix.map(row => Math.max(...row.map(x => Math.abs(x)))));
-    const minVal =  Math.min(...weightMatrix.map(row => Math.min(...row.map(x => Math.abs(x)))));
+  generateCells(stats: Stats): Array<Array<React.Element<any>>> {
     var colorScale = d3.scale.linear()
-      .domain([minVal, maxVal])
+      .domain([stats.minAbs, stats.maxAbs])
       .range(['white', 'blue']);
 
-    return weightMatrix.map((row, i) => row.map((val, j) => {
+    return this.props.weightMatrix.map((row, i) => row.map((val, j) => {
       return (
         <Cell
           fromNode={j}
