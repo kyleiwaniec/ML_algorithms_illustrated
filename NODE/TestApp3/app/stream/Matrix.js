@@ -28,7 +28,7 @@ export class Matrix extends React.Component {
   render(): React.Element<any> {
     const stats = this.calculateStats();
     return (
-      <div>
+      <div style={{minWidth: '6em'}}>
         {this.renderStats(stats)}
         <div style={{display: 'flex'}}>
           {this.generateCells(stats).map((col, i) => this.renderColumn(col, i))}
