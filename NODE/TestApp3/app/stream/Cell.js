@@ -72,7 +72,17 @@ export class Cell extends React.Component {
         onMouseLeave={this.onMouseLeave}
       >
       {this.state.hover ?
-        <span style={this.state.hover ? visibleStyle : hiddenStyle}>
+        <span style={{
+          visibility: 'visible',
+          backgroundColor: 'black',
+          color: '#fff',
+          textAlign: 'center',
+          padding: '5px 5px 5px 5px',
+          borderRadius: '6px',
+          position: 'absolute',
+          margin: '15px 15px 15px 15px',
+          zIndex: '1',
+        }}>
           From {this.props.fromNode}
           <br />
           To {this.props.toNode}
