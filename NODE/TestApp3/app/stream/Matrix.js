@@ -80,10 +80,9 @@ export class Matrix extends React.Component {
   }
 
   renderColumn(cells: Array<React.Element<any>>, i: number): React.Element<any> {
-    const borders = ['1'];
-    borders.push(i + 1 == this.props.weightMatrix.length ? '1' : '0');
-    borders.push('1');
-    borders.push(i == 0 ? '1' : '0');
+    const borders = ['1', '1', '1','1'];
+    borders[1] = i + 1 == this.props.weightMatrix.length ? '1' : '0';
+    borders[3] = i == 0 ? '1' : '0';
 
     return (
       <div
