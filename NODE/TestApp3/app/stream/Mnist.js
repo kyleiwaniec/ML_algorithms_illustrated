@@ -11,16 +11,12 @@ import ReactDOM from 'react-dom';
 import {Graphs} from './Graphs';
 import {Matrices} from './Matrices';
 
-const STATUS = {
-  running: 1,
-  finished: 2,
-  none: 3,
-};
+type Status = 'running' | 'finished' | 'none';
 
 type State = {
   nodes: string,
   iterations: Array<Iteration>,
-  status: number,
+  status: Status,
   stream: ?MnistStream,
 };
 
@@ -32,7 +28,7 @@ export class Mnist extends React.Component {
     this.state = {
       nodes: '',
       iterations: [],
-      status: STATUS.none,
+      status: 'none',
       stream: null,
     };
     (this: any).handleRun = this.handleRun.bind(this);
@@ -41,6 +37,7 @@ export class Mnist extends React.Component {
   closeStream(): void {
     if (this.state.stream != null) {
       this.state.stream.close();
+      this.setState({status: 'finished'});
     }
   }
 
@@ -57,7 +54,11 @@ export class Mnist extends React.Component {
     const stream = new MnistStream(nodes);
     stream.onFinished(() => this.closeStream());
     this.setState(
-      {iterations: [], status: STATUS.running, stream},
+      {
+        iterations: [],
+        status: 'running',
+        stream,
+       },
       () => stream.run(),
     );
   }
@@ -80,18 +81,8 @@ export class Mnist extends React.Component {
           <div className="col-lg-1" />
           <div className="col-lg-2">
             <div className="btn-group btn-group-sm" role="group">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={this.handleRun}>
-                Start stream
-              </button>
-              <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={() => this.closeStream()}>
-                Close stream
-              </button>
+              {this.renderRunButton()}
+              {this.renderCancelButton()}
             </div>
           </div>
         </div>
@@ -105,5 +96,33 @@ export class Mnist extends React.Component {
         </div>
       </div>
     );
+  }
+
+  renderRunButton(): ?React.Element<any> {
+    if (this.state.status !== 'running') {
+      return (
+        <button
+          type="button"
+          className="btn btn-secondary"
+          onClick={this.handleRun}>
+          Start stream
+        </button>
+      );
+    }
+    return null;
+  }
+
+  renderCancelButton(): ?React.Element<any> {
+    if (this.state.status === 'running') {
+      return (
+        <button
+          type="button"
+          className="btn btn-secondary"
+          onClick={() => this.closeStream()}>
+          Close stream
+        </button>
+      );
+    }
+    return null;
   }
 }
