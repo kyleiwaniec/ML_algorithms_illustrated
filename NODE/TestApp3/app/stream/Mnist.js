@@ -35,14 +35,13 @@ export class Mnist extends React.Component {
       status: STATUS.none,
       stream: null,
     };
-    (this: any).handleNodesChange = this.handleNodesChange.bind(this);
     (this: any).handleRun = this.handleRun.bind(this);
-    (this: any).handleStop = this.handleStop.bind(this);
   }
 
   closeStream(): void {
     if (this.state.stream != null) {
       this.state.stream.close();
+      this.setState({stream: null});
     }
   }
 
@@ -50,25 +49,13 @@ export class Mnist extends React.Component {
     this.closeStream();
   }
 
-  handleNodesChange(event: any): void {
-    this.setState({nodes: event.target.value});
-  }
-
-  handleStop(): void {
-    this.closeStream();
-  }
-
   handleRun(): void {
     this.closeStream();
     const stream = new MnistStream(this.state.nodes);
-    stream.onFinished(() => this.setState({status: STATUS.finished}));
-    stream.onIteration(iteration => {
-      const iterations = this.state.iterations;
-      iterations.push(iteration);
-      this.setState({iterations});
-    });
-    stream.run();
-    this.setState({iterations: [], status: STATUS.running, stream});
+    this.setState(
+      {iterations: [], status: STATUS.running, stream},
+      () => stream.run(),
+    );
   }
 
   render(): React.Element<any> {
@@ -81,7 +68,7 @@ export class Mnist extends React.Component {
                 type="text"
                 className="form-control"
                 value={this.state.nodes}
-                onChange={this.handleNodesChange}
+                onChange={event => this.setState({nodes: event.target.value})}
               />
             </div>
           </div>
@@ -96,7 +83,7 @@ export class Mnist extends React.Component {
               <button
                 type="button"
                 className="btn btn-secondary"
-                onClick={this.handleStop}>
+                onClick={() => this.closeStream()}>
                 Stop
               </button>
             </div>
