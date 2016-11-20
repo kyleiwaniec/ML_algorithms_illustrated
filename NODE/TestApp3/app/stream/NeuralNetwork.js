@@ -7,11 +7,12 @@ export class NeuralNetwork {
     this.weights = nn.layers.filter((x, i) => i > 0).map(layer => {
       const nodes = Object.keys(layer).length;
       const weightMatrix = [];
+      let prevNodes = null;
       for (let i = 0; i < nodes; i++) {
         const prevLayer = layer[i].weights;
         const weigths = []
         if (prevLayer) {
-          const prevNodes = Object.keys(prevLayer).length;
+          prevNodes = prevNodes || Object.keys(prevLayer).length;
           for (let j = 0; j < prevNodes; j++) {
             weigths.push(Number(prevLayer[j]));
           }
