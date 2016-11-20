@@ -41,7 +41,6 @@ export class Mnist extends React.Component {
   closeStream(): void {
     if (this.state.stream != null) {
       this.state.stream.close();
-      this.setState({stream: null});
     }
   }
 
