@@ -12,6 +12,30 @@ type State = {
   hover: boolean,
 };
 
+const hiddenStyle = {
+  visibility: 'hidden',
+  backgroundColor: 'black',
+  color: '#fff',
+  textAlign: 'center',
+  padding: '5px 5px 5px 5px',
+  borderRadius: '6px',
+  position: 'absolute',
+  margin: '15px 15px 15px 15px',
+  zIndex: '1',
+};
+
+const visibleStyle = {
+  visibility: 'visible',
+  backgroundColor: 'black',
+  color: '#fff',
+  textAlign: 'center',
+  padding: '5px 5px 5px 5px',
+  borderRadius: '6px',
+  position: 'absolute',
+  margin: '15px 15px 15px 15px',
+  zIndex: '1',
+};
+
 export class Cell extends React.Component {
   props: Props;
   state: State;
@@ -47,20 +71,7 @@ export class Cell extends React.Component {
         onMouseEnter={this.onMouseEnter}
         onMouseLeave={this.onMouseLeave}
       >
-        <span
-          style={{
-            visibility: this.state.hover ? 'visible' : 'hidden',
-            backgroundColor: 'black',
-            color: '#fff',
-            textAlign: 'center',
-            padding: '5px 5px 5px 5px',
-            borderRadius: '6px',
-            /* Position the tooltip text - see examples below! */
-            position: 'absolute',
-            margin: '15px 15px 15px 15px',
-            zIndex: '1',
-          }}
-        >
+        <span style={this.state.hover ? visibleStyle : hiddenStyle}>
           From node {this.props.fromNode}
           <br />
           To node {this.props.toNode}
