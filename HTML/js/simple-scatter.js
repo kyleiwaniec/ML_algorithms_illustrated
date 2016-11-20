@@ -100,10 +100,10 @@ function scatter(id,data){
               .style("top", yPosition + "px")
               
             tooltip.selectAll(".x1")
-              .text("$x_{i1} = "+d['x1']+" ft$")
+              .text("$x_{i1} = "+d['x1']+"\\ ft$")
               
             tooltip.selectAll(".x2")
-              .text("$x_{i2} = "+d['x2']+" lbs$")
+              .text("$x_{i2} = "+d['x2']+"\\ lbs$")
 
             tooltip.selectAll(".y")
               .text("$y = "+d['y']+"$")

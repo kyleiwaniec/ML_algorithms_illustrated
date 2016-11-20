@@ -59,21 +59,21 @@
 					
 					<h4>Sum of Affine Transformations</h4>
 					<p>
-						$$x_{j1}^{n} = \sum_{k=1}^{k}w_{ik}^{n}x_{ik}^{n}+b_{i}^{n}$$ <br>
-						<em>where \(k\) is the number of nodes in layer \(i\) and \(n\) is the number of data points
+						$$s_j = x_{j1} = \sum_{k=1}^{k}w_{ik}x_{ik}$$ <br>
+						<em>where \(k\) is the number of nodes in layer \(i\)
 						</em>
 					</p>
 					<h4>Activation Function<br>
 						<span class="subhead">Also known as "non-linearity", or "transformation function"</span>
 					</h4>
 					<p>
-						$$\hat{y}^{n}  = \sigma(x_{j1}^{n}) \ where  \ \sigma(z) = \frac{1}{1+e^{-z}}$$
+						$$\hat{y}  = \sigma(s_i) \ where  \ \sigma(z) = \frac{1}{1+e^{-z}}$$
 					</p>
 
 					<h4>Loss Function<br>
 						<span class="subhead">Sometimes referred to as a "cost function" or "objective function"</span>
 					</h4>
-					<p>There are <a href="https://en.wikipedia.org/wiki/Loss_functions_for_classification">different loss functions</a> to choose from. In neural networks, it is common to use Cross Entropy Loss (<em>where $p$ is the ground truth, and $q$ is the prediction</em>):  </p>
+					<p>There are <a href="https://en.wikipedia.org/wiki/Loss_functions_for_classification">different loss functions</a> to choose from. In neural networks, it is common to use Cross Entropy Loss (<em>where $p$ is the ground truth, and $q$ is the prediction</em>) (also referred to as Log-Likelihood, which is the multiclass version of Cross Entropy):  </p>
 
 					<p>
 						$$H(p,q) = -\sum p_i\,log\,q_i = -y\,log\,\hat{y} - (1-y)log(1-\hat{y})$$
@@ -84,7 +84,31 @@
 					</p>
 				</section>	
 				<section id="content_2" class="tab">
-					backprop
+					<h4>Compute Gradients</h4>
+					<p>To perform gradient descent, we compute the derivatives of the log likelihood with respect to the output unit’s weights (note that in the case of a single output unit (a Bernoulli distirbution) as in our example, the log likelihood is the cross entropy function). Using the chain rule (for a single examples), we get:</p>	
+
+					$$ \begin{align}
+					\frac{\partial J(\theta)}{\partial w_{ij}}  &=  \frac{\partial J(\theta)}{\partial y_j} \ \frac{\partial y_j}{\partial s_j}  \ \frac{\partial s_j}{\partial w_{ij}} \\	
+
+					s_j &= \sum_{i=1} x_iw_{ij} 
+
+					\end{align} $$
+
+
+					Calculating each part on the right hand side, we have:
+
+					$$ \begin{align}
+
+					\frac{\partial J(\theta)}{\partial y_j} &=  \frac {-y_j} { \hat{y_j} } + \frac {1-y_j} { 1-\hat{y_j} } \\
+															&=  \frac{ \hat{y_j} - y_j } { \hat{y_j} (1-\hat{y_j}) } \\
+
+					\frac{\partial y_j}{\partial s_j} &= \hat{y_j}(1-\hat{y_j}) \\
+
+					\frac{\partial s_j}{\partial w_{ij}} &= \hat{y_j} 
+
+					\end{align} $$
+
+
 				</section>
 			</div>
 		</div>
@@ -112,7 +136,7 @@
 				<!-- <img src="img/data-LR-chart.png"\> -->
 			</div>
 			<div class="col-sm-3">
-				<div class="section-label">Model</div>
+				<div class="section-label">Model - Logistic Regression</div>
 				<div class="sections-summary">
 					Input  layer  :  i<br>
 					Output  layer  :  j
@@ -158,7 +182,7 @@
 				<div class="section-label">Data</div>
 			</div>
 			<div class="col-sm-3">
-				<div class="section-label">Model</div>
+				<div class="section-label">Model - Neural Network</div>
 				<div class="sections-summary">
 					Input  layer  :  i<br>
 					Hidden layer : j<br>
