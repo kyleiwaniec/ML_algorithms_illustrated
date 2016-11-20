@@ -6,18 +6,18 @@ export class NeuralNetwork {
   constructor(nn: Object) {
     this.weights = nn.layers.filter((x, i) => i > 0).map(layer => {
       const nodes = Object.keys(layer).length;
-      const weightMatrix = [];
+      const weightMatrix = new Array(nodes);
       let prevNodes = null;
       for (let i = 0; i < nodes; i++) {
         const prevLayer = layer[i].weights;
-        const weigths = []
+        const weigths = new Array(prevNodes || 0);
         if (prevLayer) {
           prevNodes = prevNodes || Object.keys(prevLayer).length;
           for (let j = 0; j < prevNodes; j++) {
-            weigths.push(Number(prevLayer[j]));
+            weigths[j] = Number(prevLayer[j]);
           }
         }
-        weightMatrix.push(weigths);
+        weightMatrix[i] = weigths;
       }
       return weightMatrix;
     });
