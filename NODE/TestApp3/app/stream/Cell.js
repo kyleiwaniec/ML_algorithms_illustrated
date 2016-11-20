@@ -71,6 +71,7 @@ export class Cell extends React.Component {
         onMouseEnter={this.onMouseEnter}
         onMouseLeave={this.onMouseLeave}
       >
+      {this.state.hover ?
         <span style={this.state.hover ? visibleStyle : hiddenStyle}>
           From {this.props.fromNode}
           <br />
@@ -78,6 +79,7 @@ export class Cell extends React.Component {
           <br />
           {this.props.value}
         </span>
+        : null}
       </div>
     );
   }
