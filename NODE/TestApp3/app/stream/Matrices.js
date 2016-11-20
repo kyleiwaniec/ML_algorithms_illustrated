@@ -100,6 +100,7 @@ export class Matrices extends React.Component {
     if (this.state.iterations.length === 0) {
       return (<div />);
     } else {
+      const weights = this.state.iterations[this.state.currentIteration].nn.weights;
       return (
         <div>
           <div style={{marginTop: '10px'}}>
@@ -107,9 +108,13 @@ export class Matrices extends React.Component {
           </div>
           <div style={{display: 'flex', marginTop: '10px'}}>
             {
-              this.state.iterations[this.state.currentIteration].nn.weights.map((weightMatrix, i) => (
+              weights.map((weightMatrix, i) => (
                 <div style={{marginRight: '20px'}} key={i}>
-                  <Matrix weightMatrix={weightMatrix} layerIndex={i} />
+                  <Matrix
+                    weightMatrix={weightMatrix}
+                    layerIndex={i}
+                    totalMatrices={weights.length}
+                  />
                 </div>
               ))
             }

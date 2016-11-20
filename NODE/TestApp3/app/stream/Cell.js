@@ -4,8 +4,8 @@ import ReactDOM from 'react-dom';
 type Props = {
   color: string,
   value: number,
-  fromNode: number,
-  toNode: number,
+  fromNode: string,
+  toNode: string,
 };
 
 type State = {
@@ -72,9 +72,9 @@ export class Cell extends React.Component {
         onMouseLeave={this.onMouseLeave}
       >
         <span style={this.state.hover ? visibleStyle : hiddenStyle}>
-          From node {this.props.fromNode}
+          From {this.props.fromNode}
           <br />
-          To node {this.props.toNode}
+          To {this.props.toNode}
           <br />
           {this.props.value}
         </span>

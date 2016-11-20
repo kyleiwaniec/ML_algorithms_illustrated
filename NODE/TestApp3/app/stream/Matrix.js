@@ -8,6 +8,7 @@ import d3 from 'd3';
 type Props = {
   weightMatrix: Array<Array<number>>,
   layerIndex: number,
+  totalMatrices: number,
 };
 
 type Stats = {
@@ -107,8 +108,8 @@ export class Matrix extends React.Component {
     return this.props.weightMatrix.map((row, i) => row.map((val, j) => {
       return (
         <Cell
-          fromNode={j}
-          toNode={i}
+          fromNode={`${this.props.layerIndex === 0 ? 'pixel' : 'node' } ${j}`}
+          toNode={`${this.props.layerIndex + 1 === this.props.totalMatrices ? 'digit': 'node'} ${i}`}
           key={`col${i}row${j}`}
           color={colorScale(Math.abs(val))}
           value={val}
