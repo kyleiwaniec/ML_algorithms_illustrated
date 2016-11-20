@@ -1,4 +1,6 @@
-function scatter(){
+
+
+function scatter(id,data){
 
 
 
@@ -6,14 +8,7 @@ function scatter(){
 		,width  = 235
 	    ,height = 240
 
-	var data = [
-		{x1:5.5,x2:98,y:0},
-		{x1:5.8,x2:120,y:0},
-		{x1:6.2,x2:168,y:0},
-		{x1:5.5,x2:200,y:1},
-		{x1:5,x2:210,y:1},
-		{x1:5,x2:168,y:1}
-	]
+	
 
 	var x = d3.scaleLinear()
 	              .domain([d3.min(data, function(d) { return d["x2"]; })-20, d3.max(data, function(d) { return d["x2"]; })+20])
@@ -36,7 +31,7 @@ function scatter(){
 	        .ticks(5)
 	}
 
-	var chart = d3.select('#Scatter')
+	var chart = d3.select('#'+id)
 		.append('svg:svg')
 		.attr('width', width + margin.right + margin.left)
 		.attr('height', height + margin.top + margin.bottom)
@@ -97,30 +92,30 @@ function scatter(){
 	      .on("mouseenter",function(d,i){
 	      	console.log("d",d)
 	      	var xPosition = parseFloat(d3.select(this).attr("cx"))-10;
-            var yPosition = parseFloat(d3.select(this).attr("cy"))-30;
+            var yPosition = parseFloat(d3.select(this).attr("cy"))-50;
 
             //Update the tooltip position and value
-            var tooltip = d3.select("#tooltip")
+            var tooltip = d3.select('#'+id).selectAll(".tooltip")
               .style("left", xPosition + "px")
               .style("top", yPosition + "px")
               
-            tooltip.select("#x1")
+            tooltip.selectAll(".x1")
               .text("$x_{i1} = "+d['x1']+" ft$")
               
-            tooltip.select("#x2")
+            tooltip.selectAll(".x2")
               .text("$x_{i2} = "+d['x2']+" lbs$")
 
-            tooltip.select("#y")
+            tooltip.selectAll(".y")
               .text("$y = "+d['y']+"$")
 
 			setTimeout(function(){
 				MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 			}, 1);
 			    //Show the tooltip
-			    d3.select("#tooltip").classed("hidden", false);
+			    d3.select('#'+id).selectAll(".tooltip").classed("hidden", false);
 
 	      }).on("mouseout", function(d) {       
-               d3.select("#tooltip").classed("hidden",true);   
+               d3.select('#'+id).selectAll(".tooltip").classed("hidden",true);   
                }); 
 
 	      // now add titles to the axes

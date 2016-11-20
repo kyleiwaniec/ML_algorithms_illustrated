@@ -32,6 +32,7 @@ h4{
 	margin-top: 30px;
 }
 .mtop15{margin-top:17px;}
+.mbot20{margin-bottom: 20px;}
 main{
 	max-width: 1280px;
 	margin:0 auto;
@@ -49,7 +50,7 @@ main{
 	width: 70%;
 	margin:50px auto;
 }
-#tooltip{
+.tooltip{
 	position:absolute;
 	text-align: center;
 	width: 125px;
@@ -59,11 +60,13 @@ main{
 	background: #fff;
 	border:1px solid #e0e0e0;
 	box-shadow: 0 0 3px 0px rgba(0,0,0,.1);
+	opacity:1;
+	font-size: inherit;
 }
-#tooltip.hidden {
+.tooltip.hidden {
     display: none;
 }
-#tooltip:after{
+.tooltip:after{
 	content:"";
 	position: absolute;
 	width: 0; 
@@ -74,7 +77,7 @@ main{
 	bottom:-10px;
 	left:55px;
 }
-#tooltip:before{
+.tooltip:before{
 	content:"";
 	position: absolute;
 	width: 0; 
@@ -201,4 +204,7 @@ input:checked + label {
   display: block;
 }
 
+.scatter-plot{
+	position:relative;
+}
 

@@ -15,7 +15,26 @@ $(function(){
 
   });
 
- 
+  var scatterLR = [
+    {x1:5.5,x2:98,y:0},
+    {x1:5.8,x2:120,y:0},
+    {x1:6.2,x2:168,y:0},
+    {x1:5.5,x2:200,y:1},
+    {x1:5,x2:210,y:1},
+    {x1:5,x2:168,y:1}
+  ]
+  var scatterNN = [
+    {x1:5.5,x2:98,y:0},
+    {x1:6.0,x2:110,y:1},
+    {x1:5.8,x2:125,y:1},
+    {x1:5.7,x2:120,y:0},
+    {x1:6.2,x2:168,y:0},
+    {x1:5.5,x2:200,y:1},
+    {x1:5,x2:210,y:1},
+    {x1:5,x2:168,y:1},
+    {x1:5.2,x2:155,y:0}
+  ]
+
   function callPage(pageRefInput){
     var pageName = pageRefInput.split("#");
     pageName = pageName[1]+".html";
@@ -26,7 +45,8 @@ $(function(){
         dataType : 'text',
         success: function( response ) {
           $('#content').html(response);
-          scatter('Scatter');
+          scatter('ScatterLR',scatterLR);
+          scatter('ScatterNN',scatterNN);
           draw('LR');
           draw('NN');
         },
