@@ -62,7 +62,7 @@ export class Graphs extends React.Component {
         <Line
           options={{scales: {xAxes: [{display: false}]}}}
           data={{
-            labels: new Array(this.state.iterations.length).fill().map((x, i) => 'It. ' + i),
+            labels: new Array(this.state.iterations.length).fill().map((x, i) => 'It. ' + (i + 1)),
             datasets: [
               {
                 label: 'Error',

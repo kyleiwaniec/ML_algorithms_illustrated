@@ -76,6 +76,7 @@ export class Mnist extends React.Component {
               />
             </div>
           </div>
+          <div className="col-lg-2" />
           <div className="col-lg-2">
             <div className="btn-group btn-group-sm" role="group">
               <button
@@ -94,7 +95,7 @@ export class Mnist extends React.Component {
           </div>
         </div>
         <div className="row">
-          <div className="col-lg-2">
+          <div className="col-lg-4">
             <Graphs stream={this.state.stream} />
           </div>
           <div className="col-lg-8">
