@@ -20,7 +20,17 @@ export class Cell extends React.Component {
     super(props);
     this.state = {
       hover: false,
-    }
+    };
+    (this: any).onMouseEnter = this.onMouseEnter.bind(this);
+    (this: any).onMouseLeave = this.onMouseLeave.bind(this);
+  }
+
+  onMouseEnter() {
+    this.setState({hover: true});
+  }
+
+  onMouseLeave() {
+    this.setState({hover: false});
   }
 
   render(): React.Element<any> {
@@ -34,8 +44,8 @@ export class Cell extends React.Component {
           margin: 1,
           position: 'relative',
         }}
-        onMouseEnter={() => this.setState({hover: true})}
-        onMouseLeave={() => this.setState({hover: false})}
+        onMouseEnter={this.onMouseEnter}
+        onMouseLeave={this.onMouseLeave}
       >
         <span
           style={{
