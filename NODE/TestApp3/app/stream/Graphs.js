@@ -6,8 +6,6 @@ import ReactDOM from 'react-dom';
 import {MnistStream} from './MnistStream';
 import type {Iteration} from './MnistStream';
 import {Line} from 'react-chartjs-2';
-import { defaults } from 'react-chartjs-2';
-defaults.global.animation = false;
 
 type Props = {
   stream: ?MnistStream,
