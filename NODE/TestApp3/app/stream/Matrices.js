@@ -15,12 +15,13 @@ type State = {
   iterations: Array<Iteration>,
   finished: boolean,
   stream: ?MnistStream,
-  currentIteration: ?number,
+  currentIteration: number,
 };
 
 export class Matrices extends React.Component {
   props: Props;
   state: State;
+  isRendering: boolean;
 
   constructor(props: any) {
     super(props)
@@ -29,9 +30,21 @@ export class Matrices extends React.Component {
       iterations: [],
       finished: false,
       stream: this.props.stream,
-      currentIteration: null,
+      currentIteration: -1,
     };
     this.setUpStream(this.state.stream);
+    this.isRendering = false;
+  }
+
+  componentDidMount(): void {
+    setInterval(() => {
+      if (!this.isRendering) {
+        const nextIteration = this.state.currentIteration + 1;
+        if (nextIteration < this.state.iterations.length) {
+          this.setState({currentIteration: nextIteration});
+        }
+      }
+    }, 100);
   }
 
   setUpStream(stream: ?MnistStream): void {
@@ -41,6 +54,18 @@ export class Matrices extends React.Component {
     }
   }
 
+  shouldComponentUpdate(): boolean {
+    if (this.isRendering) {
+      return false;
+    }
+    this.isRendering = true;
+    return true;
+  }
+
+  componentDidUpdate(): void {
+    this.isRendering = false;
+  }
+
   componentWillReceiveProps(nextProps: Props): void {
     if (nextProps.stream != this.state.stream) {
       this.setUpStream(nextProps.stream);
@@ -48,7 +73,7 @@ export class Matrices extends React.Component {
         stream: nextProps.stream,
         iterations: [],
         finished: false,
-        currentIteration: null,
+        currentIteration: -1,
       });
     }
   }
@@ -56,7 +81,11 @@ export class Matrices extends React.Component {
   addIteration(iteration: Iteration): void {
     const iterations = this.state.iterations.slice();
     iterations.push(iteration);
-    this.setState({iterations});
+    let currentIteration = this.state.currentIteration;
+    if (currentIteration === -1) {
+      currentIteration = 0;
+    }
+    this.setState({iterations, currentIteration});
   }
 
   render(): React.Element<any> {
@@ -70,7 +99,7 @@ export class Matrices extends React.Component {
           </div>
           <div style={{display: 'flex', marginTop: '10px'}}>
             {
-              this.state.iterations[this.getSelectedIteration()].nn.weights.map((weightMatrix, i) => (
+              this.state.iterations[this.state.currentIteration].nn.weights.map((weightMatrix, i) => (
                 <div style={{marginRight: '20px'}} key={i}>
                   <Matrix weightMatrix={weightMatrix} />
                 </div>
@@ -94,7 +123,7 @@ export class Matrices extends React.Component {
               ◀
             </button>
             <span type="text" className="btn btn-secondary">
-              Iteration {this.getSelectedIteration() + 1}
+              Iteration {this.state.currentIteration + 1}
             </span>
             <button
               className="btn btn-secondary"
@@ -109,15 +138,8 @@ export class Matrices extends React.Component {
     );
   }
 
-  getSelectedIteration(): number {
-    if (this.state.currentIteration == null) {
-      return this.state.iterations.length - 1;
-    }
-    return this.state.currentIteration;
-  }
-
   onChangeIteration(delta: number): void {
-    let newIteration = this.getSelectedIteration() + delta;
+    let newIteration = this.state.currentIteration + delta;
     if (newIteration < 0) {
       newIteration = 0;
     }
