@@ -17,6 +17,7 @@ export class MnistStream {
   nodes: string;
   finishedCBs: Array<() => void>;
   iterationCBs: Array<(iteration: Iteration) => void>;
+  closed: boolean;
 
   constructor(nodes: string) {
     console.log('CREATE stream');
@@ -24,6 +25,7 @@ export class MnistStream {
     this.nodes = nodes;
     this.finishedCBs = [];
     this.iterationCBs = [];
+    this.closed = false;
   }
 
   run(): void {
@@ -67,8 +69,10 @@ export class MnistStream {
   }
 
   close(): void {
-    if (this.es != null) {
+    if (this.es != null && !this.closed) {
       console.log('CLOSE stream');
+      this.closed = true;
+      this.sendFinished();
       this.es.close();
     }
   }
