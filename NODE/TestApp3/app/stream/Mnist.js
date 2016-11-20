@@ -66,18 +66,18 @@ export class Mnist extends React.Component {
     return (
       <div style={{marginLeft: 10}}>
         <div className="row">
-          <div className="col-lg-2">
+          <div className="col-lg-3">
             <div className="input-group input-group-sm">
               <input
                 type="text"
                 className="form-control"
                 value={this.state.nodes}
-                placeholder={'Nodes per hidden layer, e.g. 5 2'}
+                placeholder={'Nodes in hidden layers, e.g. 5 2'}
                 onChange={event => this.setState({nodes: event.target.value})}
               />
             </div>
           </div>
-          <div className="col-lg-2" />
+          <div className="col-lg-1" />
           <div className="col-lg-2">
             <div className="btn-group btn-group-sm" role="group">
               <button
