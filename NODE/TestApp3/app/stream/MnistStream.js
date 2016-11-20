@@ -19,6 +19,7 @@ export class MnistStream {
   iterationCBs: Array<(iteration: Iteration) => void>;
 
   constructor(nodes: string) {
+    console.log('CREATE stream');
     this.es = null;
     this.nodes = nodes;
     this.finishedCBs = [];
