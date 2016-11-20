@@ -17,11 +17,91 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-sm-12">
-				<h3>A Neural Network without any hidden layers is just Logistic Regression.</h3>
-				<p>To demonstrate the mechanics of a simple feedforward neural network, we'll use a toy example consisiting of a 2 dimentional feature vector &lt;weight, height&gt; to predict a binary outcome of healthy or unhealthy. <br><br>
-				</p>	
-
+				<h3></h3>
 			</div>
+			<div class="col-sm-6">
+				
+				<div class="row">
+					<div class="col-sm-6">
+						<p><span class="larger">To demonstrate the mechanics of a simple feedforward neural network</span>, we'll use a toy example consisiting of a 2 dimentional feature vector <span class="mathy"> &lt;weight, height&gt; </span> to predict a binary outcome of healthy or unhealthy. You may notice, that a Neural Network without any hidden layers is just Logistic Regression.
+
+						The point of the exercise is to train a model that produces outcomes as close to the true values as possible. Or in other words, to "minimize the loss".
+
+						
+						</p>
+					</div>
+					<div class="col-sm-6">
+						<p>
+						This is done in two main phases, namely, a <strong>feedforward</strong> phase where all the data passes forward through the network so that we can calculate the loss. In other words, on average, how off are we from the ground truth.
+
+						In the second phase, we <strong>backpropagate</strong> through the network using gradient descent so that we can update our model parameters (weights).
+
+						We repeat these two phases until the algorithm converges, or until our error is sufficiently small.
+						</p>
+					</div>
+				</div>
+					
+				
+			
+				<!-- <p><span class="larger">Functions</span> </p> -->
+				
+				
+			</div>
+			<div class="col-sm-6">
+
+				<input class="tab-state" id="tab_1" type="radio" name="functions" checked>
+				<label for="tab_1" class="section-label">Forward Pass</label>
+				<input class="tab-state" id="tab_2" type="radio" name="functions">
+				<label for="tab_2" class="section-label">Back Propagation</label>
+				<a class="pull-right mtop15">Switch to Matrix notation</a>
+
+				 <section id="content_1" class="tab">
+					
+					<h4>Sum of Affine Transformations</h4>
+					<p>
+						$$x_{j1}^{n} = \sum_{k=1}^{k}w_{ik}^{n}x_{ik}^{n}+b_{i}^{n}$$ <br>
+						<em>where \(k\) is the number of nodes in layer \(i\) and \(n\) is the number of data points
+						</em>
+					</p>
+					<h4>Activation Function<br>
+						<span class="subhead">Also known as "non-linearity", or "transformation function"</span>
+					</h4>
+					<p>
+						$$\hat{y}^{n}  = \sigma(x_{j1}^{n}) \ where  \ \sigma(z) = \frac{1}{1+e^{-z}}$$
+					</p>
+
+					<h4>Loss Function<br>
+						<span class="subhead">Sometimes referred to as a "cost function" or "objective function"</span>
+					</h4>
+					<p>There are <a href="https://en.wikipedia.org/wiki/Loss_functions_for_classification">different loss functions</a> to choose from. In neural networks, it is common to use Cross Entropy Loss (<em>where $p$ is the ground truth, and $q$ is the prediction</em>):  </p>
+
+					<p>
+						$$H(p,q) = -\sum p_i\,log\,q_i = -y\,log\,\hat{y} - (1-y)log(1-\hat{y})$$
+
+						$$ J(\theta) = \frac{1}{N}\sum_{n=1}^{N}H(p_n,q_n) = - \frac{1}{N}\sum_{n=1}^{N} \left[y_n\,log\,\hat{y_n} - (1-y_n)log(1-\hat{y_n})\right]$$
+
+						
+					</p>
+				</section>	
+				<section id="content_2" class="tab">
+					backprop
+				</section>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12 play-bar">
+				<span class="back"><i class="material-icons">fast_rewind</i></span>
+				<span class="back"><i class="material-icons">skip_previous</i></span>
+				<span class="play"><i class="material-icons">play_arrow</i></span>
+				<span class="back"><i class="material-icons">skip_next</i></span>
+				<span class="forward"><i class="material-icons">fast_forward</i></span>
+			</div>
+
+		</div>	
+
+
+		<div class="row">
 			<div class="col-sm-3" id="Scatter">
 				<div id="tooltip" class="hidden">
 			        <span id="x1"></span><br>
@@ -39,25 +119,18 @@
 				</div>
 			</div>
 			<div class="col-sm-3">
-				<div class="section-label">Functions</div>
-				<h3>Forward Pass</h3>
-				<h4>Sum of Affine Transformations</h4>
-				<p>
-					\(x_{j1}^{n} = \sum_{k=1}^{k}(w_{ik}^{n}x_{ik}^{n}+b_{i}^{n})\) <br>
-					<em>where \(k\) is the number of nodes in layer \(i\)<br>
-						and \(n\) is the number of data points
-					</em>
-				</p>
-				<h4>Activation Function<br>
-					<span class="subhead">Also known as "non-linearity", or "transformation function"</span>
-				</h4>
-				<p>
-					\(\hat{y}^{n}  = \sigma(x_{j1}^{n})\) where \(\sigma(z) = \frac{1}{1+e^{-z}}\)
-				</p>
+				<div class="section-label">Loss</div>
+				<div class="section-label">Gradient descent</div>
 			</div>
 			<div class="col-sm-3">
 				<div class="section-label">Math</div>
 			</div>
+		</div>
+		<hr>
+		<div class="row">	
+			
+
+			
 		</div>
 		<div class="row">
 			<div class="col-sm-12"><h3>A Simple Feedforward Neural Network with 1 hidden layer</h3></div>

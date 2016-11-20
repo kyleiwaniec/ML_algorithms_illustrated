@@ -20,9 +20,18 @@ body,html{
 	margin:10px;
 	height:100%;
 }
+a{color:#f05;}
+a:hover, a:focus {
+    color: #f05;
+    text-decoration: underline;
+}
+p{
+	line-height: 24px;
+}
 h4{
 	margin-top: 30px;
 }
+.mtop15{margin-top:17px;}
 main{
 	max-width: 1280px;
 	margin:0 auto;
@@ -102,7 +111,7 @@ hr{border-top: 1px solid #ddd;}
 .section-label{
 	font-family: MJX_Math;
 	font-size: 110%;
-	margin-top: 20px;
+	/*margin-top: 20px;*/
 	border-bottom: 1px solid #ccc;
 }
 .sections-summary{
@@ -110,7 +119,7 @@ hr{border-top: 1px solid #ddd;}
 	font-size: 100%;
 	margin-top: 20px;
 }
-.math-font{
+.mathy{
 	font-family: MJX_Math;
 }
 
@@ -128,7 +137,68 @@ hr{border-top: 1px solid #ddd;}
     stroke: #666;
 } 
 .data-point-1{
-	fill: #666;
-    stroke: #666;
+	fill: red;
+    stroke: red;
 } 
+.larger{    
+	font-size: 160%;
+    font-weight: 500;
+}
+.play-bar{
+	background: #f05;
+	min-height: 40px;
+	box-shadow: 0 0 8px #ccc;
+	border-bottom: 1px solid #ccc;
+	margin:20px 0;
+	text-align: center;
+	
+}
+.play-bar span{
+
+}
+.play-bar .material-icons{
+	font-size: 40px;
+	line-height: 50px;
+	color:#fff;
+}
+
+section.tab {
+  display: none;
+  padding: 20px 0 0;
+  border-top: 1px solid #ddd;
+}
+
+input.tab-state {
+  display: none;
+}
+
+label {
+  display: inline-block;
+  margin: 0 0 -1px;
+  padding: 15px 25px;
+  font-weight: 600;
+  text-align: center;
+  color: #787878;;
+  border: 1px solid transparent;
+}
+
+label:hover {
+  color: #888;
+  cursor: pointer;
+}
+
+input:checked + label {
+  color: #010b35;
+  border: 1px solid #ddd;
+  border-top:3px solid #f05;
+  border-bottom: 1px solid #fff;
+}
+
+
+#tab_1:checked ~ #content_1, 
+#tab_2:checked ~ #content_2
+{
+  display: block;
+}
+
 
