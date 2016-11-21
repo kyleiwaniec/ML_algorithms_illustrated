@@ -64,7 +64,7 @@ export class Matrix extends React.Component {
     return (
       <div>
         <div>
-          <small><b>Layer {this.props.layerIndex}</b></small>
+          <small><b>Layer {this.props.layerIndex + 1}</b></small>
         </div>
         <div>
           <ul className="list-unstyled">
@@ -94,6 +94,7 @@ export class Matrix extends React.Component {
           borderColor: '#207ce5',
           borderWidth: borders.map(s => s + 'px').join(' '),
           borderStyle: 'solid',
+          marginBottom: '500px',
         }}>
         {cells}
       </div>
@@ -113,6 +114,7 @@ export class Matrix extends React.Component {
           key={`col${i}row${j}`}
           color={colorScale(Math.abs(val))}
           value={val}
+          pixelIndex={this.props.layerIndex === 0 ? j : null}
         />
       );
     }));

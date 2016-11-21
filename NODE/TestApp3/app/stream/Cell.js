@@ -6,6 +6,7 @@ type Props = {
   value: number,
   fromNode: string,
   toNode: string,
+  pixelIndex: ?number,
 };
 
 type State = {
@@ -72,7 +73,7 @@ export class Cell extends React.Component {
         onMouseLeave={this.onMouseLeave}
       >
       {this.state.hover ?
-        <span style={{
+        <div style={{
           visibility: 'visible',
           backgroundColor: 'black',
           color: '#fff',
@@ -88,8 +89,42 @@ export class Cell extends React.Component {
           To {this.props.toNode}
           <br />
           {this.props.value}
-        </span>
-        : null}
+          <br />
+          {this.drawTable()}
+        </div>
+      : null}
+      </div>);
+  }
+
+  drawTable(): ?React.Element<any> {
+    if (this.props.pixelIndex == null) {
+      return null;
+    }
+    const r = Math.floor(this.props.pixelIndex / 28);
+    const c = this.props.pixelIndex % 28;
+    console.log(`${this.props.pixelIndex}: ${r} - ${c}`)
+    const rows = new Array(28).fill().map((x, i) =>
+      (<tr key={`row row ${i}`}>
+        {new Array(28).fill().map((y, j) =>
+          (<td
+            key={`cell ${i}-${j}`}
+            style={{
+              backgroundColor: r == i && c == j ? 'black' : 'white',
+              width: 5,
+              height: 5,
+              border: '1px solid black',
+            }}
+           />)
+        )}
+      </tr>)
+    );
+    return (
+      <div style={{margin: 'auto', display: 'inline-block'}}>
+        <table style={{borderCollapse: 'collapse'}}>
+          <tbody>
+            {rows}
+          </tbody>
+        </table>
       </div>
     );
   }
