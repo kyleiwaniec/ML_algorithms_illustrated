@@ -62,7 +62,6 @@ export class Graphs extends React.Component {
     }
     return (
       <div>
-        <div>{this.state.finished ? 'Finished' : null}</div>
         <Line
           options={{scales: {xAxes: [{display: false}]}}}
           data={{

@@ -78,13 +78,13 @@ export class Mnist extends React.Component {
               />
             </div>
           </div>
-          <div className="col-lg-1" />
           <div className="col-lg-2">
             <div className="btn-group btn-group-sm" role="group">
               {this.renderRunButton()}
               {this.renderCancelButton()}
             </div>
           </div>
+          <div className="col-lg-1" />
         </div>
         <div className="row">
           <div className="col-lg-4">
@@ -105,7 +105,7 @@ export class Mnist extends React.Component {
           type="button"
           className="btn btn-secondary"
           onClick={this.handleRun}>
-          Start stream
+          Run
         </button>
       );
     }
@@ -119,7 +119,7 @@ export class Mnist extends React.Component {
           type="button"
           className="btn btn-secondary"
           onClick={() => this.closeStream()}>
-          Close stream
+          Stop
         </button>
       );
     }
