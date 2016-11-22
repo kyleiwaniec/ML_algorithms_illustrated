@@ -12,7 +12,7 @@ export class MnistController extends StreamController {
     const net = new brain.NeuralNetwork({
       hiddenLayers: nodes,
     });
-    const set = mnist.set(2000, 0);
+    const set = mnist.set(5000, 0);
     const trainingSet = set.training;
     //const testSet = set.test;
 

@@ -102,7 +102,6 @@ export class Cell extends React.Component {
     }
     const r = Math.floor(this.props.pixelIndex / 28);
     const c = this.props.pixelIndex % 28;
-    console.log(`${this.props.pixelIndex}: ${r} - ${c}`)
     const rows = new Array(28).fill().map((x, i) =>
       (<tr key={`row row ${i}`}>
         {new Array(28).fill().map((y, j) =>

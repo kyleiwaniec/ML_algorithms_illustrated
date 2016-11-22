@@ -6,7 +6,9 @@ import ReactDOM from 'react-dom';
 import {MnistStream} from './MnistStream';
 import type {Iteration} from './MnistStream';
 import {Line} from 'react-chartjs-2';
-import { defaults } from 'react-chartjs-2';
+import {defaults} from 'react-chartjs-2';
+import {Sketchpad} from './Sketchpad';
+
 defaults.global.animation = false;
 
 type Props = {
@@ -23,7 +25,7 @@ export class Graphs extends React.Component {
   props: Props;
   state: State;
 
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props)
     this.props = props;
     this.state = {
@@ -90,7 +92,19 @@ export class Graphs extends React.Component {
             ]
           }}
         />
+        {this.renderSketchpad()}
       </div>
+    );
+  }
+
+  renderSketchpad(): ?React.Element<any> {
+    const len = this.state.iterations.length;
+    let nn = null;
+    if (len > 0) {
+      nn = this.state.iterations[len - 1].nn;
+    }
+    return (
+      <Sketchpad nn={nn} />
     );
   }
 }

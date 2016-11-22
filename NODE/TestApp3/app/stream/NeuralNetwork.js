@@ -1,9 +1,15 @@
 /* @flow */
 
+import brain from 'brain';
+
 export class NeuralNetwork {
   weights: Array<Array<Array<number>>>;
+  brainNN: ?Object;
+  nn: Object;
 
   constructor(nn: Object) {
+    this.nn = nn;
+
     this.weights = nn.layers.filter((x, i) => i > 0).map(layer => {
       const nodes = Object.keys(layer).length;
       const weightMatrix = new Array(nodes).fill();
@@ -21,10 +27,14 @@ export class NeuralNetwork {
       }
       return weightMatrix;
     });
-
   }
 
   getWeigthsForLayer(idx: number): Array<Array<number>> {
     return this.weights[idx];
+  }
+
+  run(input: Array<number>): Array<number> {
+    this.brainNN = this.brainNN || new brain.NeuralNetwork().fromJSON(this.nn);
+    return this.brainNN.run(input);
   }
 }
