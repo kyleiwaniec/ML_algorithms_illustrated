@@ -104,11 +104,22 @@
 
 					\frac{\partial y_j}{\partial s_j} &= \hat{y_j}(1-\hat{y_j}) \\
 
-					\frac{\partial s_j}{\partial w_{ij}} &= \hat{y_j} 
+					\frac{\partial s_j}{\partial w_{ij}} &= {x_i} 
 
 					\end{align} $$
 
+					where \(x_i\) is the activation of the ith node of the hidden layer. Combining things back together,
 
+					$$ \begin{align}
+
+					\frac{\partial J(\theta)}{\partial s_j} &= \hat{y_j} - y_j \\
+					\frac{\partial J(\theta)}{\partial w_{ij}} &= (\hat{y_j} - y_j)\hat{y_j}
+
+					\end{align} $$
+
+					This gives us the gradient for the weights in the last layer of the network. We now need to calculate the error gradient for the weights of the lower layers.
+
+					(see <a href="https://www.ics.uci.edu/~pjsadows/notes.pdf">https://www.ics.uci.edu/~pjsadows/notes.pdf</a>) for continuation.
 				</section>
 			</div>
 		</div>
