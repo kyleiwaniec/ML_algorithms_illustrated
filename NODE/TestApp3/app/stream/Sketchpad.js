@@ -197,11 +197,19 @@ export class Sketchpad extends React.Component {
                 ref="canvas"
               />
             </div>
-          </div>
-          <button type="button" onClick={() => this.clear()}>Clear</button>
-          <button type="button" onClick={() => this.recognize()}>Recognise</button>
-          <div>
-            {this.state.result.length > 0 ? `result: ${this.state.result}` : ''}
+            <div style={{textAlign: 'center'}}>
+              <div  className="btn-group btn-group-sm" role="group">
+                <button type="button" className="btn btn-secondary" onClick={() => this.clear()}>
+                  Clear
+                </button>
+                <button type="button" className="btn btn-secondary" onClick={() => this.recognize()}>
+                  Recognise
+                </button>
+              </div>
+              <div>
+                {' '}Result: {this.state.result.length > 0 ? `${this.state.result}` : '?'}
+              </div>
+            </div>
           </div>
         </div>
     );
