@@ -180,9 +180,9 @@ export class Sketchpad extends React.Component {
   render(): React.Element<any> {
     return (
         <div>
-          <p>
+          <small>
             Draw a digit in the box below and click the "recognize" button.
-          </p>
+          </small>
           <div style={{textAlign: 'center'}}>
             <div style={{
               width: '280px',

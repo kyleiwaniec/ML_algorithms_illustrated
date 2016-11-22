@@ -84,11 +84,12 @@ export class Mnist extends React.Component {
               {this.renderCancelButton()}
             </div>
           </div>
-          <div className="col-lg-1" />
         </div>
         <div className="row">
           <div className="col-lg-4">
-            <Graphs stream={this.state.stream} />
+            <div  style={{marginTop: "20px"}}>
+              <Graphs stream={this.state.stream} />
+            </div>
           </div>
           <div className="col-lg-8">
             <Matrices stream={this.state.stream} />
