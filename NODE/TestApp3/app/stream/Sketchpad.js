@@ -179,28 +179,39 @@ export class Sketchpad extends React.Component {
 
   render(): React.Element<any> {
     return (
-      <div style={{display: 'inline-block'}}>
-        <p>
-          Draw a digit in the box below and click the "recognize" button.
-        </p>
-        <div style={{
-          width: '280px',
-          height: '280px',
-          borderColor: 'green',
-          borderWidth: '1px',
-          borderStyle: 'solid',
-        }}>
-          <DrawableCanvas
-            lineWidth={1}
-            ref="canvas"
-          />
-        </div>
-        <button type="button" onClick={() => this.clear()}>Clear</button>
-        <button type="button" onClick={() => this.recognize()}>Recognise</button>
         <div>
-          {this.state.result.length > 0 ? `result: ${this.state.result}` : ''}
+          <small>
+            Draw a digit in the box below and click the "recognize" button.
+          </small>
+          <div style={{textAlign: 'center'}}>
+            <div style={{
+              width: '280px',
+              height: '280px',
+              borderColor: 'green',
+              borderWidth: '1px',
+              borderStyle: 'solid',
+              display: 'inline-block'
+            }}>
+              <DrawableCanvas
+                lineWidth={1}
+                ref="canvas"
+              />
+            </div>
+            <div style={{textAlign: 'center'}}>
+              <div  className="btn-group btn-group-sm" role="group">
+                <button type="button" className="btn btn-secondary" onClick={() => this.clear()}>
+                  Clear
+                </button>
+                <button type="button" className="btn btn-secondary" onClick={() => this.recognize()}>
+                  Recognise
+                </button>
+              </div>
+              <div>
+                {' '}Result: {this.state.result.length > 0 ? `${this.state.result}` : '?'}
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
     );
   }
 }
