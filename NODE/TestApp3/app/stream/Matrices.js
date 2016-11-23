@@ -136,17 +136,17 @@ export class Matrices extends React.Component {
       <div className="row">
         <div className="col-lg-4">
           <div className="btn-group btn-group-sm">
-            <span type="text" className="btn btn-secondary">
+            <span type="text" className="btn btn-default">
               Iteration {this.state.currentIteration + 1}
             </span>
             <button
-              className="btn btn-secondary" type="button"
+              className="btn btn-default" type="button"
               onClick={() => this.onChangeIteration(-1)}
               >
               ⏪
             </button>
             <button
-              className="btn btn-secondary"
+              className="btn btn-default"
               type="button"
               onClick={() => this.onChangeIteration(1)}
               >
@@ -162,20 +162,20 @@ export class Matrices extends React.Component {
   renderPlayStatusButton(): React.Element<any> {
     if (this.state.playStatus === 'completed') {
       return (
-        <button className="btn btn-secondary" type="button">
+        <button className="btn btn-info" type="button">
           Finished
         </button>
       );
     } else if (this.state.playStatus === 'none') {
       return (
-        <button className="btn btn-secondary" type="button">
+        <button className="btn btn-info" type="button">
           Not running
         </button>
       );
     } else if (this.state.playStatus === 'paused') {
       return (
         <button
-          className="btn btn-secondary"
+          className="btn btn-default"
           type="button"
           onClick={() => this.setState({playStatus: 'running'})}>
           ▶️
@@ -184,7 +184,7 @@ export class Matrices extends React.Component {
     } else {
       return (
         <button
-          className="btn btn-secondary"
+          className="btn btn-default"
           type="button"
           onClick={() => this.setState({playStatus: 'paused'})}>
           ⏸

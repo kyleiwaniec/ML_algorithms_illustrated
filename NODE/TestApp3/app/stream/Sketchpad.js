@@ -123,7 +123,6 @@ export class Sketchpad extends React.Component {
     // now bin image into 10x10 blocks (giving a 28x28 image)
     imgData = copyCtx.getImageData(0, 0, 280, 280);
     grayscaleImg = this.imageDataToGrayscale(imgData);
-    console.log(grayscaleImg);
 
     const nnInput = new Array(784);
     const nnInput2 = [];
@@ -158,7 +157,6 @@ export class Sketchpad extends React.Component {
       }
     }
 
-    console.log(nnInput2);
     if (this.props.nn != null) {
       const output = this.props.nn.run(nnInput2);
       let maxIndex = 0;
@@ -167,7 +165,6 @@ export class Sketchpad extends React.Component {
           maxIndex = i;
         }
       }
-      console.log(output);
       this.setState({result: `${maxIndex}`});
     }
   }
@@ -175,19 +172,22 @@ export class Sketchpad extends React.Component {
   clear(): void {
     const context = ReactDOM.findDOMNode(this.refs.canvas).getContext('2d');
     context.clearRect(0, 0, 280, 280);
+    this.setState({result: ''});
   }
 
   render(): React.Element<any> {
     return (
-        <div>
+        <div style={{marginTop: '20px'}}>
           <small>
-            Draw a digit in the box below and click the "recognize" button.
+            <strong>
+              Draw a digit in the box below and click recognise!
+            </strong>
           </small>
-          <div style={{textAlign: 'center'}}>
+          <div style={{textAlign: 'center', marginTop: '10px'}}>
             <div style={{
               width: '280px',
               height: '280px',
-              borderColor: 'green',
+              borderColor: 'gray',
               borderWidth: '1px',
               borderStyle: 'solid',
               display: 'inline-block'
@@ -199,15 +199,19 @@ export class Sketchpad extends React.Component {
             </div>
             <div style={{textAlign: 'center'}}>
               <div  className="btn-group btn-group-sm" role="group">
-                <button type="button" className="btn btn-secondary" onClick={() => this.clear()}>
+                <button type="button" className="btn btn-default" onClick={() => this.clear()}>
                   Clear
                 </button>
-                <button type="button" className="btn btn-secondary" onClick={() => this.recognize()}>
+                <button type="button" className="btn btn-success" onClick={() => this.recognize()}>
                   Recognise
                 </button>
               </div>
               <div>
-                {' '}Result: {this.state.result.length > 0 ? `${this.state.result}` : '?'}
+                <strong>
+                  <small>
+                    {' '}Result : {this.state.result.length > 0 ? `${this.state.result}` : '?'}
+                  </small>
+                </strong>
               </div>
             </div>
           </div>

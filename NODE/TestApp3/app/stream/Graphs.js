@@ -68,7 +68,7 @@ export class Graphs extends React.Component {
             labels: new Array(this.state.iterations.length).fill().map((x, i) => 'It. ' + (i + 1)),
             datasets: [
               {
-                label: 'Error',
+                label: 'Training error',
                 fill: false,
                 lineTension: 0.1,
                 backgroundColor: 'rgba(75,192,192,0.4)',
