@@ -48,7 +48,7 @@ $(function(){
           scatter('ScatterLR',scatterLR);
           scatter('ScatterNN',scatterNN);
           draw('LR',[2,1]);
-          draw('NN',[2,3,1]);
+          draw('NN',[1,5,10]);
           setTimeout(function(){
               MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
             }, 1);
