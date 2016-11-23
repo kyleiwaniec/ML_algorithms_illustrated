@@ -176,9 +176,11 @@ export class Sketchpad extends React.Component {
 
   render(): React.Element<any> {
     return (
-        <div>
+        <div style={{marginTop: '20px'}}>
           <small>
-            Draw a digit in the box below and click the "recognize" button.
+            <strong>
+              Draw a digit in the box below and click recognise!
+            </strong>
           </small>
           <div style={{textAlign: 'center'}}>
             <div style={{
@@ -199,12 +201,16 @@ export class Sketchpad extends React.Component {
                 <button type="button" className="btn btn-default" onClick={() => this.clear()}>
                   Clear
                 </button>
-                <button type="button" className="btn btn-default" onClick={() => this.recognize()}>
+                <button type="button" className="btn btn-success" onClick={() => this.recognize()}>
                   Recognise
                 </button>
               </div>
               <div>
-                {' '}Result: {this.state.result.length > 0 ? `${this.state.result}` : '?'}
+                <strong>
+                  <small>
+                    {' '}Result : {this.state.result.length > 0 ? `${this.state.result}` : '?'}
+                  </small>
+                </strong>
               </div>
             </div>
           </div>

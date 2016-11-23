@@ -18,7 +18,7 @@ export class NodesPicker extends React.Component {
   constructor(props: any) {
     super(props);
     this.state = {
-      nodes: [defaultNodes],
+      nodes: [10],
     };
   }
 

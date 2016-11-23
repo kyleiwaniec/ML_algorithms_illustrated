@@ -67,12 +67,14 @@ export class Mnist extends React.Component {
     return (
       <div style={{marginLeft: 10}}>
         <div className="row">
-          <div className="col-lg-3">
+          <div className="col-lg-4">
+            <small>
+              <strong>Enter the number of nodes per hidder layer</strong>
+            </small>
             <div className="input-group input-group-sm">
               <NodesPicker ref="picker" />
             </div>
           </div>
-          <div className="col-lg-1" />
           <div className="col-lg-2">
             <div className="btn-group btn-group-sm" role="group">
               {this.renderRunButton()}
@@ -99,7 +101,7 @@ export class Mnist extends React.Component {
       return (
         <button
           type="button"
-          className="btn btn-default"
+          className="btn btn-primary"
           onClick={this.handleRun}>
           Run
         </button>
