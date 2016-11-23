@@ -182,11 +182,11 @@ export class Sketchpad extends React.Component {
               Draw a digit in the box below and click recognise!
             </strong>
           </small>
-          <div style={{textAlign: 'center'}}>
+          <div style={{textAlign: 'center', marginTop: '10px'}}>
             <div style={{
               width: '280px',
               height: '280px',
-              borderColor: 'green',
+              borderColor: 'gray',
               borderWidth: '1px',
               borderStyle: 'solid',
               display: 'inline-block'

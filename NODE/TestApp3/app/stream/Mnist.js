@@ -71,6 +71,10 @@ export class Mnist extends React.Component {
             <small>
               <strong>Enter the number of nodes per hidder layer</strong>
             </small>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-lg-4">
             <div className="input-group input-group-sm">
               <NodesPicker ref="picker" />
             </div>
@@ -115,7 +119,7 @@ export class Mnist extends React.Component {
       return (
         <button
           type="button"
-          className="btn btn-default"
+          className="btn btn-warning"
           onClick={() => this.closeStream()}>
           Stop
         </button>
