@@ -162,13 +162,13 @@ export class Matrices extends React.Component {
   renderPlayStatusButton(): React.Element<any> {
     if (this.state.playStatus === 'completed') {
       return (
-        <button className="btn btn-default" type="button">
+        <button className="btn btn-info" type="button">
           Finished
         </button>
       );
     } else if (this.state.playStatus === 'none') {
       return (
-        <button className="btn btn-default" type="button">
+        <button className="btn btn-info" type="button">
           Not running
         </button>
       );

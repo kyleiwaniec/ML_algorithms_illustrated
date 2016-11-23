@@ -172,6 +172,7 @@ export class Sketchpad extends React.Component {
   clear(): void {
     const context = ReactDOM.findDOMNode(this.refs.canvas).getContext('2d');
     context.clearRect(0, 0, 280, 280);
+    this.setState({result: ''});
   }
 
   render(): React.Element<any> {
