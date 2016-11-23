@@ -10,11 +10,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Graphs} from './Graphs';
 import {Matrices} from './Matrices';
+import {NodesPicker} from './NodesPicker';
 
 type Status = 'running' | 'finished' | 'none';
 
 type State = {
-  nodes: string,
   iterations: Array<Iteration>,
   status: Status,
   stream: ?MnistStream,
@@ -46,12 +46,12 @@ export class Mnist extends React.Component {
   }
 
   handleRun(): void {
-    const nodes = this.state.nodes.split(/\s+/).join(' ');
+    const nodes = this.refs.picker.getNodes();
     if (nodes.length === 0) {
       return;
     }
     this.closeStream();
-    const stream = new MnistStream(nodes);
+    const stream = new MnistStream(nodes.join(' '));
     stream.onFinished(() => this.closeStream());
     this.setState(
       {
@@ -69,15 +69,10 @@ export class Mnist extends React.Component {
         <div className="row">
           <div className="col-lg-3">
             <div className="input-group input-group-sm">
-              <input
-                type="text"
-                className="form-control"
-                value={this.state.nodes}
-                placeholder={'Nodes in hidden layers, e.g. 5 2'}
-                onChange={event => this.setState({nodes: event.target.value})}
-              />
+              <NodesPicker ref="picker" />
             </div>
           </div>
+          <div className="col-lg-1" />
           <div className="col-lg-2">
             <div className="btn-group btn-group-sm" role="group">
               {this.renderRunButton()}
@@ -104,7 +99,7 @@ export class Mnist extends React.Component {
       return (
         <button
           type="button"
-          className="btn btn-secondary"
+          className="btn btn-default"
           onClick={this.handleRun}>
           Run
         </button>
@@ -118,7 +113,7 @@ export class Mnist extends React.Component {
       return (
         <button
           type="button"
-          className="btn btn-secondary"
+          className="btn btn-default"
           onClick={() => this.closeStream()}>
           Stop
         </button>

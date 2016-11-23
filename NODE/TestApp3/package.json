@@ -34,7 +34,11 @@
     "express-sse": "^0.4.1",
     "react-tooltip": "^3.2.1",
     "react-chartjs-2": "^1.5.1",
-    "react-drawable-canvas": "^1.0.5"
+    "react-drawable-canvas": "^1.0.5",
+    "react-bootstrap": "^0.30.7",
+    "invariant": "^2.2.2",
+    "underscore": "^1.8.3",
+    "inherits": "^2.0.3"
   },
   "devDependencies": {
     "autoprefixer": "^6.0.3",
