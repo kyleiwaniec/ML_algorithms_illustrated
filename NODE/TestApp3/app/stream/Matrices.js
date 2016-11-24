@@ -134,27 +134,23 @@ export class Matrices extends React.Component {
   renderIterationSelector(): React.Element<any> {
     return (
       <div className="row">
-        <div className="col-lg-4">
-          <div className="btn-group btn-group-sm">
-            <span type="text" className="btn btn-default">
+          <div className="col-sm-12 play-bar">
+            <span style={{color: '#fff'}}>
               Iteration {this.state.currentIteration + 1}
             </span>
-            <button
-              className="btn btn-default" type="button"
-              onClick={() => this.onChangeIteration(-1)}
-              >
-              ⏪
-            </button>
-            <button
-              className="btn btn-default"
-              type="button"
-              onClick={() => this.onChangeIteration(1)}
-              >
-              ⏩
-              </button>
+           
+            <span className="back"
+              onClick={() => this.onChangeIteration(-1)}>
+              <i className="material-icons">skip_previous</i>
+            </span>
+
+            <span className="forward"
+              onClick={() => this.onChangeIteration(1)}>
+              <i className="material-icons">skip_next</i>
+            </span>
+
             {this.renderPlayStatusButton()}
           </div>
-        </div>
       </div>
     );
   }
@@ -162,33 +158,29 @@ export class Matrices extends React.Component {
   renderPlayStatusButton(): React.Element<any> {
     if (this.state.playStatus === 'completed') {
       return (
-        <button className="btn btn-info" type="button">
+        <span style={{color: '#fff'}}>
           Finished
-        </button>
+        </span>
       );
     } else if (this.state.playStatus === 'none') {
       return (
-        <button className="btn btn-info" type="button">
+        <span style={{color: '#fff'}}>
           Not running
-        </button>
+        </span>
       );
     } else if (this.state.playStatus === 'paused') {
       return (
-        <button
-          className="btn btn-default"
-          type="button"
+        <span style={{color: '#fff'}}
           onClick={() => this.setState({playStatus: 'running'})}>
-          ▶️
-        </button>
+          Running
+        </span>
       );
     } else {
       return (
-        <button
-          className="btn btn-default"
-          type="button"
+        <span style={{color: '#fff'}}
           onClick={() => this.setState({playStatus: 'paused'})}>
-          ⏸
-        </button>
+          Paused
+        </span>
       );
     }
   }

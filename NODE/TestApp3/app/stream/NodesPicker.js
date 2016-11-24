@@ -27,14 +27,12 @@ export class NodesPicker extends React.Component {
       <div>
         {this.state.nodes.map((node, idx) => this.renderNode(node, idx))}
         <Button
-          bsSize="small"
           bsStyle={btnType}
           style={btnStyle}
           onClick={() => this.addOne()}>
           +
         </Button>
         <Button
-          bsSize="small"
           bsStyle={btnType}
           style={btnStyle}
           onClick={() => this.removeOne()}>
@@ -77,7 +75,6 @@ export class NodesPicker extends React.Component {
         title={node}
         id={`selector-${idx}`}
         bsStyle={btnType}
-        bsSize="small"
         style={btnStyle}
         >
         {new Array(10).fill().map((_, i_) => {

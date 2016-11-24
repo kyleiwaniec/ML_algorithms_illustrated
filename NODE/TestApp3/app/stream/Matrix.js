@@ -104,7 +104,9 @@ export class Matrix extends React.Component {
   generateCells(stats: Stats): Array<Array<React.Element<any>>> {
     var colorScale = d3.scale.linear()
       .domain([stats.minAbs, stats.maxAbs])
-      .range(['white', '#010b35']);
+      .range(['white', '#1d0177']); 
+      // #198074 (emerald)
+      // #010b35 (very dark blue. almost black)
 
     return this.props.weightMatrix.map((row, i) => row.map((val, j) => {
       return (

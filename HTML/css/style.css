@@ -176,12 +176,14 @@ hr{border-top: 1px solid #ddd;}
 	
 }
 .play-bar span{
-
+	cursor: pointer;
+	vertical-align: middle;
 }
 .play-bar .material-icons{
 	font-size: 40px;
 	line-height: 50px;
 	color:#fff;
+    vertical-align: middle;
 }
 
 section.tab {

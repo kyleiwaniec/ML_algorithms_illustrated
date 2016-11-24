@@ -68,19 +68,17 @@ export class Mnist extends React.Component {
       <div style={{marginLeft: 10}}>
         <div className="row">
           <div className="col-lg-4">
-            <small>
               <strong>Enter the number of nodes per hidden layer</strong>
-            </small>
           </div>
         </div>
         <div className="row">
           <div className="col-lg-4">
-            <div className="input-group input-group-sm">
+            <div className="input-group">
               <NodesPicker ref="picker" />
             </div>
           </div>
           <div className="col-lg-2">
-            <div className="btn-group btn-group-sm" role="group">
+            <div className="btn-group" role="group">
               {this.renderRunButton()}
               {this.renderCancelButton()}
             </div>
@@ -103,12 +101,16 @@ export class Mnist extends React.Component {
   renderRunButton(): ?React.Element<any> {
     if (this.state.status !== 'running') {
       return (
-        <button
-          type="button"
-          className="btn btn-primary"
+        <span className="play"
           onClick={this.handleRun}>
-          Run
-        </button>
+         <i className="material-icons">play_arrow</i>
+        </span>
+        // <button
+        //   type="button"
+        //   className="btn btn-primary"
+        //   onClick={this.handleRun}>
+        //   Run
+        // </button>
       );
     }
     return null;

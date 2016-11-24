@@ -196,7 +196,7 @@ export class Sketchpad extends React.Component {
               />
             </div>
             <div style={{textAlign: 'center'}}>
-              <div  className="btn-group btn-group-sm" role="group">
+              <div  className="btn-group" role="group">
                 <button type="button" className="btn btn-default" onClick={() => this.clear()}>
                   Clear
                 </button>
