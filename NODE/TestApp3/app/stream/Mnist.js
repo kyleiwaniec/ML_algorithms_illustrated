@@ -69,7 +69,7 @@ export class Mnist extends React.Component {
         <div className="row">
           <div className="col-lg-4">
             <small>
-              <strong>Enter the number of nodes per hidder layer</strong>
+              <strong>Enter the number of nodes per hidden layer</strong>
             </small>
           </div>
         </div>

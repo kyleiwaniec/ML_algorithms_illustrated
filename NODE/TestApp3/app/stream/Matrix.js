@@ -91,9 +91,9 @@ export class Matrix extends React.Component {
         style={{
           display: 'flex',
           flexDirection: 'column',
-          borderColor: '#207ce5',
-          borderWidth: borders.map(s => s + 'px').join(' '),
-          borderStyle: 'solid',
+          // borderColor: '#207ce5',
+          // borderWidth: borders.map(s => s + 'px').join(' '),
+          // borderStyle: 'solid',
           marginBottom: '500px',
         }}>
         {cells}
@@ -104,7 +104,7 @@ export class Matrix extends React.Component {
   generateCells(stats: Stats): Array<Array<React.Element<any>>> {
     var colorScale = d3.scale.linear()
       .domain([stats.minAbs, stats.maxAbs])
-      .range(['white', 'blue']);
+      .range(['white', '#010b35']);
 
     return this.props.weightMatrix.map((row, i) => row.map((val, j) => {
       return (
