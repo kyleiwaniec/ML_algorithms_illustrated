@@ -77,7 +77,7 @@ export class NodesPicker extends React.Component {
         bsStyle={btnType}
         style={btnStyle}
         >
-        {new Array(10).fill().map((_, i_) => {
+        {new Array(20).fill().map((_, i_) => {
           const i = i_ + 1;
           return (
             <MenuItem

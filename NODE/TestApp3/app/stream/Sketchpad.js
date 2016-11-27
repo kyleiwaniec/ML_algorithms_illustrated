@@ -191,7 +191,7 @@ export class Sketchpad extends React.Component {
               display: 'inline-block'
             }}>
               <DrawableCanvas
-                lineWidth={1}
+                lineWidth={4}
                 ref="canvas"
               />
             </div>
