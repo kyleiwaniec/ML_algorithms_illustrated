@@ -37,7 +37,7 @@ export class MnistController extends StreamController {
         const data = it.value;
         this._see.sseSend(data);
       },
-      1000,
+      50,
     );
   }
 }
