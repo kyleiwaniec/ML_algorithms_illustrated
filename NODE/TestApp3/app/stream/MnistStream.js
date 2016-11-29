@@ -35,7 +35,7 @@ export class MnistStream {
       if (event.data == '"done"') {
         this.sendFinished();
       } else {
-        this.sendIteration(this.parseIteration(event.data));
+        this.sendIteration(this.parseIteration(event.data.trim()));
       }
     };
     this.es.onopen = event => console.log(event);
@@ -44,7 +44,7 @@ export class MnistStream {
   }
 
   parseIteration(streamData: string): Iteration {
-    const iteration = JSON.parse(streamData);
+    const iteration = JSON.parse(JSON.parse(streamData));
     return {
       error: iteration.error,
       index: iteration.iterations + 1,
