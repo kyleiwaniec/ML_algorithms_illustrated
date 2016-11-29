@@ -8,6 +8,7 @@ import type {Iteration} from './MnistStream';
 import {Line} from 'react-chartjs-2';
 import {defaults} from 'react-chartjs-2';
 import {Sketchpad} from './Sketchpad';
+import {testData} from './TestData';
 
 defaults.global.animation = false;
 
@@ -19,6 +20,7 @@ type State = {
   iterations: Array<Iteration>,
   finished: boolean,
   stream: ?MnistStream,
+  testError: ?number,
 };
 
 export class Graphs extends React.Component {
@@ -32,13 +34,17 @@ export class Graphs extends React.Component {
       iterations: [],
       finished: false,
       stream: this.props.stream,
+      testError: null,
     };
     this.setUpStream(this.state.stream);
   }
 
   setUpStream(stream: ?MnistStream): void {
     if (stream) {
-      stream.onFinished(() => this.setState({finished: true}));
+      stream.onFinished(() => this.setState(
+        {finished: true},
+        () => this.calculateError(),
+      ));
       stream.onIteration(iteration => this.addIteration(iteration));
     }
   }
@@ -46,7 +52,12 @@ export class Graphs extends React.Component {
   componentWillReceiveProps(nextProps: Props): void {
     if (nextProps.stream != this.state.stream) {
       this.setUpStream(nextProps.stream);
-      this.setState({stream: nextProps.stream, iterations: [], finished: false});
+      this.setState({
+        stream: nextProps.stream,
+        iterations: [],
+        finished: false,
+        testError: null,
+      });
     }
   }
 
@@ -54,6 +65,16 @@ export class Graphs extends React.Component {
     const iterations = this.state.iterations.slice();
     iterations.push(iteration);
     this.setState({iterations});
+  }
+
+  calculateError(): void {
+    const len = this.state.iterations.length;
+    let nn = null;
+    if (len > 0) {
+      nn = this.state.iterations[len - 1].nn;
+      const testError = nn.test(testData);
+      this.setState({testError});
+    }
   }
 
   render(): React.Element<any> {
@@ -91,6 +112,14 @@ export class Graphs extends React.Component {
             ]
           }}
         />
+        <div style={{marginTop: '20px'}}>
+          Test Error:{' '}
+          <strong>
+            <small>
+              {this.state.testError == null ? '?' : this.state.testError}
+            </small>
+          </strong>
+        </div>
         {this.renderSketchpad()}
       </div>
     );

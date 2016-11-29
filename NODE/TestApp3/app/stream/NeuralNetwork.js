@@ -37,4 +37,9 @@ export class NeuralNetwork {
     this.brainNN = this.brainNN || new brain.NeuralNetwork().fromJSON(this.nn);
     return this.brainNN.run(input);
   }
+
+  test(input: any): number {
+    this.brainNN = this.brainNN || new brain.NeuralNetwork().fromJSON(this.nn);
+    return this.brainNN.test(input).error;
+  }
 }

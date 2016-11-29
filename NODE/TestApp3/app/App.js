@@ -8,6 +8,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import {LinRegStore} from './linreg/LinRegStore';
 import {TestStream} from './stream/TestStream';
 import {Mnist} from './stream/Mnist';
+// $FlowFixMe
 import '!!style-loader!css-loader!../app/css/main.css';
 
 const linregStore = new LinRegStore();

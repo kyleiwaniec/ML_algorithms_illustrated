@@ -146,13 +146,6 @@ export class Sketchpad extends React.Component {
           var block = context.getImageData(x * 10, y * 10, 10, 10);
           var newVal = 255 * (0.5 - nnInput[x*28+y]/2);
           nnInput2.push(Math.round((255-newVal)/255*100)/100);
-          /*for (var i = 0; i < 4 * 10 * 10; i+=4) {
-            block.data[i] = newVal;
-            block.data[i+1] = newVal;
-            block.data[i+2] = newVal;
-            block.data[i+3] = 255;
-          }
-          context.putImageData(block, x * 10, y * 10);*/
         }
       }
     }
