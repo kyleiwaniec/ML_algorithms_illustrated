@@ -7,6 +7,7 @@ import {SecondsController} from './utils/SecondsController';
 import {SecondsStreamController} from './utils/SecondsStreamController';
 import {LinRegController} from './linreg/LinRegController';
 import {MnistController} from './mnist/MnistController';
+import {MnistTestController} from './mnist/MnistTestController';
 import SEE from 'express-sse';
 
 export function registerRoutes(): void {
@@ -38,5 +39,10 @@ export function registerRoutes(): void {
   stream(
     '/seconds/stream',
     (req: Request, see: SEE) => new SecondsStreamController(req, see).run(),
+  );
+
+  post(
+    '/mnist/test',
+    (req: Request) => new MnistTestController(req).test(),
   );
 }

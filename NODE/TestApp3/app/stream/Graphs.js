@@ -8,7 +8,7 @@ import type {Iteration} from './MnistStream';
 import {Line} from 'react-chartjs-2';
 import {defaults} from 'react-chartjs-2';
 import {Sketchpad} from './Sketchpad';
-import {testData} from './TestData';
+import {post} from '../remote/requests';
 
 defaults.global.animation = false;
 
@@ -72,8 +72,12 @@ export class Graphs extends React.Component {
     let nn = null;
     if (len > 0) {
       nn = this.state.iterations[len - 1].nn;
-      const testError = nn.test(testData);
-      this.setState({testError});
+      post(
+        '/mnist/test',
+        {jsonNN: nn.toJSON()},
+      ).then(
+        testError => this.setState({testError})
+      )
     }
   }
 

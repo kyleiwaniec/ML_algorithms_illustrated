@@ -42,4 +42,8 @@ export class NeuralNetwork {
     this.brainNN = this.brainNN || new brain.NeuralNetwork().fromJSON(this.nn);
     return this.brainNN.test(input).error;
   }
+
+  toJSON(): mixed {
+    return this.nn;
+  }
 }
