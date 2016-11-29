@@ -44,7 +44,7 @@ export class MnistStream {
   }
 
   parseIteration(streamData: string): Iteration {
-    const iteration = JSON.parse(JSON.parse(streamData));
+    const iteration = JSON.parse(streamData);
     return {
       error: iteration.error,
       index: iteration.iterations + 1,

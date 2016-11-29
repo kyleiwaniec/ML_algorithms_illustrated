@@ -23,7 +23,7 @@ export class MnistController extends StreamController {
         logPeriod: 1,       // number of iterations between logging
         learningRate: 0.3,    // learning rate
         callback: data =>  {
-          this._see.send(JSON.stringify(data) + "\n");
+          this._see.sseSend(data);
         },
         callbackPeriod: 1
       }

@@ -34,8 +34,9 @@ export function post(path: string, cb: (req: Request) => mixed): void {
 export function stream(path: string, cb: (req: Request, see: SEE) => mixed): void {
   const see = new SEE();
   const processor = (req: Request, res: any) => {
-    see.init(req, res);
-    cb(req, see);
+    //see.init(req, res);
+    res.sseSetup();
+    cb(req, res);
   };
   getApp().get(path, processor);
 }
