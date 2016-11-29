@@ -68,65 +68,35 @@ export class Mnist extends React.Component {
       <div style={{marginLeft: 10}}>
         <div className="row">
           <div className="col-lg-4">
-              <strong>Enter the number of nodes per hidden layer</strong>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-lg-4">
-            <div className="input-group">
-              <NodesPicker ref="picker" />
+            <div className="row">
+              <div className="col-sm-12">
+                <strong>Enter the number of nodes per hidden layer</strong>
+              </div>
             </div>
-          </div>
-          <div className="col-lg-2">
-            <div className="btn-group" role="group">
-              {this.renderRunButton()}
-              {this.renderCancelButton()}
+            <div className="row">
+              <div className="col-sm-12">
+                <div className="input-group">
+                  <NodesPicker ref="picker" />
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-lg-4">
-            <div  style={{marginTop: "20px"}}>
-              <Graphs stream={this.state.stream} />
+            <div className="row">
+              <div className="col-sm-12">
+                <div  style={{marginTop: "20px"}}>
+                  <Graphs stream={this.state.stream} />
+                </div>
+              </div>
             </div>
           </div>
           <div className="col-lg-8">
-            <Matrices stream={this.state.stream} />
+            <Matrices
+              stream={this.state.stream}
+              handleRun={() => this.handleRun()}
+              handleCancel={() => this.closeStream()}
+            />
           </div>
         </div>
       </div>
     );
-  }
-
-  renderRunButton(): ?React.Element<any> {
-    if (this.state.status !== 'running') {
-      return (
-        <span className="play"
-          onClick={this.handleRun}>
-         <i className="material-icons">play_arrow</i>
-        </span>
-        // <button
-        //   type="button"
-        //   className="btn btn-primary"
-        //   onClick={this.handleRun}>
-        //   Run
-        // </button>
-      );
-    }
-    return null;
-  }
-
-  renderCancelButton(): ?React.Element<any> {
-    if (this.state.status === 'running') {
-      return (
-        <button
-          type="button"
-          className="btn btn-warning"
-          onClick={() => this.closeStream()}>
-          Stop
-        </button>
-      );
-    }
-    return null;
   }
 }

@@ -9,6 +9,8 @@ import {MnistStream} from './MnistStream';
 
 type Props = {
   stream: ?MnistStream,
+  handleRun: () => void,
+  handleCancel: () => void,
 };
 
 type PlayStatus = 'completed' | 'running' | 'paused' | 'none';
@@ -97,31 +99,30 @@ export class Matrices extends React.Component {
   }
 
   render(): React.Element<any> {
-    if (this.state.iterations.length === 0) {
-      return (<div />);
-    } else {
-      const weights = this.state.iterations[this.state.currentIteration].nn.weights;
-      return (
+    const disabled = this.state.iterations.length === 0;
+    const weights = disabled
+      ? []
+      : this.state.iterations[this.state.currentIteration].nn.weights;
+    return (
+      <div>
         <div>
-          <div style={{marginTop: '10px'}}>
-            {this.renderIterationSelector()}
-          </div>
-          <div style={{display: 'flex', marginTop: '10px'}}>
-            {
-              weights.map((weightMatrix, i) => (
-                <div style={{marginRight: '20px'}} key={i}>
-                  <Matrix
-                    weightMatrix={weightMatrix}
-                    layerIndex={i}
-                    totalMatrices={weights.length}
-                  />
-                </div>
-              ))
-            }
-          </div>
+          {this.renderIterationSelector(disabled)}
         </div>
-      );
-    }
+        <div style={{display: 'flex', marginTop: '10px'}}>
+          {
+            weights.map((weightMatrix, i) => (
+              <div style={{marginRight: '20px'}} key={i}>
+                <Matrix
+                  weightMatrix={weightMatrix}
+                  layerIndex={i}
+                  totalMatrices={weights.length}
+                />
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    );
   }
 
   didComplete(state: State): boolean {
@@ -131,21 +132,28 @@ export class Matrices extends React.Component {
     return false;
   }
 
-  renderIterationSelector(): React.Element<any> {
+  renderIterationSelector(disabled: boolean): React.Element<any> {
+    const it = this.state.currentIteration + 1;
     return (
       <div className="row">
           <div className="col-sm-12 play-bar">
             <span style={{color: '#fff'}}>
-              Iteration {this.state.currentIteration + 1}
+              {it == 0 ? '' : `Iteration ${it}`}
             </span>
-           
+
             <span className="back"
-              onClick={() => this.onChangeIteration(-1)}>
+              onClick={() => disabled ? {} : this.onChangeIteration(-1)}>
               <i className="material-icons">skip_previous</i>
             </span>
 
+
+            <span className="play"
+              onClick={this.props.handleRun}>
+             <i className="material-icons">play_arrow</i>
+            </span>
+
             <span className="forward"
-              onClick={() => this.onChangeIteration(1)}>
+              onClick={() => disabled ? {} : this.onChangeIteration(1)}>
               <i className="material-icons">skip_next</i>
             </span>
 
@@ -170,16 +178,22 @@ export class Matrices extends React.Component {
       );
     } else if (this.state.playStatus === 'paused') {
       return (
-        <span style={{color: '#fff'}}
-          onClick={() => this.setState({playStatus: 'running'})}>
-          Running
-        </span>
+        <div>
+          <span style={{color: '#fff'}}
+            onClick={() => this.setState({playStatus: 'running'})}>
+            Pause
+          </span>
+          <span style={{color: '#fff'}}
+            onClick={this.props.handleCancel}>
+            Stop
+          </span>
+        </div>
       );
     } else {
       return (
         <span style={{color: '#fff'}}
           onClick={() => this.setState({playStatus: 'paused'})}>
-          Paused
+          Running
         </span>
       );
     }
