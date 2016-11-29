@@ -25,6 +25,7 @@ const SSE = function (req, res, next) {
 
   res.sseSend = function(data) {
     res.write("data: " + JSON.stringify(data) + "\n\n");
+    res.flushHeaders();
   }
   next()
 };
