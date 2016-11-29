@@ -28,6 +28,6 @@ export class MnistController extends StreamController {
         callbackPeriod: 1
       }
     );
-    this._see.send('done');
+    this._see.sseSend('done');
   }
 }
