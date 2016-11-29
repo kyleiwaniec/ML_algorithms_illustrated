@@ -15,7 +15,7 @@ export class MnistController extends StreamController {
     const set = mnist.set(5000, 0);
     const trainingSet = set.training;
 
-    net.train(trainingSet,
+    const gen = net.train(trainingSet,
       {
         errorThresh: 0.005,  // error threshold to reach
         iterations: 10,   // maximum training iterations
@@ -28,6 +28,16 @@ export class MnistController extends StreamController {
         callbackPeriod: 1
       }
     );
-    this._see.sseSend('done');
+    const interval = setInterval(() => {
+        const it = gen.next();
+        if (it.done) {
+        this._see.sseSend('done');
+          clearInterval(interval);
+        }
+        const data = it.value;
+        this._see.sseSend(data);
+      },
+      1000,
+    );
   }
 }

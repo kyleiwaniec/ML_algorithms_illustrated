@@ -77,7 +77,7 @@ NeuralNetwork.prototype = {
     return output;
   },
 
-  train: function(data, options) {
+  train: function* (data, options) {
     data = this.formatData(data);
 
     options = options || {};
@@ -112,14 +112,15 @@ NeuralNetwork.prototype = {
         log("iterations:", i, "training error:", error);
       }
       if (callback && (i % callbackPeriod == 0)) {
-        callback({ error: error, iterations: i, json: this.toJSON() });
+        yield { error: error, iterations: i, json: this.toJSON() };
+        //callback({ error: error, iterations: i, json: this.toJSON() });
       }
     }
 
-    return {
+    /* return {
       error: error,
       iterations: i
-    };
+    };*/
   },
 
   trainPattern : function(input, target, learningRate) {
