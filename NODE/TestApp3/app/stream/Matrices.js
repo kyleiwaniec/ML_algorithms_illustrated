@@ -141,23 +141,18 @@ export class Matrices extends React.Component {
               {it == 0 ? '' : `Iteration ${it}`}
             </span>
 
-            <span className="back"
-              onClick={() => disabled ? {} : this.onChangeIteration(-1)}>
-              <i className="material-icons">skip_previous</i>
-            </span>
-
-
-            <span className="play"
-              onClick={this.props.handleRun}>
-             <i className="material-icons">play_arrow</i>
-            </span>
-
-            <span className="forward"
-              onClick={() => disabled ? {} : this.onChangeIteration(1)}>
-              <i className="material-icons">skip_next</i>
-            </span>
-
-            {this.renderPlayStatusButton()}
+            {
+              this.state.playStatus === 'running'
+              ?
+              <span className="play">
+               <i className="material-icons">hourglass_empty</i>
+              </span>
+              :
+              <span className="play"
+                onClick={this.props.handleRun}>
+               <i className="material-icons">play_circle_outline</i>
+              </span>
+            }
           </div>
       </div>
     );
