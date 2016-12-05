@@ -72,7 +72,10 @@
     "style-loader": "^0.12.4",
     "webpack": "^1.12.2",
     "webpack-dev-middleware": "^1.2.0",
-    "webpack-hot-middleware": "^2.2.0"
+    "webpack-hot-middleware": "^2.2.0",
+    "uuid": "^2.0.1",
+    "vis": "^3.12.0",
+    "sigma": "^1.2.0"
   },
   "devDependencies": {
   }

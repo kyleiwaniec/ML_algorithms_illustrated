@@ -65,7 +65,7 @@ export class Mnist extends React.Component {
 
   renderTopPart(): React.Element<any> {
     return (
-      <div className="row">
+      <div className="row" style={{minHeigth: '400px'}}>
         <div className="col-lg-3">
           <p>
             So far we've looked at a couple of toy examples, and gotten some idea of the basic mechanics of a network. <span style={{fontSize: '160%', fontWeight: '500'}}>So what does a model on a real problem look like?</span> If we think of our model in terms of its parameters, here is what those parameters "look like". We demonstrate the model weights as they are updated during training. The first layer contains 784 rows corresponding to the input size of our data, a 28 x 28 pixel image (flattened to 1 x 784), and user specified number of columns.
@@ -95,10 +95,8 @@ export class Mnist extends React.Component {
             </div>
           </div>
           <div className="row">
-            <div className="col-sm-12">
-              <div className="input-group">
-                <NodesPicker ref="picker" />
-              </div>
+            <div className="input-group">
+              <NodesPicker ref="picker" />
             </div>
           </div>
         </div>
