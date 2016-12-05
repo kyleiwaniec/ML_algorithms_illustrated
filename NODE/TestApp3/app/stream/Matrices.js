@@ -6,6 +6,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Matrix} from './Matrix';
 import {MnistStream} from './MnistStream';
+import {Graphs} from './Graphs';
 
 type Props = {
   stream: ?MnistStream,
@@ -105,21 +106,28 @@ export class Matrices extends React.Component {
       : this.state.iterations[this.state.currentIteration].nn.weights;
     return (
       <div>
-        <div>
+        <div className="row">
           {this.renderIterationSelector(disabled)}
         </div>
-        <div style={{display: 'flex', marginTop: '10px'}}>
-          {
-            weights.map((weightMatrix, i) => (
-              <div style={{marginRight: '20px'}} key={i}>
-                <Matrix
-                  weightMatrix={weightMatrix}
-                  layerIndex={i}
-                  totalMatrices={weights.length}
-                />
-              </div>
-            ))
-          }
+        <div className="row">
+          <div className="col-lg-4">
+            <div style={{marginTop: "20px"}}>
+              <Graphs stream={this.props.stream} />
+            </div>
+          </div>
+          <div style={{display: 'flex', marginTop: '10px'}} className="col-log-8">
+            {
+              weights.map((weightMatrix, i) => (
+                <div style={{marginRight: '20px'}} key={i}>
+                  <Matrix
+                    weightMatrix={weightMatrix}
+                    layerIndex={i}
+                    totalMatrices={weights.length}
+                  />
+                </div>
+              ))
+            }
+          </div>
         </div>
       </div>
     );
@@ -141,23 +149,18 @@ export class Matrices extends React.Component {
               {it == 0 ? '' : `Iteration ${it}`}
             </span>
 
-            <span className="back"
-              onClick={() => disabled ? {} : this.onChangeIteration(-1)}>
-              <i className="material-icons">skip_previous</i>
-            </span>
-
-
-            <span className="play"
-              onClick={this.props.handleRun}>
-             <i className="material-icons">play_arrow</i>
-            </span>
-
-            <span className="forward"
-              onClick={() => disabled ? {} : this.onChangeIteration(1)}>
-              <i className="material-icons">skip_next</i>
-            </span>
-
-            {this.renderPlayStatusButton()}
+            {
+              this.state.playStatus === 'running'
+              ?
+              <span className="play">
+               <i className="material-icons">hourglass_empty</i>
+              </span>
+              :
+              <span className="play"
+                onClick={this.props.handleRun}>
+               <i className="material-icons">play_circle_outline</i>
+              </span>
+            }
           </div>
       </div>
     );
