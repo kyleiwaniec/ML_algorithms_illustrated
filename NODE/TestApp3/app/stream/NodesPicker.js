@@ -3,6 +3,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Button, DropdownButton, MenuItem} from 'react-bootstrap';
+import {Graph} from './GraphVis';
 
 type State = {
   nodes: Array<number>,
@@ -25,19 +26,30 @@ export class NodesPicker extends React.Component {
   render(): React.Element<any> {
     return (
       <div>
-        {this.state.nodes.map((node, idx) => this.renderNode(node, idx))}
-        <Button
-          bsStyle={btnType}
-          style={btnStyle}
-          onClick={() => this.addOne()}>
-          +
-        </Button>
-        <Button
-          bsStyle={btnType}
-          style={btnStyle}
-          onClick={() => this.removeOne()}>
-          -
-        </Button>
+        <div className="row">
+          <div className="col-sm-12">
+            <div>
+              {this.state.nodes.map((node, idx) => this.renderNode(node, idx))}
+              <Button
+                bsStyle={btnType}
+                style={btnStyle}
+                onClick={() => this.addOne()}>
+                +
+              </Button>
+              <Button
+                bsStyle={btnType}
+                style={btnStyle}
+                onClick={() => this.removeOne()}>
+                -
+              </Button>
+            </div>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-sm-12">
+            <Graph nodes={this.state.nodes}/>
+          </div>
+        </div>
       </div>
     );
   }
