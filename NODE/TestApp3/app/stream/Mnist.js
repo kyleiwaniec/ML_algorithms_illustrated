@@ -91,12 +91,17 @@ export class Mnist extends React.Component {
         <div className="col-lg-6">
           <div className="row">
             <div className="col-sm-12">
-              <strong>Enter the number of nodes per hidden layer</strong>
+              <h3 style={{marginTop: '0'}}>Create a new network. <span style={{fontSize: '14px',fontWeight:'400'}}>
+              Use the dropdowns to add layers and select dimensions (# of nodes) in each layer. Then click play below to train your network [ 20 20 20 gives descent results ].
+                </span>
+              </h3> 
             </div>
           </div>
           <div className="row">
-            <div className="input-group">
-              <NodesPicker ref="picker" />
+            <div className="col-sm-12">
+              <div className="input-group">
+                <NodesPicker ref="picker" />
+              </div>
             </div>
           </div>
         </div>

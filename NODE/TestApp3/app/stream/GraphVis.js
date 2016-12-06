@@ -137,7 +137,7 @@ export class Graph extends Component {
     const style = {
       position: 'absolute',
       width: '100%',
-      height: '400px',
+      height: '380px',
     };
     return <div id={identifier} style={style} />;
   }
@@ -145,5 +145,5 @@ export class Graph extends Component {
 
 Graph.defaultProps = {
   graph: {},
-  style: {width: '400px', height: '400px'}
+  style: {width: '400px', height: '380px'}
 };
