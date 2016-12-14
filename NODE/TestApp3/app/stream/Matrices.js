@@ -1,12 +1,12 @@
 /* @flow */
 
-import type {Iteration} from './MnistStream';
+import type {Iteration } from './MnistStream';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Matrix} from './Matrix';
-import {MnistStream} from './MnistStream';
-import {Graphs} from './Graphs';
+import { Matrix } from './Matrix';
+import { MnistStream } from './MnistStream';
+import { Graphs } from './Graphs';
 
 type Props = {
   stream: ?MnistStream,
@@ -48,7 +48,7 @@ export class Matrices extends React.Component {
       if (!this.isRendering && this.state.playStatus === 'running') {
         const nextIteration = this.state.currentIteration + 1;
         if (nextIteration < this.state.iterations.length) {
-          this.setState({currentIteration: nextIteration});
+          this.setState({ currentIteration: nextIteration });
         }
       }
     }, 100);
@@ -56,9 +56,9 @@ export class Matrices extends React.Component {
 
   setUpStream(stream: ?MnistStream): void {
     if (stream) {
-      stream.onFinished(() => this.setState({finished: true}));
+      stream.onFinished(() => this.setState({ finished: true }));
       stream.onIteration(iteration => this.addIteration(iteration));
-      this.setState({playStatus: 'running'})
+      this.setState({ playStatus: 'running' })
     }
   }
 
@@ -96,7 +96,7 @@ export class Matrices extends React.Component {
     if (currentIteration === -1) {
       currentIteration = 0;
     }
-    this.setState({iterations, currentIteration});
+    this.setState({ iterations, currentIteration });
   }
 
   render(): React.Element<any> {
@@ -111,19 +111,19 @@ export class Matrices extends React.Component {
         </div>
         <div className="row">
           <div className="col-lg-4">
-            <div style={{marginTop: "20px"}}>
+            <div style={{ marginTop: "20px" }}>
               <Graphs stream={this.props.stream} />
             </div>
           </div>
-          <div style={{display: 'flex', marginTop: '10px'}} className="col-log-8">
+          <div style={{ display: 'flex', marginTop: '10px' }} className="col-log-8">
             {
               weights.map((weightMatrix, i) => (
-                <div style={{marginRight: '20px'}} key={i}>
+                <div style={{ marginRight: '20px' }} key={i}>
                   <Matrix
                     weightMatrix={weightMatrix}
                     layerIndex={i}
                     totalMatrices={weights.length}
-                  />
+                    />
                 </div>
               ))
             }
@@ -143,25 +143,42 @@ export class Matrices extends React.Component {
   renderIterationSelector(disabled: boolean): React.Element<any> {
     const it = this.state.currentIteration + 1;
     return (
-      <div className="row">
+      <div>
+        <div className="row">
           <div className="col-sm-12 play-bar">
-            <span style={{color: '#fff'}}>
+            <span style={{ color: '#fff' }}>
               {it == 0 ? '' : `Iteration ${it}`}
             </span>
 
             {
               this.state.playStatus === 'running'
-              ?
-              <span className="play">
-               <i className="material-icons">hourglass_empty</i>
-              </span>
-              :
-              <span className="play"
-                onClick={this.props.handleRun}>
-               <i className="material-icons">play_circle_outline</i>
-              </span>
+                ?
+                <span className="play">
+                  <i className="material-icons">hourglass_empty</i>
+                </span>
+                :
+                <span className="play"
+                  onClick={this.props.handleRun}>
+                  <i className="material-icons">play_circle_outline</i>
+                </span>
             }
           </div>
+        </div>
+        {
+          this.state.playStatus === 'running'
+            ?
+            <div className="PlaySpinner">
+              <p className="text-center">Model training...</p>
+              <div className="spinner">
+                <div className="bounce1"></div>
+                <div className="bounce2"></div>
+                <div className="bounce3"></div>
+              </div>
+            </div>
+            :
+            <div>
+            </div>
+        }
       </div>
     );
   }
@@ -169,24 +186,24 @@ export class Matrices extends React.Component {
   renderPlayStatusButton(): React.Element<any> {
     if (this.state.playStatus === 'completed') {
       return (
-        <span style={{color: '#fff'}}>
+        <span style={{ color: '#fff' }}>
           Finished
         </span>
       );
     } else if (this.state.playStatus === 'none') {
       return (
-        <span style={{color: '#fff'}}>
+        <span style={{ color: '#fff' }}>
           Not running
         </span>
       );
     } else if (this.state.playStatus === 'paused') {
       return (
         <div>
-          <span style={{color: '#fff'}}
-            onClick={() => this.setState({playStatus: 'running'})}>
+          <span style={{ color: '#fff' }}
+            onClick={() => this.setState({ playStatus: 'running' })}>
             Pause
           </span>
-          <span style={{color: '#fff'}}
+          <span style={{ color: '#fff' }}
             onClick={this.props.handleCancel}>
             Stop
           </span>
@@ -194,8 +211,8 @@ export class Matrices extends React.Component {
       );
     } else {
       return (
-        <span style={{color: '#fff'}}
-          onClick={() => this.setState({playStatus: 'paused'})}>
+        <span style={{ color: '#fff' }}
+          onClick={() => this.setState({ playStatus: 'paused' })}>
           Running
         </span>
       );
