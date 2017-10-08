@@ -1,0 +1,101 @@
+<div>
+	<h2>MATH</h2>
+	
+	<hr>	
+	<h3>Functions</h3>
+		<h4>I. Forward Pass</h4>
+		<hr>
+		<img src="img/math-on-node.png" class="pull-right math-node"/>
+		<h5>Sum of Affine Transformations</h5>
+		<p>
+			$$s_j = x_{j1} = \sum_{k=1}^{k}w_{ik}x_{ik} + b_i$$ <br>
+			<em>where \(k\) is the number of nodes in layer \(i\)
+			</em>
+		</p>
+		<h5>Activation Function<br>
+			<span class="subhead">Also known as "non-linearity", or "transformation function"</span>
+		</h5>
+		<p>
+			$$t_i = \sigma(s_i) \ where  \ \sigma(z) = \frac{1}{1+e^{-z}}$$
+		</p>
+
+		<h5>Loss Function<br>
+			<span class="subhead">Sometimes referred to as a "cost function" or "objective function"</span>
+		</h5>
+		<p>There are <a href="https://en.wikipedia.org/wiki/Loss_functions_for_classification">different loss functions</a> to choose from. In neural networks, it is common to use Cross Entropy Loss(also referred to as Log-Likelihood, which is the multiclass version of Cross Entropy):  </p>
+
+		<p>
+			$$E = -\sum_{i=1}^{nout} t_ilog(x_i) + (1-t_i)log(1-x_i)$$
+
+			where $t$ is the target, $x$ is the output, indexed by $i$.
+
+			
+		</p>
+		<h4>II. Back Propagation</h4>
+		<hr>
+		<h5>Compute Gradients</h5>
+		<p>To perform gradient descent, we compute the derivatives of the log likelihood with respect to the output unit’s weights (note that in the case of a single output unit (a Bernoulli distirbution) as in our example, the log likelihood is the cross entropy function). Using the chain rule (for a single examples), we get:</p>	
+
+		$$ \begin{align}
+		\frac{\partial E}{\partial w_{ji}}  &=  \frac{\partial E}{\partial x_i} \ \frac{\partial x_i}{\partial s_i}  \ \frac{\partial s_i}{\partial w_{ji}} \\	
+
+		
+
+		\end{align} $$
+
+
+		Calculating each part on the right hand side, we have:
+
+		$$ \begin{align}
+
+		\frac{\partial E} {\partial x_i} &=  \frac{-t_i}{ x_i} + \frac {1 - t_i} { 1 - x_i } \\
+										 &=  \frac{x_i - t_i } { x_i (1 - x_i) } \\
+
+		\frac{\partial x_i} {\partial s_i} &=  x_i (1-x_i)  \\
+
+		\frac{\partial s_i}{\partial w_{ji}} &= x_j
+
+		\end{align} $$
+
+		where \(x_j\) is the activation of the jth node of the hidden layer. Combining things back together,
+
+		$$ \begin{align}
+
+		\frac{\partial E}{\partial s_i} &= x_i - t_i \\
+		\frac{\partial E}{\partial w_{ji}} &= (x_i - t_i)x_j
+
+		\end{align} $$
+
+		This gives us the gradient for the weights in the last layer of the network. We now need to calculate the error gradient for the weights of the lower layers.
+
+
+		$$ \begin{align}
+
+		\frac{\partial E} {\partial s_j} &= \sum_{i=1}^{nout} \frac{\partial E} {\partial s_i}  \frac{\partial s_i} {\partial x_j} \frac{\partial x_j}{\partial s_j} \\
+
+			&= \sum_{i=1}^{nout} (x_i-t_i)(w_{ji})(x_j(1-x_j))
+
+		\end{align} $$	
+
+		Then a weight $w_{kj}$ connecting units in the second and third layers down has gradient
+
+		$$ \begin{align}
+
+		\frac{\partial E} {\partial w_{kj}} &= \frac{\partial E} {\partial s_j} \frac{\partial s_j}{\partial w_{kj}} \\
+
+			&= \sum_{i=1}^{nout} (x_i-t_i)(w_{ji})(x_j(1-x_j))(x_k)
+
+
+		\end{align} $$
+
+		In conclusion, to compute $\frac{\partial E} {\partial w_{ij}}$ for a general multilayer network, we simply need to compute $\frac{\partial E} {\partial s_j}$ recursively, then multiply by $\frac{\partial s_j}{\partial w_{kj}} = x_k$
+		<!-- (see <a href="https://www.ics.uci.edu/~pjsadows/notes.pdf">https://www.ics.uci.edu/~pjsadows/notes.pdf</a>) for continuation. -->
+	<h5>Update weights</h5>	
+	<p>At each iteration $s$, update the weights:
+		$$
+		w^{s+1} = w^s - \alpha \frac{\partial E}{\partial w^s}
+		$$
+	</p>
+
+	<p>then repeat the forward and backward steps unil $E$ is sufficiently small</p>
+</div>

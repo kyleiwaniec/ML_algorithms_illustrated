@@ -1,0 +1,213 @@
+<div class="main">
+	<!-- <p>The logistic loss is sometimes called cross-entropy loss. It's also known as log loss (In this case, the binary label is often denoted by {-1,+1}).</p> -->
+
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="row">
+					<div class="col-sm-6">
+						<p><span class="larger">To demonstrate the mechanics of a simple<sup class="sup">*</sup> feedforward neural network</span>, we'll use a toy example
+							consisiting of a 2 dimensional feature vector <span class="mathy"> &lt;weight, height&gt; </span> to classify a person as healthy or unhealthy (binary classification). You may notice, that a Neural Network without any hidden layers is just Logistic
+							Regression. The object is to train a <span class="larger mathy">model</span> that produces outcomes as close to the true values as possible. Or in other words, to minimize the <span class="larger mathy">loss</span>.
+						</p>
+					</div>
+					<div class="col-sm-6">
+						<p>
+							This is done in two main phases, namely, a <em>feedforward</em> phase where all the data passes forward through
+							the network so that we can calculate the loss. In other words, on average, how off are we from the ground truth. 
+						</p>
+						<p>
+							In the second phase, we <em>backpropagate</em> through the network using gradient descent so that we can update
+							our <span class="larger mathy">model parameters (weights)</span>. We repeat these two phases until the algorithm converges, or until the loss is sufficiently small.
+						</p>
+
+						
+					</div>
+
+				</div>
+				<div class="row">
+					<div class="col-sm-12 visible-sm-block"><hr></div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="row">
+					<div class="col-sm-6">
+<!-- 						<p class="larger">Terms</p>
+ -->						<ul class="reset">
+							<li><div class="section-label">Model parameters (weights):</div>The parameters of a model determine how much weight to assign to each feature in the data. Also referred to as weights. By training a model with existing data, we are able to find the weights. In the charts below the weights are represented by purple squares.</li>
+							<li><div class="section-label">Decision boundary (hyperplane):</div> A hypersurface that partitions the underlying vector space into sets, one for each class. Neural networks try to learn the decision boundary which minimizes the loss.</li>
+							
+						
+					</div>
+					<div class="col-sm-6">
+						<ul class="reset">
+						<li><div class="section-label">Training loss:</div> A function of the difference between estimated and true values for an instance of data. A loss function is used for parameter estimation.</li>
+						</ul>
+
+						<img src="img/math-on-node.png" class="learn-math-node"/></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12 play-bar">
+				<!-- <span class="back" id="backLR"><i class="material-icons">fast_rewind</i></span>
+				<span class="back"><i class="material-icons">skip_previous</i></span> -->
+				<span class="play" id="playLR"><i class="material-icons">play_circle_outline</i></span>
+				<!-- <span class="back"><i class="material-icons">skip_next</i></span>
+				<span class="forward"><i class="material-icons">fast_forward</i></span> -->
+			</div>
+
+		</div>
+		<div class="row">
+			<div class="col-sm-12 mbot20 big-text">
+				<p>A logistic regression model will classify all the points on one side of the decision boundary (the red line) as belonging to one class and all those on the other side as belonging to the other class. If the decision surface is a hyperplane, or in the case of this 2 dimensional toy example, a line, then the classification problem is linear, and the classes are <a href="https://en.wikipedia.org/wiki/Decision_boundary">linearly separable</a>. <strong>Press play</strong> above to see this model learn a linear decision boundary.</p>
+			</div>
+		</div>
+		
+
+		<div class="row">
+			<div class="col-md-6">
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="section-label">Model - Logistic Regression</div>
+						<div class="sections-summary">
+							Input layer : i<br> Output layer : j
+						</div>
+						<div id="LR" class="graph-container">
+							<div class="tooltip node_tip hidden">
+								<div class="layer"></div>
+								<div class="nodeVal"></div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<!-- <div class="tooltip hidden">
+							<span class="x1"></span><br>
+							<span class="x2"></span><br>
+							<span class="y"></span>
+						</div> -->
+						<div class="section-label">Data &amp; Decision boundary (hyperplane)</div>
+						<div id="LRcontour"></div>
+					</div>
+
+					
+				</div>
+			</div>
+
+			<div class="col-md-6">
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="section-label">Training Loss</div>
+						<div id="LRLoss" class="graph-container"></div>
+
+						
+					</div>
+
+					<div class="col-sm-6">
+						<div class="section-label">Model parameters (weights)</div>
+						<div id="LRweights" class="graph-container"></div>
+
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+
+		<div class="row">
+
+			<div id="LRSpinner">
+				<p class="text-center">Model training...</p>
+				<div class="spinner">
+				  <div class="bounce1"></div>
+				  <div class="bounce2"></div>
+				  <div class="bounce3"></div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="col-sm-12 play-bar">
+				<!-- <span class="back" id="backNN"><i class="material-icons">fast_rewind</i></span>
+				<span class="back"><i class="material-icons">skip_previous</i></span> -->
+				<span class="play" id="playNN"><i class="material-icons">play_circle_outline</i></span>
+				<!-- <span class="back"><i class="material-icons">skip_next</i></span>
+				<span class="forward"><i class="material-icons">fast_forward</i></span> -->
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12 mbot20 big-text">
+				<p>That was all great untill a couple of tall skinny guys came in caughing up hairballs, and our data was <span class="larger">no longer linearly separable</span>. 
+					If the network has no hidden layers, then it can only learn linear problems like the one above. If it has at least one hidden layer, then it can learn problems with convex <a href="https://en.wikipedia.org/wiki/Decision_boundary">decision boundaries</a>. With more layers, it can learn more complex problems. <strong>Press play</strong> above to see this simple neural network with one hidden layer learn a decision boundary (the red line) to fit the new data.</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6">
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="section-label">Model - Neural Network</div>
+						<div class="sections-summary">
+							Input layer : i<br> Hidden layer : j<br> Output layer : k
+						</div>
+						<div id="NN" class="graph-container">
+							<div class="tooltip node_tip hidden">
+								<div class="layer"></div>
+								<div class="nodeVal"></div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6" class="scatter-plot">
+						<!-- <div class="tooltip hidden">
+							<span class="x1"></span><br>
+							<span class="x2"></span><br>
+							<span class="y"></span>
+						</div> -->
+						<div class="section-label">Data &amp; Decision boundary (hyperplane)</div>
+						<div id="NNcontour"></div>
+					</div>
+					
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="section-label">Training Loss</div>
+						<div id="NNLoss"></div>
+						
+					</div>
+					<div class="col-sm-6">
+						<div class="section-label">Model parameters (weights)</div>
+						<div id="NNweights" class="graph-container"></div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div id="NNSpinner">
+				<p class="text-center">Model training...</p>
+				<div class="spinner">
+				  <div class="bounce1"></div>
+				  <div class="bounce2"></div>
+				  <div class="bounce3"></div>
+				</div>
+			</div>
+			<div class="col-sm-12" id="congratulations">
+				<h2>
+				Congratulations!
+				</h2>
+				<p>Now that you've seen the model learn the toy examples,</br>
+					go play with some real data!</p>
+				</h2>
+				<button type="button" class="btn btn-primary btn-large page">
+					<a href="#play"><i class="material-icons">play_circle_outline</i></a>
+				</button>
+				<br>
+				
+			</div>
+		</div>
+	</div>
+</div>
