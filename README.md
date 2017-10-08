@@ -6,7 +6,7 @@ yang linfang
 
 ~~Site url: http://machinelearningalgorithmsillustrated.azurewebsites.net/
 To publish to Azure, please first checkin your changes, and let Lin know. 
-This site is under Lin's Azure Subscription. ~~
+This site is under Lin's Azure Subscription.~~
 Moved to http://www.candpgeneration.com/ann/
 
 To view the site locally on Mac or PC or others: 
